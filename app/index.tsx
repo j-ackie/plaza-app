@@ -20,7 +20,7 @@ const createTabs = () => {
         component={tabComponents[i]}
         options={{
           tabBarIcon: () => <MaterialCommunityIcons name={tabNames[0]} size={26} /> // replace later
-        }}
+        }}  
       />
     );
   }
@@ -30,12 +30,13 @@ const createTabs = () => {
 
 const App = () => {
   return (
-    <Tab.Navigator 
+    <Tab.Navigator
       labeled={false}
       barStyle={{height: 80}} 
       // https://callstack.github.io/react-native-paper/ 
       // https://stackoverflow.com/questions/75013007/how-to-remove-this-white-ovale-behind-the-focused-in-the-material-bottom-tabs-na
       // edit theme later
+      
     >
       { createTabs() }
     </Tab.Navigator>
