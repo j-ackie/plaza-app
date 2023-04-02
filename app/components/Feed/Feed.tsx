@@ -1,25 +1,35 @@
 import { useCallback, useState } from "react";
 import { FlatList, View, Text, Dimensions } from "react-native";
-import VideoCard from "../VideoCard/VideoCard";
+import FeedPost from "./FeedPost";
 import styles from "./Feed.styles";
 
+// https://gist.github.com/jsturgis/3b19447b304616f18657
 const mockData = [
   {
-    username: "A"
+    username: "username",
+    description: "this is description",
+    videoURI: "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
   },
   {
-    username: "B"
+    username: "username",
+    description: "this is description",
+    videoURI: "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4"
   },
   {
-    username: "C"
+    username: "username",
+    description: "this is description",
+    videoURI: "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4"
   }
 ]
 
 const renderFeedItem = (item, currViewableIndex) => {
-  console.log(item)
   return (
     <View style={styles.feedItemContainer}>
-      <VideoCard videoIndex={item.index} currViewableIndex={currViewableIndex}/>
+      <FeedPost 
+        videoIndex={item.index}
+        currViewableIndex={currViewableIndex}
+        videoURI={item.item.videoURI}
+      />
     </View>
   )
 }

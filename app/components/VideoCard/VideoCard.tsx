@@ -1,43 +1,35 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { StyleSheet, Text, View, Pressable } from "react-native";
-import VideoPlayer from "expo-video-player";
 import { Video } from "expo-av";
 
-
-
-
-const VideoCard = ({videoIndex, currViewableIndex}) => {
-  const [isPlaying, setIsPlaying] = useState(false);
-  const videoRef = useRef(undefined);
-
-  const shouldPlay = () => {
-    if (videoRef === undefined) {
-      setIsPlaying(false);
-    }
-  
-    if (isPlaying && videoIndex === currViewableIndex) {
-      setIsPlaying(true);
-    }
-  
-    if (isPlaying && videoIndex !== currViewableIndex) {
-      video.replayAsync()
-      console.log("RESTARTED");
-    }
-    
-    return false;
+const handleVideoRef = (component, videoIndex, currViewableIndex, isPaused) => {
+  if (!component) {
+    return;
   }
+  if (videoIndex !== currViewableIndex) {
+    component.stopAsync();
+  }
+  else if (isPaused) {
+    component.pauseAsync();
+  }
+  else {
+    component.playAsync();
+  }
+}
+
+const VideoCard = ({videoIndex, currViewableIndex, videoURI}) => {
+  const [isPaused, setIsPaused] = useState(false);
 
   return (
-    <Pressable style={{flex: 1}} onPress={() => setIsPlaying(!isPlaying)} onLongPress={() => console.log("LONG")}>
+    <Pressable style={{flex: 1}} onPress={() => setIsPaused(!isPaused)} onLongPress={() => console.log("LONG")}>
       <Video
-        ref={videoRef}
+        ref={(component) => handleVideoRef(component, videoIndex, currViewableIndex, isPaused)}
         style={{flex : 1}}
         source={{
-          uri: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
+          uri: videoURI,
         }}
         isLooping={true}
         isMuted={false}
-        shouldPlay={isPlaying}
       />
     </Pressable>
   );
