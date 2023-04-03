@@ -1,8 +1,10 @@
 import { StyleSheet, Text, View } from "react-native";
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { StatusBar } from "expo-status-bar";
 import Home from "./components/Home/Home";
 import Cart from "./components/Cart/Cart";
+
 
 // https://reactnavigation.org/docs/material-bottom-tab-navigator
 const Tab = createMaterialBottomTabNavigator();
@@ -30,16 +32,19 @@ const createTabs = () => {
 
 const App = () => {
   return (
-    <Tab.Navigator
-      labeled={false}
-      barStyle={{height: 80}} 
-      // https://callstack.github.io/react-native-paper/ 
-      // https://stackoverflow.com/questions/75013007/how-to-remove-this-white-ovale-behind-the-focused-in-the-material-bottom-tabs-na
-      // edit theme later
-      
-    >
-      { createTabs() }
-    </Tab.Navigator>
+    <>
+      <Tab.Navigator
+        labeled={false}
+        barStyle={{height: 80}}
+        // https://callstack.github.io/react-native-paper/ 
+        // https://stackoverflow.com/questions/75013007/how-to-remove-this-white-ovale-behind-the-focused-in-the-material-bottom-tabs-na
+        // edit theme later
+        
+      >
+        { createTabs() }
+      </Tab.Navigator>
+      <StatusBar style="light"/>
+    </>
   );
 }
 

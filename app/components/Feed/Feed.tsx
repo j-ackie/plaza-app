@@ -8,7 +8,7 @@ const mockData = [
   {
     username: "username1",
     description: "this is description waiddfbnfgjkbn kjgfb this is description waiddfbnfgjkbn kjgfbthis is description waiddfbnfgjkbn kjgfbthis is description waiddfbnfgjkbn kjgfb this is description waiddfbnfgjkbn kjgfbthis is description waiddfbnfgjkbn kjgfb this is description waiddfbnfgjkbn kjgfb",
-    videoURI: "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+    videoURI: "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4"
   },
   {
     username: "username2",
@@ -36,7 +36,8 @@ const renderFeedItem = (item, currViewableIndex) => {
 
 const Feed = () => {
   const [currViewableIndex, setCurrViewableIndex] = useState(0);
-  const a = useCallback(({ viewableItems }) => {
+
+  const handleViewableItemsChanged = useCallback(({ viewableItems }) => {
     if (viewableItems.length === 0) {
       return;
     }
@@ -52,7 +53,7 @@ const Feed = () => {
       showsVerticalScrollIndicator={false}
       onRefresh={() => {console.log("REFER")}}
       refreshing={true}
-      onViewableItemsChanged={a}
+      onViewableItemsChanged={handleViewableItemsChanged}
       viewabilityConfig={{itemVisiblePercentThreshold: 100}}
       // experiment with refreshControl later
     />

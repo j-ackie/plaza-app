@@ -4,6 +4,7 @@ const styles = StyleSheet.create({
   feedItemContainer: {
     flex: 1,
     height: Dimensions.get("window").height - 80,
+    backgroundColor: "black"
     // for debugging
     // backgroundColor: "orange",
     // borderWidth: 1,
@@ -11,12 +12,17 @@ const styles = StyleSheet.create({
     // borderStyle: "solid",
   },
   feedPostInfoContainer: {
-    backgroundColor: "orange",
     position: "absolute",
-    bottom: 10,
+    bottom: 20,
     left: 10,
     right: 10,
+    // backgroundColor: "green"
   },
+  feedPostInfoUserName: {
+    alignSelf: "flex-start",
+    marginBottom: 5,
+    // backgroundColor: "orange"
+  }
 
 });
 

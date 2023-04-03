@@ -4,16 +4,14 @@ import styles from "./Feed.styles";
 const FeedPostInfo = ({postInfo}) => {
   return (
     <View style={styles.feedPostInfoContainer}>
-      {/* <View style={styles.feedPostTextContainer}> */}
-        <TouchableOpacity style={{alignSelf: "flex-start"}}>
-          <Text 
-            style={{fontWeight: "bold"}}
-          >
-            {postInfo.username}
-          </Text>
-        </TouchableOpacity>
-        <Text>{postInfo.description}</Text>
-      {/* </View> */}
+      <TouchableOpacity style={styles.feedPostInfoUserName}>
+        <Text 
+          style={{fontWeight: "bold", color: "white"}}
+        >
+          {postInfo.username}
+        </Text>
+      </TouchableOpacity>
+      <Text style={{color: "white"}}>{postInfo.description}</Text>
     </View>
   )
 }
