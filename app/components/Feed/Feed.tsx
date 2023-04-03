@@ -8,17 +8,53 @@ const mockData = [
   {
     username: "username1",
     description: "this is description waiddfbnfgjkbn kjgfb this is description waiddfbnfgjkbn kjgfbthis is description waiddfbnfgjkbn kjgfbthis is description waiddfbnfgjkbn kjgfb this is description waiddfbnfgjkbn kjgfbthis is description waiddfbnfgjkbn kjgfb this is description waiddfbnfgjkbn kjgfb",
-    videoURI: "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4"
+    videoURI: "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4",
+    sellingItems: [
+      {
+        name: "Hermes Birkin - Used",
+        description: "Only used a couple of times! Goes great with any outfit.",
+        price: 7500.24,
+        imageURI: "https://www.charleskeith.com/dw/image/v2/BCWJ_PRD/on/demandware.static/-/Sites-ck-products/default/dwe0a12cbc/images/hi-res/2022-L2-CK2-50160095-2-44-1.jpg?sw=1152&sh=1536",
+      }
+    ]
   },
   {
     username: "username2",
     description: "this is description",
-    videoURI: "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4"
+    videoURI: "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
+    sellingItems: [
+      // {
+      //   name: "Hermes Birkin - Used",
+      //   description: "Only used a couple of times! Goes great with any outfit.",
+      //   price: 7500.24,
+      //   imageURI: "https://images-na.ssl-images-amazon.com/images/I/41l6VFfhYAL.jpg",
+      // }
+    ]
   },
   {
     username: "username3",
     description: "this is description",
-    videoURI: "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4"
+    videoURI: "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+    sellingItems: [
+      {
+        name: "Hermes Birkin - Used",
+        description: "Only used a couple of times! Goes great with any outfit.",
+        price: 7500.24,
+        imageURI: "https://images-na.ssl-images-amazon.com/images/I/41l6VFfhYAL.jpg",
+      },
+      {
+        name: "Hermes Birkin - Used",
+        description: "Only used a couple of times! Goes great with any outfit.",
+        price: 7500.24,
+        imageURI: "https://images-na.ssl-images-amazon.com/images/I/41l6VFfhYAL.jpg",
+      },
+      {
+        name: "Hermes Birkin - Used",
+        description: "Only used a couple of times! Goes great with any outfit.",
+        price: 7500.24,
+        imageURI: "https://images-na.ssl-images-amazon.com/images/I/41l6VFfhYAL.jpg",
+      }
+    ]
   }
 ]
 

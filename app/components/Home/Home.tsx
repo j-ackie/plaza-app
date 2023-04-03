@@ -21,7 +21,7 @@ const Home = () => {
     <Tab.Navigator
       tabBar={props => <SafeAreaMaterialTopBar {...props}/>}
       screenOptions={{
-        tabBarLabelStyle: {textTransform: "none"},
+        tabBarLabelStyle: {textTransform: "none", color: "white"},
         tabBarStyle: {backgroundColor: "transparent"}
       }}
     >

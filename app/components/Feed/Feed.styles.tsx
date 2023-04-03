@@ -22,6 +22,21 @@ const styles = StyleSheet.create({
     alignSelf: "flex-start",
     marginBottom: 5,
     // backgroundColor: "orange"
+  },
+  feedPostSellingItemsContainer: {
+    flexDirection: "row",
+    gap: 5
+  },
+  feedPostSellingItem: {
+    width: 70,
+    height: 70,
+    marginBottom: 5,
+  },
+  feedPostSellingItemImage: {
+    width: "100%", 
+    aspectRatio: 1,
+    borderRadius: 10,
+    borderWidth: 2,
   }
 
 });
