@@ -6,17 +6,17 @@ import styles from "./Feed.styles";
 // https://gist.github.com/jsturgis/3b19447b304616f18657
 const mockData = [
   {
-    username: "username",
-    description: "this is description",
+    username: "username1",
+    description: "this is description waiddfbnfgjkbn kjgfb this is description waiddfbnfgjkbn kjgfbthis is description waiddfbnfgjkbn kjgfbthis is description waiddfbnfgjkbn kjgfb this is description waiddfbnfgjkbn kjgfbthis is description waiddfbnfgjkbn kjgfb this is description waiddfbnfgjkbn kjgfb",
     videoURI: "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
   },
   {
-    username: "username",
+    username: "username2",
     description: "this is description",
     videoURI: "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4"
   },
   {
-    username: "username",
+    username: "username3",
     description: "this is description",
     videoURI: "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4"
   }
@@ -28,7 +28,7 @@ const renderFeedItem = (item, currViewableIndex) => {
       <FeedPost 
         videoIndex={item.index}
         currViewableIndex={currViewableIndex}
-        videoURI={item.item.videoURI}
+        postInfo={item.item}
       />
     </View>
   )
