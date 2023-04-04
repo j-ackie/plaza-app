@@ -9,14 +9,14 @@ const handleVideoRef = (component, videoIndex, currViewableIndex, isPaused, setI
   }
 
   if (videoIndex !== currViewableIndex || !isFocused) {
-    component.stopAsync();
+    component.stopAsync().catch();
     setIsPaused(false);
   }
   else if (isPaused) {
-    component.pauseAsync();
+    component.pauseAsync().catch();
   }
   else {
-    component.playAsync();
+    component.playAsync().catch();
   }
 }
 
