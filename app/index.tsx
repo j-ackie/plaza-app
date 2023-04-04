@@ -2,13 +2,11 @@ import { useState, useRef } from "react";
 import { StyleSheet, Text, View, Button } from "react-native";
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet'
-import { useBottomSheetModal } from "@gorhom/bottom-sheet";
 import BottomSheetModal from "@gorhom/bottom-sheet";
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { StatusBar } from "expo-status-bar";
 import Home from "./components/Home/Home";
 import Cart from "./components/Cart/Cart";
-import ItemModal from "./components/Item/ItemModal";
 import Modal from "./components/Modal/Modal";
 
 
