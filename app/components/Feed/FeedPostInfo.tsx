@@ -1,19 +1,16 @@
-import { View, TouchableOpacity, Text, Image } from "react-native";
+import { View, TouchableOpacity, Text, Image, Button } from "react-native";
+import ItemModal from "../Item/ItemModal";
+import ItemVideoImage from "../Item/ItemVideoImage";
 import styles from "./Feed.styles";
 
-const FeedPostInfo = ({postInfo}) => {
+const FeedPostInfo = ({postInfo, handleExpand, handleClose}) => {
   const sellingItems = [];
   for (const item of postInfo.sellingItems) {
     sellingItems.push(
-      <TouchableOpacity style={styles.feedPostSellingItem}>
-        <Image
-          resizeMode="cover"
-          style={styles.feedPostSellingItemImage}
-          source={{
-            uri: item.imageURI
-          }}
-        />
-      </TouchableOpacity>
+      <ItemVideoImage
+        postInfo={item}
+        handleExpand={handleExpand}
+      />
     );
   }
 
