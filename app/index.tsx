@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { StyleSheet, Text, View, Button } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
@@ -10,6 +10,7 @@ import { StatusBar } from "expo-status-bar";
 import Home from "./components/Home/Home";
 import Cart from "./components/Cart/Cart";
 import Modal from "./components/Modal/Modal";
+import { Audio } from "expo-av";
 
 
 // https://reactnavigation.org/docs/material-bottom-tab-navigator
@@ -53,6 +54,12 @@ const TabNavigator = (props) => {
 }
 
 const App = () => {
+  useEffect(() => {
+    Audio.setAudioModeAsync({
+      playsInSilentModeIOS: true
+    });
+  }, []);
+
   return (
       <PortalProvider>
         <StatusBar style="light"/>

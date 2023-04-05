@@ -55,6 +55,7 @@ const VideoCard = ({videoIndex, currViewableIndex, videoURI}) => {
         onReadyForDisplay={e => handleReadyForDisplay(e, setResizeMode)}
         isLooping={true}
         isMuted={false}
+        // @ts-ignore
         resizeMode={resizeMode}
       />
     </Pressable>
