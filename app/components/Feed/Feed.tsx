@@ -1,6 +1,8 @@
-import { useCallback, useState } from "react";
-import { FlatList, View, Text, Dimensions } from "react-native";
+import { useCallback, useState, useRef } from "react";
+import { FlatList, View, Text, Dimensions, Button } from "react-native";
+import BottomSheetModal from "@gorhom/bottom-sheet";
 import FeedPost from "./FeedPost";
+import Modal from "../Modal/Modal";
 import styles from "./Feed.styles";
 
 // https://gist.github.com/jsturgis/3b19447b304616f18657
@@ -58,7 +60,7 @@ const mockData = [
   }
 ]
 
-const renderFeedItem = (item, currViewableIndex, handleExpand, handleClose) => {
+const renderFeedItem = (item, currViewableIndex, handleExpand, handleClose, navigation) => {
   return (
     <View style={styles.feedItemContainer}>
       <FeedPost 
@@ -67,15 +69,22 @@ const renderFeedItem = (item, currViewableIndex, handleExpand, handleClose) => {
         postInfo={item.item}
         handleExpand={handleExpand}
         handleClose={handleClose}
+        navigation={navigation}
       />
     </View>
   )
 }
 
-const Feed = ({route}) => {
-  const {handleExpand, handleClose} = route.params;
-
+const Feed = ({navigation}) => {
   const [currViewableIndex, setCurrViewableIndex] = useState(0);
+  const [modalContent, setModalContent] = useState({});
+  const bottomSheetModalRef = useRef<BottomSheetModal>(null);
+
+  const handleExpand = (content) => {
+    setModalContent(content);
+    bottomSheetModalRef.current.expand();
+  };
+  const handleClose = () => bottomSheetModalRef.current.close();
 
   const handleViewableItemsChanged = useCallback(({ viewableItems }) => {
     if (viewableItems.length === 0) {
@@ -85,18 +94,25 @@ const Feed = ({route}) => {
   }, []);
 
   return (
-    <FlatList
-      data={mockData}
-      renderItem={(item) => renderFeedItem(item, currViewableIndex, handleExpand, handleClose)}
-      pagingEnabled
-      decelerationRate={"fast"}
-      showsVerticalScrollIndicator={false}
-      onRefresh={() => {console.log("REFER")}}
-      refreshing={true}
-      onViewableItemsChanged={handleViewableItemsChanged}
-      viewabilityConfig={{itemVisiblePercentThreshold: 100}}
-      // experiment with refreshControl later
-    />
+    <>
+      <FlatList
+        data={mockData}
+        renderItem={(item) => renderFeedItem(item, currViewableIndex, handleExpand, handleClose, navigation)}
+        pagingEnabled
+        decelerationRate={"fast"}
+        showsVerticalScrollIndicator={false}
+        onRefresh={() => {console.log("REFER")}}
+        refreshing={true}
+        onViewableItemsChanged={handleViewableItemsChanged}
+        viewabilityConfig={{itemVisiblePercentThreshold: 100}}
+        // experiment with refreshControl later
+      />
+      <Modal
+        ref={bottomSheetModalRef}
+        modalContent={modalContent}
+        setModalContent={setModalContent}
+      />
+    </>
   );
 };
 

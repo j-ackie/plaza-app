@@ -1,9 +1,9 @@
 import { View, TouchableOpacity, Text } from "react-native";
 import VideoCard from "../VideoCard/VideoCard";
 import FeedPostInfo from "./FeedPostInfo";
-import ItemModal from "../Item/ItemModal";
+import ItemModal from "../Modal/ModalItems";
 
-const FeedPost = ({videoIndex, currViewableIndex, postInfo, handleExpand, handleClose}) => {
+const FeedPost = ({videoIndex, currViewableIndex, postInfo, handleExpand, handleClose, navigation}) => {
   return (
     <View style={{flex: 1}}>
       <VideoCard 
@@ -15,6 +15,7 @@ const FeedPost = ({videoIndex, currViewableIndex, postInfo, handleExpand, handle
         postInfo={postInfo}
         handleExpand={handleExpand}
         handleClose={handleClose}
+        navigation={navigation}
       />
     </View>
   )

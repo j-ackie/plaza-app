@@ -16,9 +16,7 @@ const SafeAreaMaterialTopBar = ({...props}) => {
   );
 };
 
-const Home = ({route}) => {
-  const {handleExpand, handleClose} = route.params;
-
+const Home = () => {
   return (
     <Tab.Navigator
       tabBar={props => <SafeAreaMaterialTopBar {...props}/>}
@@ -30,12 +28,10 @@ const Home = ({route}) => {
       <Tab.Screen
         name="Following"
         component={Feed}
-        initialParams={{handleExpand, handleClose}}
       />
       <Tab.Screen
         name="Explore"
         component={Feed}
-        initialParams={{handleExpand, handleClose}}
       />
     </Tab.Navigator>
   )
