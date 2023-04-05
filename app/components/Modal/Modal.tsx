@@ -12,7 +12,7 @@ const Modal = forwardRef((props, ref) => {
       appearsOnIndex={0}
       opacity={0.5}
       pressBehavior="close"
-      // onPress={() => props.setModalContent({})}
+      onPress={() => props.setModalContent({})}
     />
   , []);
 
