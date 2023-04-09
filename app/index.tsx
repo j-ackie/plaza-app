@@ -8,9 +8,10 @@ import { PortalProvider } from "@gorhom/portal";
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { StatusBar } from "expo-status-bar";
 import Home from "./components/Home/Home";
-import Cart from "./components/Cart/Cart";
+import ShoppingCartOrderScreen from "./components/ShoppingCartOrderScreen/ShoppingCartOrderScreen";
 import Modal from "./components/Modal/Modal";
 import { Audio } from "expo-av";
+import { StripeProvider } from "@stripe/stripe-react-native";
 
 
 // https://reactnavigation.org/docs/material-bottom-tab-navigator
@@ -19,7 +20,7 @@ const Stack = createStackNavigator();
 
 const createTabs = (props) => {
   const tabNames = ["home", "cart", "create", "inbox", "profile"];
-  const tabComponents = [Home, Home, Home, Home, Home];
+  const tabComponents = [Home, ShoppingCartOrderScreen, Home, Home, Home];
 
   const tabs = [];
   for (let i = 0; i < tabNames.length; i++) {
@@ -61,6 +62,9 @@ const App = () => {
   }, []);
 
   return (
+    <StripeProvider
+      publishableKey="w"
+    >
       <PortalProvider>
         <StatusBar style="light"/>
         <Stack.Navigator 
@@ -76,6 +80,7 @@ const App = () => {
         </Stack.Navigator>
         
       </PortalProvider>
+    </StripeProvider>
   );
 }
 
