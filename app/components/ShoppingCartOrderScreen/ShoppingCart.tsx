@@ -54,7 +54,8 @@ const ShoppingCart = () => {
         getItems(itemIDs)
           .then(response => {
             console.log(response);
-            setCartItems(response);
+            // setCartItems(response);
+            setCartItems(mockData);
           });
 
         // setCartItems(itemIDs);
