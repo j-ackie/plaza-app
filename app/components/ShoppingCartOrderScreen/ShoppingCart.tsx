@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
 import { FlatList, View } from "react-native";
 import { CartItem } from "../../interfaces/queries.interfaces";
+import { Item } from "../../interfaces/queries.interfaces";
 import { getCartItems } from "../../api/cart-items";
+import { getItems } from "../../api/items";
 import ShoppingCartItem from "./ShoppingCartItem";
 
 const mockData = [
@@ -38,14 +40,24 @@ const mockData = [
 ]
 
 const ShoppingCart = () => {
-  const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  const [cartItems, setCartItems] = useState<Item[]>([]);
 
   useEffect(() => {
     console.log("calling api...");
     getCartItems("643096950984a6e8284f5274")
       .then(response => {
-        console.log(response);
-        setCartItems(mockData);
+        const itemIDs = [];
+        for (const cartItem of response) {
+          itemIDs.push(cartItem.itemID);
+        }
+
+        getItems(itemIDs)
+          .then(response => {
+            console.log(response);
+            setCartItems(response);
+          });
+
+        // setCartItems(itemIDs);
         // before setting cartItems, call api to retrieve item objects
         // setCartItems(response);
 
@@ -53,10 +65,13 @@ const ShoppingCart = () => {
   }, []);
 
   return (
-    <FlatList
-      data={cartItems}
-      renderItem={(item) => <ShoppingCartItem itemInfo={item.item}/>}
-    />
+    <>
+      <FlatList
+        data={cartItems}
+        renderItem={(item) => <ShoppingCartItem itemInfo={item.item}/>}
+      />
+      
+    </>
   )
 }
 
