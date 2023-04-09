@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
-import { FlatList, View } from "react-native";
+import { FlatList, View, Button, Pressable, Text } from "react-native";
 import { CartItem } from "../../interfaces/queries.interfaces";
 import { Item } from "../../interfaces/queries.interfaces";
 import { getCartItems } from "../../api/cart-items";
 import { getItems } from "../../api/items";
 import ShoppingCartItem from "./ShoppingCartItem";
+import styles from "./ShoppingCartOrderScreen.styles";
 
 const mockData = [
   {
@@ -44,25 +45,26 @@ const ShoppingCart = () => {
 
   useEffect(() => {
     console.log("calling api...");
-    getCartItems("643096950984a6e8284f5274")
-      .then(response => {
-        const itemIDs = [];
-        for (const cartItem of response) {
-          itemIDs.push(cartItem.itemID);
-        }
+    setCartItems(mockData);
+    // getCartItems("643096950984a6e8284f5274")
+    //   .then(response => {
+    //     const itemIDs = [];
+    //     for (const cartItem of response) {
+    //       itemIDs.push(cartItem.itemID);
+    //     }
 
-        getItems(itemIDs)
-          .then(response => {
-            console.log(response);
-            // setCartItems(response);
-            setCartItems(mockData);
-          });
+        // getItems(itemIDs)
+        //   .then(response => {
+        //     console.log(response);
+        //     // setCartItems(response);
+        //     // setCartItems(mockData);
+        //   });
 
         // setCartItems(itemIDs);
         // before setting cartItems, call api to retrieve item objects
         // setCartItems(response);
 
-      });
+      //});
   }, []);
 
   return (
@@ -71,7 +73,12 @@ const ShoppingCart = () => {
         data={cartItems}
         renderItem={(item) => <ShoppingCartItem itemInfo={item.item}/>}
       />
-      
+      <View style={styles.shoppingCartButtonCentering}>
+        <Pressable
+          style={styles.shoppingCartCheckoutButton}>
+          <Text style={{fontWeight: "bold", fontSize: 20}}>Confirm Items</Text>
+        </Pressable>
+      </View>
     </>
   )
 }

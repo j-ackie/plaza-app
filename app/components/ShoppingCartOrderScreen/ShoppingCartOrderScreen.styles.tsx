@@ -8,12 +8,12 @@ const styles = StyleSheet.create({
     marginRight: 20,
     marginTop: 10,
     borderWidth: 2,
-    borderRadius: 10,
+    borderRadius: 75/3,
   },
   shoppingCartItemImage: {
     width: 75,
     height: 75,
-    borderRadius: 10,
+    borderRadius: 75/3,
     borderRightWidth: 2
   },
   shoppingCartItemTextContainer: {
@@ -21,6 +21,18 @@ const styles = StyleSheet.create({
     flex: 1,
     marginLeft: 20,
     marginTop: 10
+  },
+  shoppingCartButtonCentering:{
+    flexDirection: "row",
+    justifyContent: "center",
+    marginBottom: 20
+  },
+  shoppingCartCheckoutButton:{
+    padding: 20,
+    borderWidth: 2,
+    width: "90%",
+    flexDirection: "row",
+    justifyContent: "center"
   }
 });
 
