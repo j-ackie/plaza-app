@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
-import { FlatList, View, Button, Pressable, Text } from "react-native";
+import { FlatList, View, Button, Pressable, Text, Touchable } from "react-native";
 import { CartItem } from "../../interfaces/queries.interfaces";
 import { Item } from "../../interfaces/queries.interfaces";
 import { getCartItems } from "../../api/cart-items";
 import { getItems } from "../../api/items";
 import ShoppingCartItem from "./ShoppingCartItem";
 import styles from "./ShoppingCartOrderScreen.styles";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 const mockData = [
   {
@@ -74,10 +75,10 @@ const ShoppingCart = () => {
         renderItem={(item) => <ShoppingCartItem itemInfo={item.item}/>}
       />
       <View style={styles.shoppingCartButtonCentering}>
-        <Pressable
+        <TouchableOpacity
           style={styles.shoppingCartCheckoutButton}>
           <Text style={{fontWeight: "bold", fontSize: 20}}>Confirm Items</Text>
-        </Pressable>
+        </TouchableOpacity>
       </View>
     </>
   )
