@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { SafeAreaView } from "react-native";
 import { createMaterialTopTabNavigator, MaterialTopTabBar } from '@react-navigation/material-top-tabs';
 import ShoppingCart from "./ShoppingCart";
+import OrderHistory from "./OrderHistory";
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -29,7 +30,7 @@ const ShoppingCartOrderScreen = () => {
       />
       <Tab.Screen
         name="Order History"
-        component={ShoppingCart} // replace with OrderHistory
+        component={OrderHistory} // replace with OrderHistory
       />
     </Tab.Navigator>
   )
