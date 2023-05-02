@@ -111,6 +111,7 @@ const Feed = ({navigation}) => {
         ref={bottomSheetModalRef}
         modalContent={modalContent}
         setModalContent={setModalContent}
+        navigation={navigation}
       />
     </>
   );

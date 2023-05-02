@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, SafeAreaView, Button } from "react-native";
 import { createMaterialTopTabNavigator, MaterialTopTabBar } from '@react-navigation/material-top-tabs';
 import "react-native-safe-area-context"
 import Feed from "../Feed/Feed";
+import { PortalProvider } from "@gorhom/portal";
 
 // https://reactnavigation.org/docs/material-top-tab-navigator
 const Tab = createMaterialTopTabNavigator();
@@ -18,6 +19,7 @@ const SafeAreaMaterialTopBar = ({...props}) => {
 
 const Home = () => {
   return (
+    // <PortalProvider>
     <Tab.Navigator
       tabBar={props => <SafeAreaMaterialTopBar {...props}/>}
       screenOptions={{
@@ -34,6 +36,7 @@ const Home = () => {
         component={Feed}
       />
     </Tab.Navigator>
+    // </PortalProvider>
   )
 };
 

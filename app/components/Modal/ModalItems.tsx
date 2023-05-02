@@ -4,8 +4,26 @@ import { BottomSheetView, BottomSheetFlatList } from "@gorhom/bottom-sheet";
 import { FlatList } from "react-native-gesture-handler";
 import styles from "./Modal.styles";
 
-const renderModalItems = (item) => {
-  const postInfo = item.item;
+const renderModalPurchase = (item) => {
+  return (
+    <BottomSheetView style={styles.modalItemContainer}>
+      <Image
+        source={{
+          uri: item.imageURI
+        }}
+        style={{width: 100, height: 100}}
+        resizeMode="cover"
+      />
+    </BottomSheetView>
+  )
+}
+
+const renderModalItems = (item, index, setPage, setSelectedItemIndex, navigation) => {
+  const postInfo = item;
+
+  const handlePurchasePress = () => {
+    navigation.navigate("purchase", {item});
+  }
 
   return (
     <BottomSheetView style={styles.modalItemContainer}>
@@ -19,7 +37,10 @@ const renderModalItems = (item) => {
       <Text style={[styles.modalItemName, styles.modalItemLargeText]}>{postInfo.name}</Text>
       <Text style={styles.modalItemText}>{postInfo.description}</Text>
       <Text style={[styles.modalItemLargeText, styles.modalItemText]}>${postInfo.price}</Text>
-      <TouchableOpacity style={styles.modalItemTouchable}>
+      <TouchableOpacity 
+        style={styles.modalItemTouchable}
+        onPress={handlePurchasePress}  
+      >
         <Text style={styles.modalItemLargeText}>Purchase</Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.modalItemTouchable}>
@@ -29,37 +50,47 @@ const renderModalItems = (item) => {
   )
 }
 
-const ModalItems = ({postInfo}) => {
+const ModalItems = ({postInfo, page, setPage, navigation}) => {
+  const [selectedItemIndex, setSelectedItemIndex] = useState(0);
+
   const flatListRef = useRef<FlatList>(null);
   const windowWidth = Dimensions.get("window").width;
   
-  return (
-    <BottomSheetView style={{flex: 1}}>
-      <FlatList
-        ref={flatListRef}
-        data={postInfo.sellingItems}
-        renderItem={(item) => renderModalItems(item)}
-        horizontal={true}
-        pagingEnabled={true}
-        decelerationRate={"fast"}
-        getItemLayout={(data, index) => (
-          {
-            length: windowWidth,
-            offset: windowWidth * index,
-            index
-          }
-        )}
-        onContentSizeChange={() => {
-          if (flatListRef && flatListRef.current && flatListRef.current && postInfo.index) {
-            flatListRef.current.scrollToIndex({
-              index: postInfo.index, 
-              animated: false
-            });
-          }
-        }}
-      />
+  if (page === 0) {
+    return (
+      <BottomSheetView style={{flex: 1}}>
+        <FlatList
+          ref={flatListRef}
+          data={postInfo.sellingItems}
+          renderItem={({item, index}) => renderModalItems(item, index, setPage, setSelectedItemIndex, navigation)}
+          horizontal={true}
+          pagingEnabled={true}
+          decelerationRate={"fast"}
+          getItemLayout={(data, index) => (
+            {
+              length: windowWidth,
+              offset: windowWidth * index,
+              index
+            }
+          )}
+          onContentSizeChange={() => {
+            if (flatListRef && flatListRef.current && flatListRef.current && postInfo.index) {
+              flatListRef.current.scrollToIndex({
+                index: postInfo.index, 
+                animated: false
+              });
+            }
+          }}
+        />
+      </BottomSheetView>
+    );
+  }
+  else if (page === 1) {
+    <BottomSheetView style={{flex: 1, backgroundColor: "green"}}>
+      <Text>Hey</Text>
+      {postInfo && postInfo.sellingItems && renderModalPurchase(postInfo.sellingItems[selectedItemIndex])}
     </BottomSheetView>
-  );
+  }
 }
 
 export default ModalItems;

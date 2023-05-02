@@ -1,10 +1,12 @@
-import { useMemo, forwardRef, useCallback } from "react";
+import { useState, useMemo, forwardRef, useCallback } from "react";
 import BottomSheetModal, { BottomSheetBackdrop, BottomSheetView } from "@gorhom/bottom-sheet";
 import { View, Text, Image, TouchableOpacity } from "react-native";
 import { Portal, PortalHost } from "@gorhom/portal";
 import ModalItems from "./ModalItems";
 
 const Modal = forwardRef((props, ref) => {
+  const [page, setPage] = useState(0);
+
   const Backdrop = useCallback(p => 
     <BottomSheetBackdrop
       {... p}
@@ -19,18 +21,24 @@ const Modal = forwardRef((props, ref) => {
   const snapPoints = useMemo(() => ['75%'], []);
 
   return (
-    <Portal>
+    // <Portal>
       <BottomSheetModal
         ref={ref}
         index={-1}
         snapPoints={snapPoints}
         enablePanDownToClose={true}
         backdropComponent={Backdrop}
+        onClose={() => setPage(0)}
       >
-        <ModalItems postInfo={props.modalContent} />
+        <ModalItems 
+          postInfo={props.modalContent} 
+          page={page}
+          setPage={setPage}
+          navigation={props.navigation}
+        />
         
       </BottomSheetModal>
-    </Portal>
+    // </Portal>
   );
 });
 

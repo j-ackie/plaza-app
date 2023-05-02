@@ -8,6 +8,7 @@ import { PortalProvider } from "@gorhom/portal";
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { StatusBar } from "expo-status-bar";
 import Home from "./components/Home/Home";
+import Purchase from "./screens/Purchase";
 import ShoppingCartOrderScreen from "./components/ShoppingCartOrderScreen/ShoppingCartOrderScreen";
 import Modal from "./components/Modal/Modal";
 import { Audio } from "expo-av";
@@ -19,6 +20,7 @@ const Tab = createMaterialBottomTabNavigator();
 const Stack = createStackNavigator();
 
 const createTabs = (props) => {
+  console.log(props);
   const tabNames = ["home", "cart", "create", "inbox", "profile"];
   const tabComponents = [Home, ShoppingCartOrderScreen, Home, Home, Home];
 
@@ -65,21 +67,18 @@ const App = () => {
     <StripeProvider
       publishableKey="w"
     >
-      <PortalProvider>
+      
         <StatusBar style="light"/>
         <Stack.Navigator 
           screenOptions={{
             headerShown: false,
-            headerStyle: {
-              height: 400
-            }
             // container
           }}
         >
           <Stack.Screen name="tabs" component={TabNavigator}/>
+          <Stack.Screen name="purchase" component={Purchase} options={{headerShown: true}} />
         </Stack.Navigator>
         
-      </PortalProvider>
     </StripeProvider>
   );
 }
