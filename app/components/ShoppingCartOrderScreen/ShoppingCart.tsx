@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { FlatList, View, Button, Pressable, Text, Touchable } from "react-native";
+import { FlatList, View, Button, Pressable, Text, Touchable, Modal, Image } from "react-native";
 import { CartItem } from "../../interfaces/queries.interfaces";
 import { Item } from "../../interfaces/queries.interfaces";
 import { getCartItems } from "../../api/cart-items";
@@ -7,6 +7,9 @@ import { getItems } from "../../api/items";
 import ShoppingCartItem from "./ShoppingCartItem";
 import styles from "./ShoppingCartOrderScreen.styles";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import Carousel from "react-native-reanimated-carousel";
+import CartModalItemInfo from "../Modal/CartModalItemInfo";
+import CartModalVideo from "../Modal/CartModalVideo";
 
 const mockData = [
   {
@@ -32,7 +35,7 @@ const mockData = [
   {
     _id: "1",
     sellerID: "3",
-    name: "Handbag",
+    name: "backpack",
     description: "Barely used.",
     price: 24.67,
     quantity: 2,
@@ -43,6 +46,8 @@ const mockData = [
 
 const ShoppingCart = () => {
   const [cartItems, setCartItems] = useState<Item[]>([]);
+  const [modalVis, setModalVis] = useState(false)
+  const [selected, setSelected] = useState(mockData[0])
 
   useEffect(() => {
     console.log("calling api...");
@@ -70,9 +75,53 @@ const ShoppingCart = () => {
 
   return (
     <>
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={modalVis}
+        onRequestClose={() => {
+          setModalVis(!modalVis);
+        }}>
+
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Carousel 
+              vertical={false}
+              width={270}
+              height={450}
+              data={[...new Array(2).keys()]}
+              renderItem={({index}) => {
+                if(index == 0){
+                  return (<CartModalItemInfo selected={selected}></CartModalItemInfo>)
+                }
+                else{
+                  return (<CartModalVideo></CartModalVideo>)
+                }
+              }}
+            />
+
+            <Pressable
+                style={[styles.cartButton, styles.buttonClose]}
+                onPress={() => setModalVis(!modalVis)}>
+                <Text style={styles.textStyle}>Hide Modal</Text>
+            </Pressable>
+          </View>
+        </View>
+        
+      </Modal>
+
       <FlatList
         data={cartItems}
-        renderItem={(item) => <ShoppingCartItem itemInfo={item.item}/>}
+        renderItem={(item) => 
+          <Pressable
+          style={styles.cartButton}
+          onPress={() => {
+            setSelected(item.item)
+            setModalVis(true)
+          }}>
+            <ShoppingCartItem itemInfo={item.item}/>
+          </Pressable>
+        }
       />
       <View style={styles.shoppingCartButtonCentering}>
         <TouchableOpacity
