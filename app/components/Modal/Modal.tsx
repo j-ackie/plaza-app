@@ -21,7 +21,7 @@ const Modal = forwardRef((props, ref) => {
   const snapPoints = useMemo(() => ['75%'], []);
 
   return (
-    // <Portal>
+    <Portal>
       <BottomSheetModal
         ref={ref}
         index={-1}
@@ -38,7 +38,7 @@ const Modal = forwardRef((props, ref) => {
         />
         
       </BottomSheetModal>
-    // </Portal>
+    </Portal>
   );
 });
 

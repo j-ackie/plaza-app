@@ -64,10 +64,7 @@ const App = () => {
   }, []);
 
   return (
-    <StripeProvider
-      publishableKey="w"
-    >
-      
+      <PortalProvider>
         <StatusBar style="light"/>
         <Stack.Navigator 
           screenOptions={{
@@ -78,8 +75,7 @@ const App = () => {
           <Stack.Screen name="tabs" component={TabNavigator}/>
           <Stack.Screen name="purchase" component={Purchase} options={{headerShown: true}} />
         </Stack.Navigator>
-        
-    </StripeProvider>
+      </PortalProvider>
   );
 }
 
