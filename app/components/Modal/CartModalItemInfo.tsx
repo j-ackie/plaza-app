@@ -5,7 +5,7 @@ import styles from "./CartModal.styles";
 function CartModalItemInfo(props) {
   return (
 
-    <View>
+    <View style={styles.container}>
         <Image source={{
             uri: props.selected.imageURL
         }}

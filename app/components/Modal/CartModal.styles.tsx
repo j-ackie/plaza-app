@@ -4,6 +4,10 @@ const styles = StyleSheet.create({
     cartButton:{
     
     },
+    container:{
+      flexDirection: "column",
+      alignItems: "center"
+    },
     buttonOpen: {
       backgroundColor: '#F194FF',
     },
@@ -56,10 +60,22 @@ const styles = StyleSheet.create({
         elevation: 5,
     },
     shoppingCartModalImage: {
-        width: 250,
-        height: 250,
-        marginBottom: 10
+        width: 170,
+        height: 170,
+        marginBottom: 10,
+        marginTop: 20
       },
+
+    shoppingCartModalVideo: {
+        width: 330,
+        height: 450,
+    },
+
+    testStyle: {
+      position: "absolute",
+      top: 40,
+      right: 0,
+    }
 })
 
 export default styles

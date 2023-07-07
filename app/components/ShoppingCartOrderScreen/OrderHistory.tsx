@@ -1,9 +1,13 @@
-import { View, Text, Pressable, FlatList } from 'react-native'
+import { View, Text, Pressable, FlatList, Modal } from 'react-native'
 import { useState, useEffect } from "react";
 import React from 'react'
 import { Item } from "../../interfaces/queries.interfaces";
 import ShoppingCartItem from "./ShoppingCartItem";
 import styles from "./ShoppingCartOrderScreen.styles";
+import Carousel from 'react-native-reanimated-carousel';
+import CartModalItemInfo from '../Modal/CartModalItemInfo';
+import CartModalVideo from '../Modal/CartModalVideo';
+import CartModalItemDelivery from '../Modal/CartModalItemDelivery';
 
 const mockData = [
     {
@@ -14,6 +18,7 @@ const mockData = [
       price: 24.67,
       quantity: 2,
       imageURL: "https://m.media-amazon.com/images/W/IMAGERENDERING_521856-T1/images/I/51LhHqu9akL._AC_UY1000_.jpg",
+      videoURI: "https://assets.mixkit.co/videos/preview/mixkit-man-doing-tricks-with-roller-skates-in-a-parking-lot-34553-large.mp4",
       timestamp: "2023-04-07T22:24:39.000+00:00"
     },
     {
@@ -24,6 +29,7 @@ const mockData = [
       price: 24.67,
       quantity: 2,
       imageURL: "https://m.media-amazon.com/images/W/IMAGERENDERING_521856-T1/images/I/51LhHqu9akL._AC_UY1000_.jpg",
+      videoURI: "https://assets.mixkit.co/videos/preview/mixkit-man-doing-tricks-with-roller-skates-in-a-parking-lot-34553-large.mp4",
       timestamp: "2023-04-07T22:24:39.000+00:00"
     },
     {
@@ -34,12 +40,15 @@ const mockData = [
       price: 24.67,
       quantity: 2,
       imageURL: "https://m.media-amazon.com/images/W/IMAGERENDERING_521856-T1/images/I/51LhHqu9akL._AC_UY1000_.jpg",
+      videoURI: "https://assets.mixkit.co/videos/preview/mixkit-man-doing-tricks-with-roller-skates-in-a-parking-lot-34553-large.mp4",
       timestamp: "2023-04-07T22:24:39.000+00:00"
     }
   ]
 
 const OrderHistory = () => {
-    const [cartItems, setCartItems] = useState<Item[]>([]);
+  const [cartItems, setCartItems] = useState<Item[]>([]);
+  const [modalVis, setModalVis] = useState(false)
+  const [selected, setSelected] = useState(0)
     
     useEffect(() => {
         console.log("calling api...");
@@ -66,15 +75,64 @@ const OrderHistory = () => {
       }, []);
 
     return (
+        <>
+          <Modal
+          animationType="fade"
+          transparent={true}
+          visible={modalVis}
+          onRequestClose={() => {
+            setModalVis(!modalVis);
+          }}>
+
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <Carousel 
+                vertical={false}
+                width={330}
+                height={450}
+                data={[...new Array(3).keys()]}
+                loop={false}
+                renderItem={({index}) => {
+                  if(index == 0){
+                    return (<CartModalItemDelivery selected={mockData[selected]}></CartModalItemDelivery>)
+                  }
+                  else if(index == 1){
+                    return (<CartModalItemInfo selected={mockData[selected]}></CartModalItemInfo>)
+                  }
+                  else{
+                    return (<CartModalVideo 
+                      videoIndex={selected}
+                      currViewableIndex={selected}
+                      postInfo={mockData[selected]}
+                    />)
+                  }
+                }}
+              />
+
+              <Pressable
+                  style={[styles.cartButton, styles.buttonClose]}
+                  onPress={() => setModalVis(!modalVis)}>
+                  <Text style={styles.textStyle}>Hide Modal</Text>
+              </Pressable>
+            </View>
+          </View>
+          
+        </Modal>
+
         <FlatList
-            data={cartItems}
-            renderItem={(item) => 
+          data={cartItems}
+          renderItem={(item) => 
             <Pressable
-            style={styles.cartButton}>
-                <ShoppingCartItem itemInfo={item.item}/>
+            style={styles.cartButton}
+            onPress={() => {
+              setSelected(item.index)
+              setModalVis(true)
+            }}>
+              <ShoppingCartItem itemInfo={item.item}/>
             </Pressable>
-            }
+          }
         />
+        </>
     )
 }
 

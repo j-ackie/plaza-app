@@ -20,6 +20,7 @@ const mockData = [
     price: 24.67,
     quantity: 2,
     imageURL: "https://m.media-amazon.com/images/W/IMAGERENDERING_521856-T1/images/I/51LhHqu9akL._AC_UY1000_.jpg",
+    videoURI: "https://assets.mixkit.co/videos/preview/mixkit-man-doing-tricks-with-roller-skates-in-a-parking-lot-34553-large.mp4",
     timestamp: "2023-04-07T22:24:39.000+00:00"
   },
   {
@@ -30,6 +31,7 @@ const mockData = [
     price: 24.67,
     quantity: 2,
     imageURL: "https://m.media-amazon.com/images/W/IMAGERENDERING_521856-T1/images/I/51LhHqu9akL._AC_UY1000_.jpg",
+    videoURI: "https://assets.mixkit.co/videos/preview/mixkit-man-doing-tricks-with-roller-skates-in-a-parking-lot-34553-large.mp4",
     timestamp: "2023-04-07T22:24:39.000+00:00"
   },
   {
@@ -40,6 +42,7 @@ const mockData = [
     price: 24.67,
     quantity: 2,
     imageURL: "https://m.media-amazon.com/images/W/IMAGERENDERING_521856-T1/images/I/51LhHqu9akL._AC_UY1000_.jpg",
+    videoURI: "https://assets.mixkit.co/videos/preview/mixkit-man-doing-tricks-with-roller-skates-in-a-parking-lot-34553-large.mp4",
     timestamp: "2023-04-07T22:24:39.000+00:00"
   }
 ]
@@ -47,7 +50,7 @@ const mockData = [
 const ShoppingCart = () => {
   const [cartItems, setCartItems] = useState<Item[]>([]);
   const [modalVis, setModalVis] = useState(false)
-  const [selected, setSelected] = useState(mockData[0])
+  const [selected, setSelected] = useState(0)
 
   useEffect(() => {
     console.log("calling api...");
@@ -86,16 +89,21 @@ const ShoppingCart = () => {
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
             <Carousel 
+              loop={false}
               vertical={false}
-              width={270}
+              width={330}
               height={450}
               data={[...new Array(2).keys()]}
               renderItem={({index}) => {
                 if(index == 0){
-                  return (<CartModalItemInfo selected={selected}></CartModalItemInfo>)
+                  return (<CartModalItemInfo selected={mockData[selected]}></CartModalItemInfo>)
                 }
                 else{
-                  return (<CartModalVideo></CartModalVideo>)
+                  return (<CartModalVideo 
+                    videoIndex={selected}
+                    currViewableIndex={selected}
+                    postInfo={mockData[selected]}
+                  />)
                 }
               }}
             />
@@ -116,7 +124,7 @@ const ShoppingCart = () => {
           <Pressable
           style={styles.cartButton}
           onPress={() => {
-            setSelected(item.item)
+            setSelected(item.index)
             setModalVis(true)
           }}>
             <ShoppingCartItem itemInfo={item.item}/>

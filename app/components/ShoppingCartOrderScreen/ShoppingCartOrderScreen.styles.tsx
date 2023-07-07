@@ -50,9 +50,10 @@ const styles = StyleSheet.create({
     margin: 20,
     backgroundColor: 'white',
     borderRadius: 70,
-    padding: 35,
     alignItems: 'center',
     shadowColor: '#000',
+    overflow: "hidden",
+    paddingBottom: 35,
     shadowOffset: {
       width: 0,
       height: 2,
