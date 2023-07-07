@@ -71,10 +71,27 @@ const styles = StyleSheet.create({
         height: 450,
     },
 
-    testStyle: {
-      position: "absolute",
-      top: 40,
-      right: 0,
+    orderHistoryModalDot: {
+      width:16, 
+      height: 16, 
+      borderRadius: 8, 
+      backgroundColor: "black"
+    },
+
+    orderHistoryModalText: {
+      marginLeft: 10
+    },
+
+    orderHistoryModalDotUnselected: {
+      width:16, 
+      height: 16, 
+      borderRadius: 8, 
+      backgroundColor: "rgba(240, 240, 240, 1)"
+    },
+
+    orderHistoryModalTextUnselected: {
+      marginLeft: 10,
+      color: "rgba(240, 240, 240, 1)"
     }
 })
 
