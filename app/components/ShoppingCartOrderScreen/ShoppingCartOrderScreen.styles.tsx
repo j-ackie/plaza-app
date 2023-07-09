@@ -94,7 +94,13 @@ const styles = StyleSheet.create({
     marginTop: 10,
     textAlign: 'center',
     fontWeight: '500'
-  }
+  },
+  orderHistoryDot: {
+    width:8, 
+    height: 8, 
+    borderRadius: 4, 
+    backgroundColor: "black"
+  },
 });
 
 export default styles;

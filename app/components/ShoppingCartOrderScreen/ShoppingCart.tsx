@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { FlatList, View, Button, Pressable, Text, Touchable, Modal, Image } from "react-native";
+import { FlatList, View, Pressable, Text, Modal, Image, SafeAreaView } from "react-native";
 import { CartItem } from "../../interfaces/queries.interfaces";
 import { Item } from "../../interfaces/queries.interfaces";
 import { getCartItems } from "../../api/cart-items";
@@ -10,6 +10,7 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import Carousel from "react-native-reanimated-carousel";
 import CartModalItemInfo from "../Modal/CartModalItemInfo";
 import CartModalVideo from "../Modal/CartModalVideo";
+import CheckBox from "expo-checkbox";
 
 const mockData = [
   {
@@ -54,6 +55,9 @@ const ShoppingCart = () => {
 
   useEffect(() => {
     console.log("calling api...");
+    for(let i = 0; i < mockData.length; i++){
+      mockData[i]["checked"] = false
+    }
     setCartItems(mockData);
     // getCartItems("643096950984a6e8284f5274")
     //   .then(response => {
@@ -75,6 +79,20 @@ const ShoppingCart = () => {
 
       //});
   }, []);
+
+  const onButtonPress = () => {
+
+    const selectedCheckBoxes = cartItems.find((cb) => cb["checked"] === true);
+    // selectedCheckBoxes will have checboxes which are selected
+  }
+
+
+  const toggleCheckbox = (index) => {
+
+    const checkboxData = [...cartItems];
+    checkboxData[index]["checked"] = !checkboxData[index]["checked"];
+    setCartItems(checkboxData);
+  }
 
   return (
     <>
@@ -127,7 +145,28 @@ const ShoppingCart = () => {
             setSelected(item.index)
             setModalVis(true)
           }}>
-            <ShoppingCartItem itemInfo={item.item}/>
+            <SafeAreaView style={styles.shoppingCartItemContainer}>
+              <Image
+                source={{
+                  uri: item.item.imageURL
+                }}
+                style={styles.shoppingCartItemImage}
+                resizeMode="cover"
+              />
+              <View style={styles.shoppingCartItemTextContainer}>
+                <Text style={{fontWeight: "bold"}}>{item.item.name}</Text>
+                <Text>${item.item.price}</Text>
+              </View>
+              
+              <View style={{height: "100%", flexDirection: "column", justifyContent: "center", marginRight: 20}}>
+                <CheckBox 
+                  disabled={false}
+                  value={item.item["checked"]}
+                  onValueChange={() => {toggleCheckbox(item.index)}}
+                  style={{width: 30, height: 30}}
+                />
+              </View>
+            </SafeAreaView>
           </Pressable>
         }
       />

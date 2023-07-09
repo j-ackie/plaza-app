@@ -1,13 +1,13 @@
-import { View, Text, Pressable, FlatList, Modal } from 'react-native'
+import { View, Text, Pressable, FlatList, Modal, SafeAreaView, Image } from 'react-native'
 import { useState, useEffect } from "react";
 import React from 'react'
 import { Item } from "../../interfaces/queries.interfaces";
-import ShoppingCartItem from "./ShoppingCartItem";
 import styles from "./ShoppingCartOrderScreen.styles";
 import Carousel from 'react-native-reanimated-carousel';
 import CartModalItemInfo from '../Modal/CartModalItemInfo';
 import CartModalVideo from '../Modal/CartModalVideo';
 import CartModalItemDelivery from '../Modal/CartModalItemDelivery';
+import * as Progress from 'react-native-progress'
 
 const mockData = [
     {
@@ -128,7 +128,30 @@ const OrderHistory = () => {
               setSelected(item.index)
               setModalVis(true)
             }}>
-              <ShoppingCartItem itemInfo={item.item}/>
+              <SafeAreaView style={styles.shoppingCartItemContainer}>
+                <Image
+                  source={{
+                    uri: item.item.imageURL
+                  }}
+                  style={styles.shoppingCartItemImage}
+                  resizeMode="cover"
+                />
+                <View style={styles.shoppingCartItemTextContainer}>
+                  <Text style={{fontWeight: "bold"}}>{item.item.name}</Text>
+                  <View style={{position: "relative", height: 20, width: 200}}>
+                    <View style={{height: "100%", justifyContent: "center"}}>
+                    <Progress.Bar progress={0.35} width={200} height={4} color='rgba(0, 0, 0, 1)' unfilledColor='rgba(220, 220, 220, 1)' borderWidth={0}/>
+                    </View>
+                    <View style={{width: "100%", height: "100%", flexDirection: "row", justifyContent: "space-between", alignItems: "center", position: "absolute"}}>
+                    <View style={styles.orderHistoryDot} />
+                    <View style={styles.orderHistoryDot} />
+                    <View style={styles.orderHistoryDot} />
+                    <View style={styles.orderHistoryDot} />
+                    </View>
+                  </View>
+                  <Text>Order confirmed</Text>
+                </View>
+              </SafeAreaView>
             </Pressable>
           }
         />
