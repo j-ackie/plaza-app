@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { FlatList, View, Button, Pressable, Text, Touchable, Modal, Image } from "react-native";
+import { FlatList, View, Pressable, Text, Modal, Image, SafeAreaView } from "react-native";
 import { CartItem } from "../../interfaces/queries.interfaces";
 import { Item } from "../../interfaces/queries.interfaces";
 import { getCartItems } from "../../api/cart-items";
@@ -10,6 +10,7 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import Carousel from "react-native-reanimated-carousel";
 import CartModalItemInfo from "~/components/Modal/CartModalItemInfo";
 import CartModalVideo from "~/components/Modal/CartModalVideo";
+import CheckBox from "expo-checkbox";
 
 const mockData = [
   {
@@ -20,6 +21,7 @@ const mockData = [
     price: 24.67,
     quantity: 2,
     imageURL: "https://m.media-amazon.com/images/W/IMAGERENDERING_521856-T1/images/I/51LhHqu9akL._AC_UY1000_.jpg",
+    videoURI: "https://assets.mixkit.co/videos/preview/mixkit-man-doing-tricks-with-roller-skates-in-a-parking-lot-34553-large.mp4",
     timestamp: "2023-04-07T22:24:39.000+00:00"
   },
   {
@@ -30,6 +32,7 @@ const mockData = [
     price: 24.67,
     quantity: 2,
     imageURL: "https://m.media-amazon.com/images/W/IMAGERENDERING_521856-T1/images/I/51LhHqu9akL._AC_UY1000_.jpg",
+    videoURI: "https://assets.mixkit.co/videos/preview/mixkit-man-doing-tricks-with-roller-skates-in-a-parking-lot-34553-large.mp4",
     timestamp: "2023-04-07T22:24:39.000+00:00"
   },
   {
@@ -40,6 +43,7 @@ const mockData = [
     price: 24.67,
     quantity: 2,
     imageURL: "https://m.media-amazon.com/images/W/IMAGERENDERING_521856-T1/images/I/51LhHqu9akL._AC_UY1000_.jpg",
+    videoURI: "https://assets.mixkit.co/videos/preview/mixkit-man-doing-tricks-with-roller-skates-in-a-parking-lot-34553-large.mp4",
     timestamp: "2023-04-07T22:24:39.000+00:00"
   }
 ]
@@ -47,10 +51,13 @@ const mockData = [
 const ShoppingCart = () => {
   const [cartItems, setCartItems] = useState<Item[]>([]);
   const [modalVis, setModalVis] = useState(false)
-  const [selected, setSelected] = useState(mockData[0])
+  const [selected, setSelected] = useState(0)
 
   useEffect(() => {
     console.log("calling api...");
+    for(let i = 0; i < mockData.length; i++){
+      mockData[i]["checked"] = false
+    }
     setCartItems(mockData);
     // getCartItems("643096950984a6e8284f5274")
     //   .then(response => {
@@ -73,6 +80,20 @@ const ShoppingCart = () => {
       //});
   }, []);
 
+  const onButtonPress = () => {
+
+    const selectedCheckBoxes = cartItems.find((cb) => cb["checked"] === true);
+    // selectedCheckBoxes will have checboxes which are selected
+  }
+
+
+  const toggleCheckbox = (index) => {
+
+    const checkboxData = [...cartItems];
+    checkboxData[index]["checked"] = !checkboxData[index]["checked"];
+    setCartItems(checkboxData);
+  }
+
   return (
     <>
       <Modal
@@ -86,16 +107,21 @@ const ShoppingCart = () => {
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
             <Carousel 
+              loop={false}
               vertical={false}
-              width={270}
+              width={330}
               height={450}
               data={[...new Array(2).keys()]}
               renderItem={({index}) => {
                 if(index == 0){
-                  return (<CartModalItemInfo selected={selected}></CartModalItemInfo>)
+                  return (<CartModalItemInfo selected={mockData[selected]}></CartModalItemInfo>)
                 }
                 else{
-                  return (<CartModalVideo></CartModalVideo>)
+                  return (<CartModalVideo 
+                    videoIndex={selected}
+                    currViewableIndex={selected}
+                    postInfo={mockData[selected]}
+                  />)
                 }
               }}
             />
@@ -116,10 +142,31 @@ const ShoppingCart = () => {
           <Pressable
           style={styles.cartButton}
           onPress={() => {
-            setSelected(item.item)
+            setSelected(item.index)
             setModalVis(true)
           }}>
-            <ShoppingCartItem itemInfo={item.item}/>
+            <SafeAreaView style={styles.shoppingCartItemContainer}>
+              <Image
+                source={{
+                  uri: item.item.imageURL
+                }}
+                style={styles.shoppingCartItemImage}
+                resizeMode="cover"
+              />
+              <View style={styles.shoppingCartItemTextContainer}>
+                <Text style={{fontWeight: "bold"}}>{item.item.name}</Text>
+                <Text>${item.item.price}</Text>
+              </View>
+              
+              <View style={{height: "100%", flexDirection: "column", justifyContent: "center", marginRight: 20}}>
+                <CheckBox 
+                  disabled={false}
+                  value={item.item["checked"]}
+                  onValueChange={() => {toggleCheckbox(item.index)}}
+                  style={{width: 30, height: 30}}
+                />
+              </View>
+            </SafeAreaView>
           </Pressable>
         }
       />

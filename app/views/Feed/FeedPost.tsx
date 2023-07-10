@@ -11,9 +11,9 @@ import Backdrop from "~/components/Backdrop/Backdrop";
 const FeedPost = ({videoIndex, currViewableIndex, postInfo}) => {
   console.log(videoIndex);
   const bottomSheetModalRef = useRef(null);
-  const snapPoints = useMemo(() => ['15%', '75%', '93%'], []);
+  const snapPoints = useMemo(() => ['75%', '93%'], []);
 
-  const handleExpand = () => bottomSheetModalRef.current.snapToIndex(1);
+  const handleExpand = () => bottomSheetModalRef.current.snapToIndex(0);
 
   const handleClose = () => bottomSheetModalRef.current.close();
 

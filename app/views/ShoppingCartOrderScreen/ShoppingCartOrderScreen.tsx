@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import { SafeAreaView } from "react-native";
 import { createMaterialTopTabNavigator, MaterialTopTabBar } from '@react-navigation/material-top-tabs';
 import ShoppingCart from "./ShoppingCart";

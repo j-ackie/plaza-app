@@ -50,9 +50,10 @@ const styles = StyleSheet.create({
     margin: 20,
     backgroundColor: 'white',
     borderRadius: 70,
-    padding: 35,
     alignItems: 'center',
     shadowColor: '#000',
+    overflow: "hidden",
+    paddingBottom: 35,
     shadowOffset: {
       width: 0,
       height: 2,
@@ -93,7 +94,13 @@ const styles = StyleSheet.create({
     marginTop: 10,
     textAlign: 'center',
     fontWeight: '500'
-  }
+  },
+  orderHistoryDot: {
+    width:8, 
+    height: 8, 
+    borderRadius: 4, 
+    backgroundColor: "black"
+  },
 });
 
 export default styles;
