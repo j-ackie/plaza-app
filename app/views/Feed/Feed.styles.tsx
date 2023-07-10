@@ -37,7 +37,12 @@ const styles = StyleSheet.create({
     aspectRatio: 1,
     borderRadius: 10,
     borderWidth: 2,
-  }
+  },
+  itemTouchable: {
+    borderRadius: 10,
+    borderWidth: 1,
+    overflow: "hidden"
+  },
 
 });
 
