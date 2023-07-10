@@ -5,8 +5,6 @@ import { Portal, PortalHost } from "@gorhom/portal";
 import ModalItems from "./ModalItems";
 
 const Modal = forwardRef((props, ref) => {
-  const [page, setPage] = useState(0);
-
   const Backdrop = useCallback(p => 
     <BottomSheetBackdrop
       {... p}
@@ -32,9 +30,8 @@ const Modal = forwardRef((props, ref) => {
       >
         <ModalItems 
           postInfo={props.modalContent} 
-          page={page}
-          setPage={setPage}
           navigation={props.navigation}
+          modalRef={ref}
         />
         
       </BottomSheetModal>

@@ -7,9 +7,9 @@ import BottomSheetModal from "@gorhom/bottom-sheet";
 import { PortalProvider } from "@gorhom/portal";
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { StatusBar } from "expo-status-bar";
-import Home from "./components/Home/Home";
-import Purchase from "./screens/Purchase";
-import ShoppingCartOrderScreen from "./components/ShoppingCartOrderScreen/ShoppingCartOrderScreen";
+import Home from "./views/Home/Home";
+// import Purchase from "./screens/Purchase";
+import ShoppingCartOrderScreen from "./views/ShoppingCartOrderScreen/ShoppingCartOrderScreen";
 import Modal from "./components/Modal/Modal";
 import { Audio } from "expo-av";
 import { StripeProvider } from "@stripe/stripe-react-native";
@@ -73,7 +73,7 @@ const App = () => {
           }}
         >
           <Stack.Screen name="tabs" component={TabNavigator}/>
-          <Stack.Screen name="purchase" component={Purchase} options={{headerShown: true}} />
+          {/* <Stack.Screen name="purchase" component={Purchase} options={{headerShown: true}} /> */}
         </Stack.Navigator>
       </PortalProvider>
   );

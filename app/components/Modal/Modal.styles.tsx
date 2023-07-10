@@ -4,8 +4,9 @@ const styles = StyleSheet.create({
   modalItemContainer: {
     alignItems: "center",
     width: Dimensions.get("window").width,
-    paddingLeft: 10,
-    paddingRight: 10
+    paddingLeft: 20,
+    paddingRight: 20,
+    // backgroundColor: "green"
   },
   modalItemLargeText: {
     fontSize: 22

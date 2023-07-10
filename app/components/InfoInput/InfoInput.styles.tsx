@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
     height: 50,
     borderWidth: 1,
     marginBottom: -1,
-    backgroundColor: "green",
+    // backgroundColor: "green",
   },
   infoInputTop: {
     borderTopStartRadius: 10,

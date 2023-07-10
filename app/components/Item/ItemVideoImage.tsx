@@ -1,10 +1,10 @@
 import { TouchableOpacity, Image, View, Text } from "react-native";
 import styles from "./Item.styles";
 
-const ItemVideoImage = ({index, itemInfo, postInfo, handleExpand, navigation}) => {
+const ItemVideoImage = ({index, itemInfo, postInfo, handleExpand}) => {
   return (
     <TouchableOpacity 
-      onPress={() => handleExpand({...postInfo, index})}
+      onPress={handleExpand}
       style={styles.itemTouchable}
     >
       <Image

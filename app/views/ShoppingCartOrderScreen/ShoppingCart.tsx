@@ -8,8 +8,8 @@ import ShoppingCartItem from "./ShoppingCartItem";
 import styles from "./ShoppingCartOrderScreen.styles";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import Carousel from "react-native-reanimated-carousel";
-import CartModalItemInfo from "../Modal/CartModalItemInfo";
-import CartModalVideo from "../Modal/CartModalVideo";
+import CartModalItemInfo from "~/components/Modal/CartModalItemInfo";
+import CartModalVideo from "~/components/Modal/CartModalVideo";
 
 const mockData = [
   {
