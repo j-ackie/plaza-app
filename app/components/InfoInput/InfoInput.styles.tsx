@@ -1,14 +1,13 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
   infoInputContainer: {
-    width: "100%",
-    
-    
+    width: '100%',
+
     // backgroundColor: "orange"
   },
   infoInput: {
-    width: "100%",
+    width: '100%',
     height: 50,
     borderWidth: 1,
     marginBottom: -1,
@@ -20,8 +19,8 @@ const styles = StyleSheet.create({
   },
   infoInputBottom: {
     borderBottomStartRadius: 10,
-    borderBottomEndRadius: 10
-  }
+    borderBottomEndRadius: 10,
+  },
 });
 
 export default styles;

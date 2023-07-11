@@ -1,10 +1,10 @@
-import { StyleSheet, Dimensions } from "react-native";
+import { StyleSheet, Dimensions } from 'react-native';
 
 const styles = StyleSheet.create({
   feedItemContainer: {
     flex: 1,
-    height: Dimensions.get("window").height - 80,
-    backgroundColor: "black"
+    height: Dimensions.get('window').height - 80,
+    backgroundColor: 'black',
     // for debugging
     // backgroundColor: "orange",
     // borderWidth: 1,
@@ -12,20 +12,20 @@ const styles = StyleSheet.create({
     // borderStyle: "solid",
   },
   feedPostInfoContainer: {
-    position: "absolute",
+    position: 'absolute',
     bottom: 20,
     left: 10,
     right: 10,
     // backgroundColor: "green"
   },
   feedPostInfoUserName: {
-    alignSelf: "flex-start",
+    alignSelf: 'flex-start',
     marginBottom: 5,
     // backgroundColor: "orange"
   },
   feedPostSellingItemsContainer: {
-    flexDirection: "row",
-    gap: 5
+    flexDirection: 'row',
+    gap: 5,
   },
   feedPostSellingItem: {
     width: 70,
@@ -33,18 +33,11 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   feedPostSellingItemImage: {
-    width: "100%", 
+    width: '100%',
     aspectRatio: 1,
     borderRadius: 10,
     borderWidth: 2,
   },
-  itemTouchable: {
-    borderRadius: 10,
-    borderWidth: 1,
-    overflow: "hidden"
-  },
-
 });
-
 
 export default styles;

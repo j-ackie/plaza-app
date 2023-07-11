@@ -1,15 +1,18 @@
-import { BottomSheetBackdrop, BottomSheetBackdropProps } from "@gorhom/bottom-sheet";
+import {
+  BottomSheetBackdrop,
+  BottomSheetBackdropProps,
+} from '@gorhom/bottom-sheet';
 
 const Backdrop = (props: BottomSheetBackdropProps) => {
   return (
     <BottomSheetBackdrop
-      {... props}
+      {...props}
       disappearsOnIndex={-1}
       appearsOnIndex={1}
       opacity={0.5}
-      pressBehavior={"close"}
+      pressBehavior={'close'}
     />
-  )
-}
+  );
+};
 
 export default Backdrop;

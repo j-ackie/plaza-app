@@ -1,11 +1,10 @@
-import { FC } from "react";
-import { Image, ImageSourcePropType, ImageStyle, StyleProp, StyleSheet } from "react-native";
-import { ImageURISource } from "react-native";
+import { FC } from 'react';
+import { Image, ImageStyle, StyleProp, StyleSheet } from 'react-native';
 
 export enum ItemImageSize {
   SMALL,
   MEDIUM,
-  LARGE
+  LARGE,
 }
 
 type ItemImageProps = {
@@ -17,27 +16,23 @@ const ItemImage: FC<ItemImageProps> = ({ uri, size }) => {
   let itemStyle: StyleProp<ImageStyle>;
   if (size === ItemImageSize.SMALL) {
     itemStyle = styles.smallItemImage;
-  }
-  else if (size === ItemImageSize.MEDIUM) {
+  } else if (size === ItemImageSize.MEDIUM) {
     itemStyle = styles.mediumItemImage;
-  }
-  else {
+  } else {
     itemStyle = styles.largeItemImage;
   }
-
 
   return (
     <Image
       source={{
-        uri: uri
+        uri: uri,
       }}
       style={itemStyle}
     />
   );
-}
+};
 
 export default ItemImage;
-
 
 const styles = StyleSheet.create({
   smallItemImage: {
@@ -45,9 +40,11 @@ const styles = StyleSheet.create({
     height: 70,
   },
   mediumItemImage: {
-    
+    width: 100,
+    height: 100,
   },
   largeItemImage: {
-
-  }
+    width: 200,
+    height: 200,
+  },
 });

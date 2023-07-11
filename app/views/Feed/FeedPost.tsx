@@ -1,14 +1,14 @@
-import { useMemo, useRef } from "react";
-import { View } from "react-native";
-import Video from "~/components/Video/Video";
-import FeedPostInfo from "./FeedPostInfo";
-import styles from "./Feed.styles";
-import BottomSheetModal from "@gorhom/bottom-sheet";
-import { Portal } from "@gorhom/portal";
-import ModalItems from  "~/components/Modal/ModalItems";
-import Backdrop from "~/components/Backdrop/Backdrop";
+import { useMemo, useRef } from 'react';
+import { View } from 'react-native';
+import Video from '~/components/Video/Video';
+import FeedPostInfo from './FeedPostInfo';
+import styles from './Feed.styles';
+import BottomSheetModal from '@gorhom/bottom-sheet';
+import { Portal } from '@gorhom/portal';
+import ModalItems from '~/components/Modal/ModalItems';
+import Backdrop from '~/components/Backdrop/Backdrop';
 
-const FeedPost = ({videoIndex, currViewableIndex, postInfo}) => {
+const FeedPost = ({ videoIndex, currViewableIndex, postInfo }) => {
   console.log(videoIndex);
   const bottomSheetModalRef = useRef(null);
   const snapPoints = useMemo(() => ['75%', '93%'], []);
@@ -24,10 +24,7 @@ const FeedPost = ({videoIndex, currViewableIndex, postInfo}) => {
         currViewableIndex={currViewableIndex}
         videoURI={postInfo.videoURI}
       />
-      <FeedPostInfo
-        postInfo={postInfo}
-        handleExpand={handleExpand}
-      />
+      <FeedPostInfo postInfo={postInfo} handleExpand={handleExpand} />
       <Portal>
         <BottomSheetModal
           ref={bottomSheetModalRef}
@@ -36,13 +33,11 @@ const FeedPost = ({videoIndex, currViewableIndex, postInfo}) => {
           enablePanDownToClose={true}
           backdropComponent={Backdrop}
         >
-          <ModalItems
-            postInfo={postInfo}
-          />
+          <ModalItems postInfo={postInfo} />
         </BottomSheetModal>
       </Portal>
     </View>
-  )
+  );
 };
 
 export default FeedPost;
