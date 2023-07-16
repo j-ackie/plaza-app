@@ -1,43 +1,43 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
   shoppingCartItemContainer: {
-    flex: 1, 
-    flexDirection: "row",
+    flex: 1,
+    flexDirection: 'row',
     marginLeft: 20,
     marginRight: 20,
     marginTop: 10,
     borderWidth: 2,
-    borderRadius: 75/3,
+    borderRadius: 75 / 3,
   },
   shoppingCartItemImage: {
     width: 75,
     height: 75,
-    borderRadius: 75/3,
-    borderRightWidth: 2
+    borderRadius: 75 / 3,
+    borderRightWidth: 2,
   },
   shoppingCartModalImage: {
     width: 250,
     height: 250,
-    marginBottom: 10
+    marginBottom: 10,
   },
   shoppingCartItemTextContainer: {
-    flexDirection: "column", 
+    flexDirection: 'column',
     flex: 1,
     marginLeft: 20,
-    marginTop: 10
+    marginTop: 10,
   },
-  shoppingCartButtonCentering:{
-    flexDirection: "row",
-    justifyContent: "center",
-    marginBottom: 20
+  shoppingCartButtonCentering: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginBottom: 20,
   },
-  shoppingCartCheckoutButton:{
+  shoppingCartCheckoutButton: {
     padding: 20,
     borderWidth: 2,
-    width: "100%",
-    flexDirection: "row",
-    justifyContent: "center"
+    width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'center',
   },
 
   centeredView: {
@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
     borderRadius: 70,
     alignItems: 'center',
     shadowColor: '#000',
-    overflow: "hidden",
+    overflow: 'hidden',
     paddingBottom: 35,
     shadowOffset: {
       width: 0,
@@ -62,9 +62,7 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 5,
   },
-  cartButton:{
-    
-  },
+  cartButton: {},
   buttonOpen: {
     backgroundColor: '#F194FF',
   },
@@ -81,7 +79,7 @@ const styles = StyleSheet.create({
   modalText: {
     marginTop: 10,
     textAlign: 'center',
-    fontSize: 15
+    fontSize: 15,
   },
   modalTitle: {
     marginTop: 15,
@@ -93,13 +91,13 @@ const styles = StyleSheet.create({
     fontSize: 25,
     marginTop: 10,
     textAlign: 'center',
-    fontWeight: '500'
+    fontWeight: '500',
   },
   orderHistoryDot: {
-    width:8, 
-    height: 8, 
-    borderRadius: 4, 
-    backgroundColor: "black"
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    backgroundColor: 'black',
   },
 });
 

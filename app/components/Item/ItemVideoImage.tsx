@@ -1,17 +1,14 @@
-import { TouchableOpacity, Image, View, Text } from "react-native";
-import styles from "./Item.styles";
+import { TouchableOpacity, Image, View, Text } from 'react-native';
+// import styles from './Item.styles';
 
-const ItemVideoImage = ({index, itemInfo, postInfo, handleExpand, navigation}) => {
+const ItemVideoImage = ({ index, itemInfo, postInfo, handleExpand }) => {
   return (
-    <TouchableOpacity 
-      onPress={() => handleExpand({...postInfo, index})}
-      style={styles.itemTouchable}
-    >
+    <TouchableOpacity onPress={handleExpand}>
       <Image
         resizeMode="cover"
-        style={styles.itemImage}
+        // style={styles.itemImage}
         source={{
-          uri: itemInfo.imageURI
+          uri: itemInfo.imageURI,
         }}
       />
     </TouchableOpacity>
