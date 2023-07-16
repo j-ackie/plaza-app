@@ -9,7 +9,6 @@ import ModalItems from '~/components/Modal/ModalItems';
 import Backdrop from '~/components/Backdrop/Backdrop';
 
 const FeedPost = ({ videoIndex, currViewableIndex, postInfo }) => {
-  console.log(videoIndex);
   const bottomSheetModalRef = useRef(null);
   const snapPoints = useMemo(() => ['75%', '93%'], []);
 

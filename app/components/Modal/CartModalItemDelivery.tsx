@@ -5,7 +5,7 @@ import { FlatList } from 'react-native-gesture-handler';
 import * as Progress from 'react-native-progress';
 
 const CartModalItemDelivery = (props) => {
-  let progressWidth = 160;
+  const progressWidth = 160;
 
   return (
     <View style={styles.container}>

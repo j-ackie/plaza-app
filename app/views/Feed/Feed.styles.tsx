@@ -38,6 +38,11 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderWidth: 2,
   },
+  itemTouchable: {
+    borderRadius: 10,
+    borderWidth: 1,
+    overflow: 'hidden',
+  },
 });
 
 export default styles;

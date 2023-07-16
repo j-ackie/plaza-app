@@ -1,10 +1,12 @@
 import { useCallback, useState } from 'react';
 import { FlatList } from 'react-native';
 import FeedPost from './FeedPost';
+import { Dimensions } from 'react-native';
 
 // https://gist.github.com/jsturgis/3b19447b304616f18657
-let mockData = [];
-for (let i = 0; i < 1000; i++) {
+const mockData = [];
+
+for (let i = 0; i < 100; i++) {
   mockData.push({
     username: 'username2',
     description: 'this is description',
@@ -29,16 +31,6 @@ for (let i = 0; i < 1000; i++) {
   });
 }
 
-const renderFeedItem = (item, currViewableIndex) => {
-  return (
-    <FeedPost
-      videoIndex={item.index}
-      currViewableIndex={currViewableIndex}
-      postInfo={item.item}
-    />
-  );
-};
-
 // type FeedProps = {
 //   items:
 // }
@@ -53,12 +45,27 @@ const Feed = () => {
     setCurrViewableIndex(viewableItems[0].index);
   }, []);
 
+  const renderItem = useCallback(
+    ({ item, index }) => {
+      console.log(currViewableIndex, index);
+      return (
+        <FeedPost
+          videoIndex={index}
+          currViewableIndex={currViewableIndex}
+          postInfo={item}
+        />
+      );
+    },
+    [currViewableIndex]
+  );
+
   return (
     <FlatList
       data={mockData}
-      renderItem={(item) => renderFeedItem(item, currViewableIndex)}
+      renderItem={renderItem}
       pagingEnabled
       decelerationRate={'fast'}
+      disableIntervalMomentum
       showsVerticalScrollIndicator={false}
       onRefresh={() => {
         console.log('REFER');
@@ -66,6 +73,12 @@ const Feed = () => {
       refreshing={true}
       onViewableItemsChanged={handleViewableItemsChanged}
       viewabilityConfig={{ itemVisiblePercentThreshold: 100 }}
+      getItemLayout={(data, index) => ({
+        length: Dimensions.get('window').height - 80,
+        offset: (Dimensions.get('window').height - 80) * index,
+        index,
+      })}
+      // removeClippedSubviews
       // experiment with refreshControl later
     />
   );
