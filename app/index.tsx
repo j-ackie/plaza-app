@@ -1,10 +1,7 @@
-import { useState, useRef, useEffect } from "react";
-import { StyleSheet, Text, View, Button } from "react-native";
-import { createStackNavigator } from "@react-navigation/stack";
+import { useEffect } from 'react';
+import { createStackNavigator } from '@react-navigation/stack';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
-import { BottomSheetModalProvider } from '@gorhom/bottom-sheet'
-import BottomSheetModal from "@gorhom/bottom-sheet";
-import { PortalProvider } from "@gorhom/portal";
+import { PortalProvider } from '@gorhom/portal';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { StatusBar } from "expo-status-bar";
 import Home from "./components/Home/Home";
@@ -34,8 +31,10 @@ const createTabs = (props) => {
         name={tabNames[i]}
         component={tabComponents[i]}
         options={{
-          tabBarIcon: () => <MaterialCommunityIcons name={tabNames[0]} size={26} /> // replace later
-        }}  
+          tabBarIcon: () => (
+            <MaterialCommunityIcons name={tabNames[0]} size={26} />
+          ), // replace later
+        }}
       />
     );
   }
@@ -43,25 +42,24 @@ const createTabs = (props) => {
   return tabs;
 };
 
-const TabNavigator = (props) => {
+const TabNavigator = () => {
   return (
     <Tab.Navigator
       labeled={false}
-      barStyle={{height: 80}}
-      // https://callstack.github.io/react-native-paper/ 
+      barStyle={{ height: 80 }}
+      // https://callstack.github.io/react-native-paper/
       // https://stackoverflow.com/questions/75013007/how-to-remove-this-white-ovale-behind-the-focused-in-the-material-bottom-tabs-na
       // edit theme later
-      
     >
-      { createTabs(props) }
+      {createTabs()}
     </Tab.Navigator>
   );
-}
+};
 
 const App = () => {
   useEffect(() => {
     Audio.setAudioModeAsync({
-      playsInSilentModeIOS: true
+      playsInSilentModeIOS: true,
     });
   }, []);
 
@@ -80,6 +78,6 @@ const App = () => {
         </Stack.Navigator>
       </PortalProvider>
   );
-}
+};
 
 export default App;
