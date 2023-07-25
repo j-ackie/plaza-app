@@ -1,16 +1,9 @@
 import { useState, useEffect } from "react";
 import { FlatList, View, Pressable, Text, Modal, Image, SafeAreaView } from "react-native";
-import { CartItem } from "../../interfaces/queries.interfaces";
-import { Item } from "../../interfaces/queries.interfaces";
-import { getCartItems } from "../../api/cart-items";
-import { getItems } from "../../api/items";
-import ShoppingCartItem from "./ShoppingCartItem";
-import styles from "./ShoppingCartOrderScreen.styles";
+import { Item } from "../interfaces/queries.interfaces";
+
+import styles from "../components/ShoppingCartOrderScreen/ShoppingCartOrderScreen.styles";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import Carousel from "react-native-reanimated-carousel";
-import CartModalItemInfo from "../Modal/CartModalItemInfo";
-import CartModalVideo from "../Modal/CartModalVideo";
-import CheckBox from "expo-checkbox";
 import { useNavigation } from "expo-router";
 
 const mockData = [
@@ -49,8 +42,8 @@ const mockData = [
   }
 ]
 
-const ShoppingCart = () => {
-  const [cartItems, setCartItems] = useState<Item[]>([]);
+const Confirm = () => {
+    const [cartItems, setCartItems] = useState<Item[]>([]);
   const [modalVis, setModalVis] = useState(false)
   const [selected, setSelected] = useState(0)
 
@@ -88,8 +81,8 @@ const ShoppingCart = () => {
   }
 
   const navigation = useNavigation()
-  const handleConfirmPress = () => {
-    navigation.navigate("confirm");
+  const handleCheckoutPress = () => {
+    navigation.navigate("purchase", mockData[0]);
   }
   
 
@@ -102,45 +95,6 @@ const ShoppingCart = () => {
 
   return (
     <>
-      <Modal
-        animationType="fade"
-        transparent={true}
-        visible={modalVis}
-        onRequestClose={() => {
-          setModalVis(!modalVis);
-        }}>
-
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-            <Carousel 
-              loop={false}
-              vertical={false}
-              width={330}
-              height={450}
-              data={[...new Array(2).keys()]}
-              renderItem={({index}) => {
-                if(index == 0){
-                  return (<CartModalItemInfo selected={mockData[selected]}></CartModalItemInfo>)
-                }
-                else{
-                  return (<CartModalVideo 
-                    videoIndex={selected}
-                    currViewableIndex={selected}
-                    postInfo={mockData[selected]}
-                  />)
-                }
-              }}
-            />
-
-            <Pressable
-                style={[styles.cartButton, styles.buttonClose]}
-                onPress={() => setModalVis(!modalVis)}>
-                <Text style={styles.textStyle}>Hide Modal</Text>
-            </Pressable>
-          </View>
-        </View>
-        
-      </Modal>
 
       <FlatList
         data={cartItems}
@@ -163,15 +117,6 @@ const ShoppingCart = () => {
                 <Text style={{fontWeight: "bold"}}>{item.item.name}</Text>
                 <Text>${item.item.price}</Text>
               </View>
-              
-              <View style={{height: "100%", flexDirection: "column", justifyContent: "center", marginRight: 20}}>
-                <CheckBox 
-                  disabled={false}
-                  value={item.item["checked"]}
-                  onValueChange={() => {toggleCheckbox(item.index)}}
-                  style={{width: 30, height: 30}}
-                />
-              </View>
             </SafeAreaView>
           </Pressable>
         }
@@ -179,12 +124,12 @@ const ShoppingCart = () => {
       <View style={styles.shoppingCartButtonCentering}>
         <TouchableOpacity
           style={styles.shoppingCartCheckoutButton}
-          onPress={handleConfirmPress}>
-          <Text style={{fontWeight: "bold", fontSize: 20}}>Confirm Items</Text>
+          onPress={handleCheckoutPress}>
+          <Text style={{fontWeight: "bold", fontSize: 20}}>Checkout</Text>
         </TouchableOpacity>
       </View>
     </>
   )
 }
 
-export default ShoppingCart;
+export default Confirm

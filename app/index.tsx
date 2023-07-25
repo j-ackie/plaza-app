@@ -13,6 +13,8 @@ import ShoppingCartOrderScreen from "./components/ShoppingCartOrderScreen/Shoppi
 import Modal from "./components/Modal/Modal";
 import { Audio } from "expo-av";
 import { StripeProvider } from "@stripe/stripe-react-native";
+import Confirm from "./screens/Confirm";
+import Profile from "./components/Profile/Profile";
 
 
 // https://reactnavigation.org/docs/material-bottom-tab-navigator
@@ -22,7 +24,7 @@ const Stack = createStackNavigator();
 const createTabs = (props) => {
   console.log(props);
   const tabNames = ["home", "cart", "create", "inbox", "profile"];
-  const tabComponents = [Home, ShoppingCartOrderScreen, Home, Home, Home];
+  const tabComponents = [Home, ShoppingCartOrderScreen, Home, Home, Profile];
 
   const tabs = [];
   for (let i = 0; i < tabNames.length; i++) {
@@ -74,6 +76,7 @@ const App = () => {
         >
           <Stack.Screen name="tabs" component={TabNavigator}/>
           <Stack.Screen name="purchase" component={Purchase} options={{headerShown: true}} />
+          <Stack.Screen name="confirm" component={Confirm} options={{headerShown: true}} />
         </Stack.Navigator>
       </PortalProvider>
   );
