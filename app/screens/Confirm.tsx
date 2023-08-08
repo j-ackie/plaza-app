@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
-import { FlatList, View, Pressable, Text, Modal, Image, SafeAreaView } from "react-native";
+import { FlatList, View, Pressable, Text, Image, SafeAreaView } from "react-native";
 import { Item } from "../interfaces/queries.interfaces";
 
-import styles from "../components/ShoppingCartOrderScreen/ShoppingCartOrderScreen.styles";
+import styles from "../views/ShoppingCartOrderScreen/ShoppingCartOrderScreen.styles";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { useNavigation } from "expo-router";
 
@@ -48,7 +48,7 @@ const Confirm = () => {
   const [selected, setSelected] = useState(0)
 
   useEffect(() => {
-    console.log("calling api...");
+    //console.log("calling api...");
     for(let i = 0; i < mockData.length; i++){
       mockData[i]["checked"] = false
     }
@@ -74,11 +74,11 @@ const Confirm = () => {
       //});
   }, []);
 
-  const onButtonPress = () => {
+  // const onButtonPress = () => {
 
-    const selectedCheckBoxes = cartItems.find((cb) => cb["checked"] === true);
-    // selectedCheckBoxes will have checboxes which are selected
-  }
+  //   const selectedCheckBoxes = cartItems.find((cb) => cb["checked"] === true);
+  //   // selectedCheckBoxes will have checboxes which are selected
+  // }
 
   const navigation = useNavigation()
   const handleCheckoutPress = () => {
@@ -86,12 +86,12 @@ const Confirm = () => {
   }
   
 
-  const toggleCheckbox = (index) => {
+  // const toggleCheckbox = (index) => {
 
-    const checkboxData = [...cartItems];
-    checkboxData[index]["checked"] = !checkboxData[index]["checked"];
-    setCartItems(checkboxData);
-  }
+  //   const checkboxData = [...cartItems];
+  //   checkboxData[index]["checked"] = !checkboxData[index]["checked"];
+  //   setCartItems(checkboxData);
+  // }
 
   return (
     <>
