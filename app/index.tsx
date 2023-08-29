@@ -1,15 +1,14 @@
-import { FC, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import { PortalProvider } from '@gorhom/portal';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import { StatusBar } from "expo-status-bar";
-import Home from "~/views/Home/Home";
-import ShoppingCartOrderScreen from "~/views/ShoppingCartOrderScreen/ShoppingCartOrderScreen";
-import { Audio } from "expo-av";
-import Confirm from "./screens/Confirm";
-import Profile from "./views/Profile/Profile";
-
+import { StatusBar } from 'expo-status-bar';
+import Home from '~/views/Home/Home';
+import ShoppingCartOrderScreen from '~/views/ShoppingCartOrderScreen/ShoppingCartOrderScreen';
+import { Audio } from 'expo-av';
+import Profile from './views/Profile/Profile';
+import Inbox from './views/Inbox';
 
 // https://reactnavigation.org/docs/material-bottom-tab-navigator
 const Tab = createMaterialBottomTabNavigator();
@@ -41,7 +40,7 @@ const TabNavigator = () => {
         initialParams={{ setShowTabs }}
       />
       {/* replace ^ with useContext approach */}
-      <Tab.Screen name="inbox" component={Home} />
+      <Tab.Screen name="inbox" component={Inbox} />
       <Tab.Screen name="profile" component={Profile} />
     </Tab.Navigator>
   );
