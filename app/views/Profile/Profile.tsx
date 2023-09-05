@@ -9,17 +9,22 @@ import ProfileReview from './ProfileReview';
 import ProfileLiked from './ProfileLiked';
 import { ScrollView } from 'react-native-gesture-handler';
 import {Tabs, MaterialTabBar, useFocusedTab} from "react-native-collapsible-tab-view"
+import { createAppContainer } from 'react-navigation';
+import { createStackNavigator } from '@react-navigation/stack';
+import ProfilePost from './ProfilePost';
+import ProfileProductListing from './ProfileProductListing';
 
 // https://reactnavigation.org/docs/material-top-tab-navigator
 
 // https://reactnavigation.org/docs/material-top-tab-navigator
 
-const Profile = () => {
+const ProfileInfo = () => {
 
   const Header = () => {
     let rating = 4
     return (
-        <View style={{width: "100%", flexDirection: "column", backgroundColor: "transparent"}}>
+        <View style={{width: "100%", flexDirection: "column", backgroundColor: "transparent", alignItems: "center"}}>
+          <Text style={{fontWeight: "800", fontSize:15, marginTop: 10}}>@yourusername</Text>
           <View style={{width: "100%", flexDirection: "row", justifyContent: "space-evenly", marginTop: 10}}>
             <View style={styles.infoContainer}>
               <Text style={styles.infoContainerHighlight}>173</Text>
@@ -107,14 +112,15 @@ const Profile = () => {
   // TODO: Figure out a way to split a line of description into 3 lines
   return (
     <View style={{flexDirection: "column", alignItems: "center", height: "100%"}}>
-      <View style={{width: "90%", padding: 10, flexDirection: "row", justifyContent: "center", borderBottomWidth: 2}}>
-        <Text style={{fontWeight: "800", fontSize: 15}}>Profile</Text>
-      </View>
+      <SafeAreaView style={{width: "100%", zIndex: 99, justifyContent: "center", alignItems: "center"}}>
+        <View style={{width: "90%", padding: 10, flexDirection: "row", justifyContent: "center", borderBottomWidth: 2}}>
+          <Text style={{fontWeight: "800", fontSize: 15}}>Profile</Text>
+        </View>
+      </SafeAreaView>
       <Image
        source={{uri: "https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcQnViDD6F2gonZQ26mmbjmtP0eQpoTzRdo9V8bz99_udISEKl6rvWwX_owa18wEU9Glkqd03YKervy1kqT6DWvnScw1QGSQwb_x3FQ2ppiXUtZDpOy73PPLpcDWFGU-cnFo4w&usqp=CAc"}}
        style={{width: 120, height: 120, marginTop: 15, borderRadius: 60}}
        resizeMethod='auto'/>
-      <Text style={{fontWeight: "800", fontSize:15, marginTop: 10}}>@yourusername</Text>
 
       <View style={{flexGrow: 1, width: "100%", backgroundColor: "transparent", marginTop: 5, zIndex: -20, overflow: "hidden"}}>
           <Tabs.Container
@@ -153,6 +159,18 @@ const Profile = () => {
           </Tabs.Container>
         </View>
     </View>
+  )
+}
+
+const ProfileStack = createStackNavigator()
+
+const Profile = () => {
+  return (
+    <ProfileStack.Navigator screenOptions={{headerShown: false}}>
+      <ProfileStack.Screen name='ProfileInfo' component={ProfileInfo} />
+      <ProfileStack.Screen name='ProfilePost' component={ProfilePost} />
+      <ProfileStack.Screen name='ProfileProductListing' component={ProfileProductListing}/>
+    </ProfileStack.Navigator>
   )
 }
 
