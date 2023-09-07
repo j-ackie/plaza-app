@@ -7,6 +7,7 @@ import { StatusBar } from 'expo-status-bar';
 import Home from '~/views/Home/Home';
 import ShoppingCartOrderScreen from '~/views/ShoppingCartOrderScreen/ShoppingCartOrderScreen';
 import { Audio } from 'expo-av';
+import AddContent from './views/AddContent';
 import Profile from './views/Profile/Profile';
 import Inbox from './views/Inbox';
 
@@ -14,16 +15,16 @@ import Inbox from './views/Inbox';
 const Tab = createMaterialBottomTabNavigator();
 const Stack = createStackNavigator();
 
-const TabNavigator = () => {
-  const [showTabs, setShowTabs] = useState(true);
-
+const TabNavigator = ({ navigation }) => {
   // const tabNames = ['home', 'cart', 'create', 'inbox', 'profile'];
   // const tabComponents = [Home, ShoppingCartOrderScreen, AddContent, Home, Home];
 
   return (
     <Tab.Navigator
       labeled={false}
-      barStyle={{ height: 80, display: showTabs ? 'flex' : 'none' }}
+      barStyle={{
+        height: 80,
+      }}
       // https://callstack.github.io/react-native-paper/
       // https://stackoverflow.com/questions/75013007/how-to-remove-this-white-ovale-behind-the-focused-in-the-material-bottom-tabs-na
       // edit theme later
@@ -65,17 +66,20 @@ const TabNavigator = () => {
       <Tab.Screen name="home" component={Home} />
       <Tab.Screen name="cart" component={ShoppingCartOrderScreen} />
       <Tab.Screen
-        name="create"
-        component={Home}
-        initialParams={{ setShowTabs }}
+        name="dummy-create"
+        component={() => null}
+        listeners={{
+          tabPress: (e) => {
+            e.preventDefault();
+            navigation.navigate('create');
+          },
+        }}
       />
-      {/* replace ^ with useContext approach */}
       <Tab.Screen name="inbox" component={Inbox} />
       <Tab.Screen name="profile" component={Profile} />
     </Tab.Navigator>
   );
 };
-
 const App = () => {
   useEffect(() => {
     Audio.setAudioModeAsync({
@@ -93,7 +97,7 @@ const App = () => {
         }}
       >
         <Stack.Screen name="tabs" component={TabNavigator} />
-        
+        <Stack.Screen name="create" component={AddContent} />
       </Stack.Navigator>
     </PortalProvider>
   );
