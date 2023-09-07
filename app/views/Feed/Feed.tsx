@@ -6,7 +6,7 @@ import { Dimensions } from 'react-native';
 // https://gist.github.com/jsturgis/3b19447b304616f18657
 const mockData = [];
 
-for (let i = 0; i < 100; i++) {
+for (let i = 0; i < 5; i++) {
   mockData.push({
     username: 'username2',
     description: 'this is description',

@@ -28,9 +28,39 @@ const TabNavigator = () => {
       // https://stackoverflow.com/questions/75013007/how-to-remove-this-white-ovale-behind-the-focused-in-the-material-bottom-tabs-na
       // edit theme later
 
-      screenOptions={{
-        tabBarIcon: (e) => <MaterialCommunityIcons name={'home'} size={26} />, // replace later
-      }}
+      screenOptions={
+        ({route}) => ({
+          tabBarIcon: (e) => {
+            let name = ""
+            switch(route.name){
+              case 'home':{
+                name = 'home'
+                break;
+              }
+              case 'cart':{
+                name = 'cart'
+                break;
+              }
+              case 'create':{
+                name = 'plus-circle-outline'
+                break;
+              }
+              case 'inbox':{
+                name = 'mailbox-open'
+                break;
+              }
+              case 'profile':{
+                name = 'account-circle'
+                break;
+              }
+            }
+            
+            return(
+              <MaterialCommunityIcons name={name} size={30} />
+            )
+          },
+        })
+      }
     >
       <Tab.Screen name="home" component={Home} />
       <Tab.Screen name="cart" component={ShoppingCartOrderScreen} />
@@ -63,7 +93,7 @@ const App = () => {
         }}
       >
         <Stack.Screen name="tabs" component={TabNavigator} />
-        {/* <Stack.Screen name="purchase" component={Purchase} options={{headerShown: true}} /> */}
+        
       </Stack.Navigator>
     </PortalProvider>
   );
