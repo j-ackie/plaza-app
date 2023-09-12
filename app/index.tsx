@@ -42,7 +42,7 @@ const TabNavigator = ({ navigation }) => {
                 name = 'cart'
                 break;
               }
-              case 'create':{
+              case 'dummy-create':{
                 name = 'plus-circle-outline'
                 break;
               }
