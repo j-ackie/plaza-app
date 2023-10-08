@@ -9,7 +9,7 @@ type MessagesIconProps = {
 const MessagesIcon: FC<MessagesIconProps> = ({ navigation }) => {
   return (
     <Pressable
-      onPress={() => navigation.navigate('Messages')}
+      onPress={() => navigation.navigate('Chats')}
       style={{ marginRight: 10 }}
     >
       <Ionicons name="chatbox-ellipses-outline" size={35} />

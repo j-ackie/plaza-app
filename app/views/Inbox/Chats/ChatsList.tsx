@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import { StyleSheet, View } from 'react-native';
-import Message from './Message';
+import Chat from './Chat';
 
 const mockUser = {
   username: 'Username',
@@ -10,17 +10,17 @@ const mockUser = {
 
 const mockData = [mockUser, mockUser, mockUser];
 
-const Messages: FC = () => {
+const ChatsList: FC = ({ navigation }) => {
   return (
     <View style={styles.container}>
       {mockData.map((message, index) => (
-        <Message key={index} user={message} />
+        <Chat key={index} user={message} navigation={navigation} />
       ))}
     </View>
   );
 };
 
-export default Messages;
+export default ChatsList;
 
 const styles = StyleSheet.create({
   container: {
