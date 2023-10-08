@@ -39,13 +39,31 @@ const TabNavigator = ({ navigation }) => {
       // https://stackoverflow.com/questions/75013007/how-to-remove-this-white-ovale-behind-the-focused-in-the-material-bottom-tabs-na
       // edit theme later
 
-      screenOptions={({ route }) => ({
-        tabBarIcon: (e) => {
-          let name = '';
-          switch (route.name) {
-            case 'home': {
-              name = 'home';
-              break;
+      screenOptions={
+        ({route}) => ({
+          tabBarIcon: (e) => {
+            let name = ""
+            switch(route.name){
+              case 'home':{
+                name = 'home'
+                break;
+              }
+              case 'cart':{
+                name = 'cart'
+                break;
+              }
+              case 'dummy-create':{
+                name = 'plus-circle-outline'
+                break;
+              }
+              case 'inbox':{
+                name = 'mailbox-open'
+                break;
+              }
+              case 'profile':{
+                name = 'account-circle'
+                break;
+              }
             }
             case 'cart': {
               name = 'cart';
