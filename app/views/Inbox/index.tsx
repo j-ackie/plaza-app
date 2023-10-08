@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import Activity from './Activity';
-import Messages from './Messages';
+import Chats from './Chats';
 import FollowRequests from './FollowRequests';
 import MessagesIcon from './MessagesIcon';
 
@@ -17,7 +17,7 @@ const Inbox: FC = () => {
           headerRight: () => <MessagesIcon navigation={navigation} />,
         })}
       />
-      <Stack.Screen name="Messages" component={Messages} />
+      <Stack.Screen name="Chats" component={Chats} />
       <Stack.Screen name="Follow Requests" component={FollowRequests} />
     </Stack.Navigator>
   );
