@@ -1,12 +1,8 @@
 import { View, Text, Pressable, Touchable } from 'react-native'
 import React from 'react'
 import { useNavigation } from 'expo-router'
-import {useRoute} from '@react-navigation/native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import Video from '~/components/Video/Video'
 import VideoCard from '~/components/VideoCard/VideoCard'
-import { Button } from 'react-native-paper'
-import { withDecay } from 'react-native-reanimated'
 
 const ProfilePost = ({route}) => {
   // const navigation = useNavigation();

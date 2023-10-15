@@ -10,6 +10,8 @@ import { Audio } from 'expo-av';
 import AddContent from './views/AddContent';
 import Profile from './views/Profile/Profile';
 import Inbox from './views/Inbox';
+import Login from './views/Login/Login';
+import UserContextProvider, { UserContext } from './UserContext';
 import {
   ApolloClient,
   ApolloProvider,
@@ -20,6 +22,8 @@ import {
 import { GraphQLWsLink } from '@apollo/client/link/subscriptions';
 import { createClient } from 'graphql-ws';
 import { getMainDefinition } from '@apollo/client/utilities';
+import { setContext } from '@apollo/client/link/context';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // https://reactnavigation.org/docs/material-bottom-tab-navigator
 const Tab = createMaterialBottomTabNavigator();
@@ -39,32 +43,31 @@ const TabNavigator = ({ navigation }) => {
       // https://stackoverflow.com/questions/75013007/how-to-remove-this-white-ovale-behind-the-focused-in-the-material-bottom-tabs-na
       // edit theme later
 
-      screenOptions={
-        ({route}) => ({
-          tabBarIcon: (e) => {
-            let name = ""
-            switch(route.name){
-              case 'home':{
-                name = 'home'
-                break;
-              }
-              case 'cart':{
-                name = 'cart'
-                break;
-              }
-              case 'dummy-create':{
-                name = 'plus-circle-outline'
-                break;
-              }
-              case 'inbox':{
-                name = 'mailbox-open'
-                break;
-              }
-              case 'profile':{
-                name = 'account-circle'
-                break;
-              }
+      screenOptions={({ route }) => ({
+        tabBarIcon: (e) => {
+          let name = '';
+          switch (route.name) {
+            case 'home': {
+              name = 'home';
+              break;
             }
+            case 'cart': {
+              name = 'cart';
+              break;
+            }
+            case 'dummy-create': {
+              name = 'plus-circle-outline';
+              break;
+            }
+            case 'inbox': {
+              name = 'mailbox-open';
+              break;
+            }
+            case 'profile': {
+              name = 'account-circle';
+              break;
+            }
+
             case 'cart': {
               name = 'cart';
               break;
@@ -105,6 +108,12 @@ const TabNavigator = ({ navigation }) => {
   );
 };
 
+const getToken = async () => {
+  const token = await AsyncStorage.getItem('ACCESS_TOKEN');
+
+  return token ? `Bearer ${token}` : '';
+};
+
 const httpLink = new HttpLink({
   uri: 'http://localhost:8000/graphql',
 });
@@ -112,8 +121,24 @@ const httpLink = new HttpLink({
 const wsLink = new GraphQLWsLink(
   createClient({
     url: 'ws://localhost:8000/',
+    connectionParams: async () => {
+      return {
+        authorization: await getToken(),
+      };
+    },
   })
 );
+
+const authLink = setContext(async (_, headers) => {
+  console.log('authLink');
+
+  return {
+    headers: {
+      ...headers,
+      authorization: await getToken(),
+    },
+  };
+});
 
 const splitLink = split(
   ({ query }) => {
@@ -124,11 +149,11 @@ const splitLink = split(
     );
   },
   wsLink,
-  httpLink
+  authLink.concat(httpLink)
 );
 
 const client = new ApolloClient({
-  link: splitLink,
+  link: authLink.concat(splitLink),
   cache: new InMemoryCache(),
 });
 
@@ -141,18 +166,21 @@ const App = () => {
 
   return (
     <ApolloProvider client={client}>
-      <PortalProvider>
-        <StatusBar style="light" />
-        <Stack.Navigator
-          screenOptions={{
-            headerShown: false,
-            // container
-          }}
-        >
-          <Stack.Screen name="tabs" component={TabNavigator} />
-          <Stack.Screen name="create" component={AddContent} />
-        </Stack.Navigator>
-      </PortalProvider>
+      <UserContextProvider>
+        <PortalProvider>
+          <StatusBar style="light" />
+          <Stack.Navigator
+            screenOptions={{
+              headerShown: false,
+              // container
+            }}
+          >
+            <Stack.Screen name="login" component={Login} />
+            <Stack.Screen name="tabs" component={TabNavigator} />
+            <Stack.Screen name="create" component={AddContent} />
+          </Stack.Navigator>
+        </PortalProvider>
+      </UserContextProvider>
     </ApolloProvider>
   );
 };
