@@ -10,7 +10,7 @@ import { Audio } from 'expo-av';
 import AddContent from './views/AddContent';
 import Profile from './views/Profile/Profile';
 import Inbox from './views/Inbox';
-import Login from './views/Login/Login';
+import Authentication from './views/Authentication';
 import UserContextProvider, { UserContext } from './UserContext';
 import {
   ApolloClient,
@@ -175,7 +175,7 @@ const App = () => {
               // container
             }}
           >
-            <Stack.Screen name="login" component={Login} />
+            <Stack.Screen name="authentication" component={Authentication} />
             <Stack.Screen name="tabs" component={TabNavigator} />
             <Stack.Screen name="create" component={AddContent} />
           </Stack.Navigator>

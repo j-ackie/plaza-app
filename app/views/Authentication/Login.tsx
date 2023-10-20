@@ -1,17 +1,17 @@
 import { View, Text, Image, StyleSheet, Pressable } from 'react-native';
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { TextInput } from 'react-native-gesture-handler';
 import { useNavigation } from 'expo-router';
-import { createStackNavigator } from '@react-navigation/stack';
-import Signup from './Signup';
-import ForgotPassword from './ForgotPassword';
 import { UserContext } from '~/UserContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { CognitoUser, AuthenticationDetails } from 'amazon-cognito-identity-js';
-import { cognitoPool } from '../../cognito-pool';
+import cognitoPool from '~/cognito-pool';
 
-const LoginScreen = () => {
+const Login: React.FC = () => {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+
   const context = useContext(UserContext);
 
   const navigation = useNavigation();
@@ -23,17 +23,16 @@ const LoginScreen = () => {
     navigation.navigate('signup');
   };
 
-  // Irrelevant code removed
-  // See repo at the bottom of this article for the full code
   const onLogin = () => {
     const user = new CognitoUser({
-      Username: 'example@gmail.com',
+      Username: username,
       Pool: cognitoPool,
     });
+
     context.setUser(user);
     const authDetails = new AuthenticationDetails({
-      Username: 'example@gmail.com',
-      Password: 'Password123!',
+      Username: username,
+      Password: password,
     });
     user.authenticateUser(authDetails, {
       onSuccess: async (res) => {
@@ -46,11 +45,10 @@ const LoginScreen = () => {
         context.setAuth(accessToken);
         context.setRefresh(refreshToken);
 
-        setTimeout(() => {
-          navigation.navigate('tabs');
-        }, 350);
+        navigation.navigate('tabs');
       },
       onFailure: (err) => {
+        console.log(err);
         switch (err.name) {
           case 'UserNotConfirmedException':
             console.log('User not confirmed');
@@ -88,12 +86,17 @@ const LoginScreen = () => {
         <TextInput
           style={styles.input}
           placeholder="Username"
-          keyboardType="default"
+          value={username}
+          onChangeText={setUsername}
+          autoCorrect={false}
+          autoCapitalize="none"
         />
         <TextInput
           style={styles.input}
           placeholder="Password"
-          secureTextEntry={true}
+          secureTextEntry
+          value={password}
+          onChangeText={setPassword}
         />
         <View
           style={{
@@ -137,25 +140,15 @@ const LoginScreen = () => {
   );
 };
 
+export default Login;
+
 const styles = StyleSheet.create({
   input: {
     width: '100%',
-    height: 40,
+    // height: 40,
     margin: 12,
+    padding: 15,
     borderWidth: 1,
+    borderRadius: 20,
   },
 });
-
-const LoginStack = createStackNavigator();
-
-const Login = () => {
-  return (
-    <LoginStack.Navigator screenOptions={{ headerShown: false }}>
-      <LoginStack.Screen name="loginscreen" component={LoginScreen} />
-      <LoginStack.Screen name="signup" component={Signup} />
-      <LoginStack.Screen name="forgotpassword" component={ForgotPassword} />
-    </LoginStack.Navigator>
-  );
-};
-
-export default Login;

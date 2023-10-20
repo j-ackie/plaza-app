@@ -1,8 +1,8 @@
-import {CognitoUserPool} from 'amazon-cognito-identity-js';
-import awsmobile from './aws-exports';
+import { CognitoUserPool } from 'amazon-cognito-identity-js';
 
-const poolData = {
-  UserPoolId: awsmobile.aws_user_pools_id,
-  ClientId: awsmobile.aws_user_pools_web_client_id,
-};
-export const cognitoPool = new CognitoUserPool(poolData);
+const cognitoPool = new CognitoUserPool({
+  UserPoolId: 'us-east-1_jPNACfr3m',
+  ClientId: '144mbeg2bfsmq450eefu9te2vm',
+});
+
+export default cognitoPool;
