@@ -1,8 +1,9 @@
-import { gql, useMutation, useQuery, useSubscription } from '@apollo/client';
-import { FC, useEffect, useState } from 'react';
-import { Pressable, Text, TextInput, View } from 'react-native';
+import { gql, useMutation, useQuery } from '@apollo/client';
+import { FC, useEffect, useRef, useState } from 'react';
+import { Pressable, ScrollView, TextInput, View } from 'react-native';
 import ChatBubble from './ChatBubble';
 import { StyleSheet } from 'react-native';
+import Feather from 'react-native-vector-icons/Feather';
 
 const GET = gql`
   query getMessages($chatID: ID!) {
@@ -51,6 +52,7 @@ const MESSAGES_SUBSCRIPTION = gql`
 
 const ChatScreen: FC = () => {
   const [messageInput, setMessageInput] = useState('');
+  const chatBubblesRef = useRef<ScrollView>(null);
 
   const { loading, data, subscribeToMore } = useQuery(GET, {
     variables: {
@@ -68,7 +70,6 @@ const ChatScreen: FC = () => {
       },
       updateQuery: (prev, { subscriptionData }) => {
         if (!subscriptionData.data) return prev;
-        console.log('HELLO?');
         const newMessage = subscriptionData.data.messageAdded;
 
         return Object.assign({}, prev, {
@@ -78,31 +79,332 @@ const ChatScreen: FC = () => {
     });
   }, []);
 
+  const messages = [
+    {
+      id: 1,
+      chatID: 1,
+      createdAt: 'now',
+      sender: {
+        id: '2',
+        displayName: 'wow',
+        username: 'wwwowo',
+        description: 'WOAOWDO',
+        profilePictureURI: 'awdwad',
+      },
+      text: 'AJAJJA',
+    },
+    {
+      id: 1,
+      chatID: 1,
+      createdAt: 'now',
+      sender: {
+        id: '1',
+        displayName: 'wow',
+        username: 'wwwowo',
+        description: 'WOAOWDO',
+        profilePictureURI: 'awdwad',
+      },
+      text: 'AJAJJA',
+    },
+    {
+      id: 1,
+      chatID: 1,
+      createdAt: 'now',
+      sender: {
+        id: '1',
+        displayName: 'wow',
+        username: 'wwwowo',
+        description: 'WOAOWDO',
+        profilePictureURI: 'awdwad',
+      },
+      text: 'AJAJJA',
+    },
+    {
+      id: 1,
+      chatID: 1,
+      createdAt: 'now',
+      sender: {
+        id: '1',
+        displayName: 'wow',
+        username: 'wwwowo',
+        description: 'WOAOWDO',
+        profilePictureURI: 'awdwad',
+      },
+      text: 'AJAJJA',
+    },
+    {
+      id: 1,
+      chatID: 1,
+      createdAt: 'now',
+      sender: {
+        id: '1',
+        displayName: 'wow',
+        username: 'wwwowo',
+        description: 'WOAOWDO',
+        profilePictureURI: 'awdwad',
+      },
+      text: 'AJAJJA',
+    },
+    {
+      id: 1,
+      chatID: 1,
+      createdAt: 'now',
+      sender: {
+        id: '1',
+        displayName: 'wow',
+        username: 'wwwowo',
+        description: 'WOAOWDO',
+        profilePictureURI: 'awdwad',
+      },
+      text: 'AJAJJA',
+    },
+    {
+      id: 1,
+      chatID: 1,
+      createdAt: 'now',
+      sender: {
+        id: '1',
+        displayName: 'wow',
+        username: 'wwwowo',
+        description: 'WOAOWDO',
+        profilePictureURI: 'awdwad',
+      },
+      text: 'AJAJJA',
+    },
+    {
+      id: 1,
+      chatID: 1,
+      createdAt: 'now',
+      sender: {
+        id: '1',
+        displayName: 'wow',
+        username: 'wwwowo',
+        description: 'WOAOWDO',
+        profilePictureURI: 'awdwad',
+      },
+      text: 'AJAJJA',
+    },
+    {
+      id: 1,
+      chatID: 1,
+      createdAt: 'now',
+      sender: {
+        id: '1',
+        displayName: 'wow',
+        username: 'wwwowo',
+        description: 'WOAOWDO',
+        profilePictureURI: 'awdwad',
+      },
+      text: 'AJAJJA',
+    },
+    {
+      id: 1,
+      chatID: 1,
+      createdAt: 'now',
+      sender: {
+        id: '1',
+        displayName: 'wow',
+        username: 'wwwowo',
+        description: 'WOAOWDO',
+        profilePictureURI: 'awdwad',
+      },
+      text: 'AJAJJA',
+    },
+    {
+      id: 1,
+      chatID: 1,
+      createdAt: 'now',
+      sender: {
+        id: '1',
+        displayName: 'wow',
+        username: 'wwwowo',
+        description: 'WOAOWDO',
+        profilePictureURI: 'awdwad',
+      },
+      text: 'AJAJJA',
+    },
+    {
+      id: 1,
+      chatID: 1,
+      createdAt: 'now',
+      sender: {
+        id: '1',
+        displayName: 'wow',
+        username: 'wwwowo',
+        description: 'WOAOWDO',
+        profilePictureURI: 'awdwad',
+      },
+      text: 'AJAJJA',
+    },
+    {
+      id: 1,
+      chatID: 1,
+      createdAt: 'now',
+      sender: {
+        id: '1',
+        displayName: 'wow',
+        username: 'wwwowo',
+        description: 'WOAOWDO',
+        profilePictureURI: 'awdwad',
+      },
+      text: 'AJAJJA',
+    },
+    {
+      id: 1,
+      chatID: 1,
+      createdAt: 'now',
+      sender: {
+        id: '1',
+        displayName: 'wow',
+        username: 'wwwowo',
+        description: 'WOAOWDO',
+        profilePictureURI: 'awdwad',
+      },
+      text: 'AJAJJA',
+    },
+    {
+      id: 1,
+      chatID: 1,
+      createdAt: 'now',
+      sender: {
+        id: '1',
+        displayName: 'wow',
+        username: 'wwwowo',
+        description: 'WOAOWDO',
+        profilePictureURI: 'awdwad',
+      },
+      text: 'AJAJJA',
+    },
+    {
+      id: 1,
+      chatID: 1,
+      createdAt: 'now',
+      sender: {
+        id: '1',
+        displayName: 'wow',
+        username: 'wwwowo',
+        description: 'WOAOWDO',
+        profilePictureURI: 'awdwad',
+      },
+      text: 'AJAJJA',
+    },
+    {
+      id: 1,
+      chatID: 1,
+      createdAt: 'now',
+      sender: {
+        id: '1',
+        displayName: 'wow',
+        username: 'wwwowo',
+        description: 'WOAOWDO',
+        profilePictureURI: 'awdwad',
+      },
+      text: 'AJAJJA',
+    },
+    {
+      id: 1,
+      chatID: 1,
+      createdAt: 'now',
+      sender: {
+        id: '1',
+        displayName: 'wow',
+        username: 'wwwowo',
+        description: 'WOAOWDO',
+        profilePictureURI: 'awdwad',
+      },
+      text: 'AJAJJA',
+    },
+    {
+      id: 1,
+      chatID: 1,
+      createdAt: 'now',
+      sender: {
+        id: '1',
+        displayName: 'wow',
+        username: 'wwwowo',
+        description: 'WOAOWDO',
+        profilePictureURI: 'awdwad',
+      },
+      text: 'AJAJJA',
+    },
+    {
+      id: 1,
+      chatID: 1,
+      createdAt: 'now',
+      sender: {
+        id: '1',
+        displayName: 'wow',
+        username: 'wwwowo',
+        description: 'WOAOWDO',
+        profilePictureURI: 'awdwad',
+      },
+      text: 'AJAJJA',
+    },
+    {
+      id: 1,
+      chatID: 1,
+      createdAt: 'now',
+      sender: {
+        id: '3',
+        displayName: 'wow',
+        username: 'wwwowo',
+        description: 'WOAOWDO',
+        profilePictureURI: 'awdwad',
+      },
+      text: 'AJAJJA',
+    },
+    {
+      id: 1,
+      chatID: 1,
+      createdAt: 'now',
+      sender: {
+        id: '4',
+        displayName: 'wow',
+        username: 'wwwowo',
+        description: 'WOAOWDO',
+        profilePictureURI: 'awdwad',
+      },
+      text: 'AJAJWADJWAIDJWAUIDNUIWANDIUAWNDIUWANDIUJA',
+    },
+  ];
+
   return (
     <View style={styles.container}>
-      {data?.messages
-        ?.slice()
-        .reverse()
-        .map((message) => <ChatBubble key={message.id} message={message} />)}
+      <ScrollView
+        ref={chatBubblesRef}
+        style={styles.chatBubbles}
+        contentContainerStyle={{ rowGap: 5 }}
+        onContentSizeChange={() =>
+          chatBubblesRef.current.scrollToEnd({ animated: false })
+        }
+      >
+        {messages
+          ?.slice()
+          .reverse()
+          .map((message) => <ChatBubble key={message.id} message={message} />)}
+      </ScrollView>
       <View style={styles.input}>
         <TextInput
           style={styles.inputText}
           value={messageInput}
           onChangeText={setMessageInput}
+          placeholder="Send a message..."
         />
         <Pressable
-          onPress={() =>
-            createMessage({
-              variables: {
-                message: {
-                  chatID: 1,
-                  text: messageInput,
+          onPress={() => {
+            if (messageInput !== '') {
+              createMessage({
+                variables: {
+                  message: {
+                    chatID: 1,
+                    text: messageInput,
+                  },
                 },
-              },
-            })
-          }
+              });
+            }
+          }}
         >
-          <Text>Send</Text>
+          <Feather name="send" size={20} />
         </Pressable>
       </View>
     </View>
@@ -114,12 +416,20 @@ export default ChatScreen;
 const styles = StyleSheet.create({
   container: {
     padding: 10,
+    flex: 1,
+    justifyContent: 'space-between',
   },
   input: {
     borderWidth: 1,
+    borderRadius: 20,
+    padding: 10,
     flexDirection: 'row',
+    backgroundColor: 'white',
   },
   inputText: {
     flex: 1,
+  },
+  chatBubbles: {
+    marginBottom: 10,
   },
 });
