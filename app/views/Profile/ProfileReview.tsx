@@ -1,5 +1,12 @@
-import React, { useState } from 'react';
-import { View, Text, FlatList, StyleSheet, TouchableOpacity, Modal } from 'react-native';
+import { useState } from 'react';
+import {
+  View,
+  Text,
+  FlatList,
+  StyleSheet,
+  TouchableOpacity,
+  Modal,
+} from 'react-native';
 
 const ProfileReview = () => {
   const [isModalVisible, setModalVisible] = useState(false);
@@ -28,7 +35,9 @@ const ProfileReview = () => {
             <View style={styles.reviewBox}>
               <View style={styles.reviewHeader}>
                 <Text style={styles.reviewTitle}>{item.title}</Text>
-                <Text style={styles.reviewRating}>{'⭐'.repeat(item.rating)}</Text>
+                <Text style={styles.reviewRating}>
+                  {'⭐'.repeat(item.rating)}
+                </Text>
               </View>
               <Text style={styles.reviewDescription}>{item.description}</Text>
               <Text style={styles.reviewUser}>{item.user}</Text>
@@ -47,8 +56,12 @@ const ProfileReview = () => {
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
             <Text style={styles.reviewTitle}>{selectedReview?.title}</Text>
-            <Text style={styles.reviewRating}>{'⭐'.repeat(selectedReview?.rating || 0)}</Text>
-            <Text style={styles.reviewDescription}>{selectedReview?.description}</Text>
+            <Text style={styles.reviewRating}>
+              {'⭐'.repeat(selectedReview?.rating || 0)}
+            </Text>
+            <Text style={styles.reviewDescription}>
+              {selectedReview?.description}
+            </Text>
             <Text style={styles.reviewUser}>{selectedReview?.user}</Text>
             <TouchableOpacity
               style={styles.closeButton}

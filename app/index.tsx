@@ -8,7 +8,7 @@ import Home from '~/views/Home/Home';
 import ShoppingCartOrderScreen from '~/views/ShoppingCartOrderScreen/ShoppingCartOrderScreen';
 import { Audio } from 'expo-av';
 import AddContent from './views/AddContent';
-import Profile from './views/Profile/Profile';
+import Profile from './views/Profile';
 import Inbox from './views/Inbox';
 import Authentication from './views/Authentication';
 import UserContextProvider, { UserContext } from './UserContext';
@@ -44,7 +44,7 @@ const TabNavigator = ({ navigation }) => {
       // edit theme later
 
       screenOptions={({ route }) => ({
-        tabBarIcon: (e) => {
+        tabBarIcon: () => {
           let name = '';
           switch (route.name) {
             case 'home': {
@@ -56,23 +56,6 @@ const TabNavigator = ({ navigation }) => {
               break;
             }
             case 'dummy-create': {
-              name = 'plus-circle-outline';
-              break;
-            }
-            case 'inbox': {
-              name = 'mailbox-open';
-              break;
-            }
-            case 'profile': {
-              name = 'account-circle';
-              break;
-            }
-
-            case 'cart': {
-              name = 'cart';
-              break;
-            }
-            case 'create': {
               name = 'plus-circle-outline';
               break;
             }

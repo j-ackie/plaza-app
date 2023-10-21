@@ -1,9 +1,4 @@
-import { View, Text, Pressable, Image } from 'react-native'
-import React, { useMemo, useRef, useState } from 'react'
-import { Portal } from '@gorhom/portal';
-import BottomSheetModal from '@gorhom/bottom-sheet';
-import ModalItems from '~/components/Modal/ModalItems';
-import Backdrop from '~/components/Backdrop/Backdrop';
+import { View, Pressable, Image } from 'react-native';
 import { useNavigation } from 'expo-router';
 
 const ProfileProduct = () => {
@@ -28,37 +23,36 @@ const ProfileProduct = () => {
           'https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcQnViDD6F2gonZQ26mmbjmtP0eQpoTzRdo9V8bz99_udISEKl6rvWwX_owa18wEU9Glkqd03YKervy1kqT6DWvnScw1QGSQwb_x3FQ2ppiXUtZDpOy73PPLpcDWFGU-cnFo4w&usqp=CAc',
       },
     ],
-  }
+  };
 
-  const navigation = useNavigation()
+  const navigation = useNavigation();
 
   return (
-
     <View>
-      <View style={{flexDirection: "row", flexWrap: "wrap", width: "100%"}}>
-        {
-          mockData.sellingItems.map((data) => {
-            return (
-              <View style={{width: "50%", height: 200, borderWidth: 1}}>
-                <Pressable style={{width: "100%", height: "100%", padding: 20}} onPress={() => {
-                  navigation.navigate("ProfileProductListing", {data: data})
-                }}>
-                  <Image
-                      source={{
-                        uri: data.imageURI
-                      }}
-                      style={{width: "100%", height: "100%"}}
-                      resizeMode="cover"
-                    />
-                </Pressable>
-              </View>
-            )
-          })
-        }
+      <View style={{ flexDirection: 'row', flexWrap: 'wrap', width: '100%' }}>
+        {mockData.sellingItems.map((data) => {
+          return (
+            <View style={{ width: '50%', height: 200, borderWidth: 1 }}>
+              <Pressable
+                style={{ width: '100%', height: '100%', padding: 20 }}
+                onPress={() => {
+                  navigation.navigate('ProfileProductListing', { data: data });
+                }}
+              >
+                <Image
+                  source={{
+                    uri: data.imageURI,
+                  }}
+                  style={{ width: '100%', height: '100%' }}
+                  resizeMode="cover"
+                />
+              </Pressable>
+            </View>
+          );
+        })}
       </View>
     </View>
-    
-  )
-}
+  );
+};
 
-export default ProfileProduct
+export default ProfileProduct;
