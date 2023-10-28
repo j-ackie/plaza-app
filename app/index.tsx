@@ -136,7 +136,7 @@ const splitLink = split(
 );
 
 const client = new ApolloClient({
-  link: authLink.concat(splitLink),
+  link: splitLink,
   cache: new InMemoryCache(),
 });
 
