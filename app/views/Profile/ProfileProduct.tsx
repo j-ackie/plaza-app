@@ -3,7 +3,7 @@ import { useNavigation } from 'expo-router';
 import { gql, useQuery } from '@apollo/client';
 
 const query = gql`
-  query ($sellerID: ID!) {
+  query GetProducts($sellerID: ID!) {
     products(sellerID: $sellerID) {
       id
       sellerID

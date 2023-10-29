@@ -38,7 +38,7 @@ const ProfilePost = ({ route }) => {
               alignItems: 'center',
             }}
           >
-            <Text style={{ fontSize: 18 }}>{data.name}</Text>
+            {/* <Text style={{ fontSize: 18 }}>{data.name}</Text> */}
             <Text>{data.username}</Text>
           </View>
         </View>
@@ -48,7 +48,7 @@ const ProfilePost = ({ route }) => {
         <VideoCard
           videoIndex={0}
           currViewableIndex={0}
-          videoURI={data.videoURI}
+          videoURI={data.videoURL}
         />
       </View>
 

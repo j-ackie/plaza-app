@@ -1,58 +1,48 @@
-import { View, Pressable, Image } from 'react-native';
+import { View, Pressable, Image, Text } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { gql, useQuery } from '@apollo/client';
 
 const ProfileVideos = () => {
-  const mockData = [
-    {
-      _id: '1',
-      sellerID: '3',
-      name: 'Handbag',
-      description: 'Barely used.',
-      price: 24.67,
-      quantity: 2,
-      username: 'username2',
-      imageURL:
-        'https://dks.scene7.com/is/image/GolfGalaxy/19ITXU24GLSSYPNLBSWE?qlt=70&wid=600&fmt=pjpeg',
-      videoURI:
-        'https://assets.mixkit.co/videos/preview/mixkit-man-doing-tricks-with-roller-skates-in-a-parking-lot-34553-large.mp4',
-      timestamp: '2023-04-07T22:24:39.000+00:00',
+  const query = gql`
+    query GetVideos($userID: ID!) {
+      videos(userID: $userID) {
+        id
+        userID
+        videoURL
+        description
+        products {
+          id
+          sellerID
+          name
+          description
+          quantity
+          price
+          imageURI
+        }
+      }
+    }
+  `;
+
+  const { loading, error, data } = useQuery(query, {
+    variables: {
+      userID: 1,
     },
-    {
-      _id: '2',
-      sellerID: '3',
-      name: 'Handbag',
-      description: 'Barely used.',
-      price: 24.67,
-      quantity: 2,
-      username: 'username2',
-      imageURL:
-        'https://dks.scene7.com/is/image/GolfGalaxy/19ITXU24GLSSYPNLBSWE?qlt=70&wid=600&fmt=pjpeg',
-      videoURI:
-        'https://assets.mixkit.co/videos/preview/mixkit-man-doing-tricks-with-roller-skates-in-a-parking-lot-34553-large.mp4',
-      timestamp: '2023-04-07T22:24:39.000+00:00',
-    },
-    {
-      _id: '3',
-      sellerID: '3',
-      name: 'backpack',
-      description: 'Barely used.',
-      price: 24.67,
-      quantity: 2,
-      username: 'username2',
-      imageURL:
-        'https://dks.scene7.com/is/image/GolfGalaxy/19ITXU24GLSSYPNLBSWE?qlt=70&wid=600&fmt=pjpeg',
-      videoURI:
-        'https://assets.mixkit.co/videos/preview/mixkit-man-doing-tricks-with-roller-skates-in-a-parking-lot-34553-large.mp4',
-      timestamp: '2023-04-07T22:24:39.000+00:00',
-    },
-  ];
+  });
+
+  if (loading && !data)
+    return (
+      <View>
+        <Text>{'Loading...'}</Text>
+      </View>
+    );
+  if (error) return console.log(JSON.stringify(error, null, 2));
 
   const navigation = useNavigation();
 
   return (
     <View>
       <View style={{ flexDirection: 'row', flexWrap: 'wrap', width: '100%' }}>
-        {mockData.map((data) => {
+        {data.videos.map((data) => {
           return (
             <View
               key={data._id}
@@ -66,7 +56,7 @@ const ProfileVideos = () => {
               >
                 <Image
                   source={{
-                    uri: data.imageURL,
+                    uri: data.imageURI,
                   }}
                   style={{ width: '100%', height: '100%' }}
                   resizeMode="cover"
