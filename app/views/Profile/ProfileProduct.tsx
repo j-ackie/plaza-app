@@ -1,36 +1,42 @@
-import { View, Pressable, Image } from 'react-native';
+import { View, Pressable, Image, Text } from 'react-native';
 import { useNavigation } from 'expo-router';
+import { gql, useQuery } from '@apollo/client';
+
+const query = gql`
+  query ($sellerID: ID!) {
+    products(sellerID: $sellerID) {
+      id
+      sellerID
+      name
+      description
+      quantity
+      price
+      imageURI
+    }
+  }
+`;
 
 const ProfileProduct = () => {
-  let mockData = {
-    username: 'username2',
-    description: 'this is description',
-    videoURI:
-      'https://assets.mixkit.co/videos/preview/mixkit-a-girl-in-a-pool-holding-an-inflatable-beach-ball-1267-large.mp4',
-    sellingItems: [
-      {
-        name: 'Beach ball',
-        description: 'A beach ball',
-        price: 2.5,
-        imageURI:
-          'https://dks.scene7.com/is/image/GolfGalaxy/19ITXU24GLSSYPNLBSWE?qlt=70&wid=600&fmt=pjpeg',
-      },
-      {
-        name: 'Ray Bans - Sunglasses',
-        description: 'Used sunglasses, blocks out the sun',
-        price: 200.0,
-        imageURI:
-          'https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcQnViDD6F2gonZQ26mmbjmtP0eQpoTzRdo9V8bz99_udISEKl6rvWwX_owa18wEU9Glkqd03YKervy1kqT6DWvnScw1QGSQwb_x3FQ2ppiXUtZDpOy73PPLpcDWFGU-cnFo4w&usqp=CAc',
-      },
-    ],
-  };
-
+  const { loading, error, data } = useQuery(query, {
+    variables: {
+      sellerID: 1,
+    },
+  });
   const navigation = useNavigation();
+
+  console.log(loading);
+  if (loading && !data)
+    return (
+      <View>
+        <Text>{'Loading...'}</Text>
+      </View>
+    );
+  if (error) return console.log(JSON.stringify(error, null, 2));
 
   return (
     <View>
       <View style={{ flexDirection: 'row', flexWrap: 'wrap', width: '100%' }}>
-        {mockData.sellingItems.map((data) => {
+        {data.products.map((data) => {
           return (
             <View style={{ width: '50%', height: 200, borderWidth: 1 }}>
               <Pressable
