@@ -8,7 +8,6 @@ import {
   Image,
 } from 'react-native';
 import { useState, useEffect } from 'react';
-import React from 'react';
 import { Item } from '../../interfaces/queries.interfaces';
 import styles from './ShoppingCartOrderScreen.styles';
 import Carousel from 'react-native-reanimated-carousel';

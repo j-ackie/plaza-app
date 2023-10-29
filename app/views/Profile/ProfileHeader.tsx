@@ -1,7 +1,15 @@
 import { View, Image, Text, StyleSheet } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import useUserById from './userById';
+import { useCallback } from 'react';
 
-const ProfileHeader = () => {
+type ProfileHeaderProps = {
+  user: object;
+};
+
+const ProfileHeader: React.FC<ProfileHeaderProps> = ({ user }) => {
+  if (!user) return null;
+
   let rating = 4;
   return (
     <View
@@ -14,13 +22,13 @@ const ProfileHeader = () => {
     >
       <Image
         source={{
-          uri: 'https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcQnViDD6F2gonZQ26mmbjmtP0eQpoTzRdo9V8bz99_udISEKl6rvWwX_owa18wEU9Glkqd03YKervy1kqT6DWvnScw1QGSQwb_x3FQ2ppiXUtZDpOy73PPLpcDWFGU-cnFo4w&usqp=CAc',
+          uri: user.profilePictureURI,
         }}
         style={{ width: 120, height: 120, marginTop: 15, borderRadius: 60 }}
         resizeMethod="auto"
       />
       <Text style={{ fontWeight: '800', fontSize: 15, marginTop: 10 }}>
-        @yourusername
+        @{user.username}
       </Text>
       <View
         style={{
@@ -66,10 +74,9 @@ const ProfileHeader = () => {
         </View>
       </View>
 
-      <View style={{ marginTop: 10 }}>
+      <View style={{ marginTop: 20, marginBottom: 20 }}>
         <Text style={{ textAlign: 'center', fontSize: 15, color: '#767676' }}>
-          This is description {'\n'}
-          There can only be three lines {'\n'}I am so alone {'\n'}
+          {user.description}
         </Text>
       </View>
     </View>

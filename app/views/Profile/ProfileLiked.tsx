@@ -18,7 +18,7 @@ const ProfileLiked = () => {
       timestamp: '2023-04-07T22:24:39.000+00:00',
     },
     {
-      _id: '1',
+      _id: '2',
       sellerID: '3',
       name: 'Handbag',
       description: 'Barely used.',
@@ -32,7 +32,7 @@ const ProfileLiked = () => {
       timestamp: '2023-04-07T22:24:39.000+00:00',
     },
     {
-      _id: '1',
+      _id: '3',
       sellerID: '3',
       name: 'backpack',
       description: 'Barely used.',
@@ -54,7 +54,10 @@ const ProfileLiked = () => {
       <View style={{ flexDirection: 'row', flexWrap: 'wrap', width: '100%' }}>
         {mockData.map((data) => {
           return (
-            <View style={{ width: '33.33333%', height: 200, borderWidth: 1 }}>
+            <View
+              key={data._id}
+              style={{ width: '33.33333%', height: 200, borderWidth: 1 }}
+            >
               <Pressable
                 style={{ width: '100%', height: '100%' }}
                 onPress={() => {

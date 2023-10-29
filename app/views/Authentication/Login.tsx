@@ -1,9 +1,9 @@
 import { View, Text, Image, StyleSheet, Pressable } from 'react-native';
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { TextInput } from 'react-native-gesture-handler';
 import { useNavigation } from 'expo-router';
-import { UserContext } from '~/UserContext';
+import { UserContext } from '~/contexts/UserContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { CognitoUser, AuthenticationDetails } from 'amazon-cognito-identity-js';
 import cognitoPool from '~/cognito-pool';
@@ -11,10 +11,29 @@ import cognitoPool from '~/cognito-pool';
 const Login: React.FC = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [loading, isLoading] = useState(true);
 
   const context = useContext(UserContext);
 
   const navigation = useNavigation();
+
+  useEffect(() => {
+    AsyncStorage.multiGet(['USERNAME', 'PASSWORD'], (err, items) => {
+      if (err) {
+        return;
+      }
+
+      const username = items[0][1];
+      const password = items[1][1];
+
+      if (!username || !password) {
+        return;
+      }
+
+      onLogin(username, password);
+    });
+  }, []);
+
   const onForgot = () => {
     navigation.navigate('forgotpassword');
   };
@@ -23,7 +42,7 @@ const Login: React.FC = () => {
     navigation.navigate('signup');
   };
 
-  const onLogin = () => {
+  const onLogin = (username: string, password: string) => {
     const user = new CognitoUser({
       Username: username,
       Pool: cognitoPool,
@@ -42,10 +61,13 @@ const Login: React.FC = () => {
         const accessToken = res?.getAccessToken().getJwtToken();
         await AsyncStorage.setItem('REFRESH_TOKEN', refreshToken);
         await AsyncStorage.setItem('ACCESS_TOKEN', accessToken);
+
+        await AsyncStorage.setItem('USERNAME', username);
+        await AsyncStorage.setItem('PASSWORD', password);
         context.setAuth(accessToken);
         context.setRefresh(refreshToken);
 
-        navigation.navigate('tabs');
+        navigation.replace('tabs');
       },
       onFailure: (err) => {
         console.log(err);
@@ -118,7 +140,7 @@ const Login: React.FC = () => {
             alignItems: 'center',
             paddingVertical: 10,
           }}
-          onPress={onLogin}
+          onPress={() => onLogin(username, password)}
         >
           <Text>Login</Text>
         </Pressable>

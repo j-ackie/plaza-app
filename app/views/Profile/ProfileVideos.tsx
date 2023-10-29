@@ -18,7 +18,7 @@ const ProfileVideos = () => {
       timestamp: '2023-04-07T22:24:39.000+00:00',
     },
     {
-      _id: '1',
+      _id: '2',
       sellerID: '3',
       name: 'Handbag',
       description: 'Barely used.',
@@ -32,7 +32,7 @@ const ProfileVideos = () => {
       timestamp: '2023-04-07T22:24:39.000+00:00',
     },
     {
-      _id: '1',
+      _id: '3',
       sellerID: '3',
       name: 'backpack',
       description: 'Barely used.',

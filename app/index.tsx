@@ -11,7 +11,7 @@ import AddContent from './views/AddContent';
 import Profile from './views/Profile';
 import Inbox from './views/Inbox';
 import Authentication from './views/Authentication';
-import UserContextProvider, { UserContext } from './UserContext';
+import UserContextProvider, { UserContext } from './contexts/UserContext';
 import {
   ApolloClient,
   ApolloProvider,
@@ -98,7 +98,7 @@ const getToken = async () => {
 };
 
 const httpLink = new HttpLink({
-  uri: 'http://localhost:8000/graphql',
+  uri: 'http://localhost:8000/graphql/',
 });
 
 const wsLink = new GraphQLWsLink(
@@ -136,7 +136,7 @@ const splitLink = split(
 );
 
 const client = new ApolloClient({
-  link: authLink.concat(splitLink),
+  link: splitLink,
   cache: new InMemoryCache(),
 });
 

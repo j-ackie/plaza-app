@@ -1,4 +1,10 @@
-import { View, Text, Pressable, SafeAreaView } from 'react-native';
+import {
+  View,
+  Text,
+  Pressable,
+  SafeAreaView,
+  ActivityIndicator,
+} from 'react-native';
 
 import {
   Tabs,
@@ -11,6 +17,9 @@ import ProfileReview from './ProfileReview';
 import ProfileLiked from './ProfileLiked';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import ProfileHeader from './ProfileHeader';
+import useUserById from './userById';
+import { useCallback, useContext } from 'react';
+import { UserContext } from '~/contexts/UserContext';
 
 const SafeAreaMaterialTopBar = ({ ...props }) => {
   return (
@@ -50,6 +59,33 @@ const SafeAreaMaterialTopBar = ({ ...props }) => {
 };
 
 const ProfileInfo = () => {
+  const context = useContext(UserContext);
+
+  console.log(context);
+
+  const { loading, data } = useUserById(1);
+
+  if (loading) {
+    return (
+      <View
+        style={{
+          alignItems: 'center',
+          justifyContent: 'center',
+          flex: 1,
+        }}
+      >
+        <ActivityIndicator size="large" />
+      </View>
+    );
+  }
+
+  if (!data || !data.user) return <Text>Something went wrong</Text>;
+
+  const renderHeader = () => (
+    <ProfileHeader user={data && data.user ? data.user : null} />
+  );
+
+  console.log(data);
   // TODO: Figure out a way to split a line of description into 3 lines
   return (
     <View
@@ -72,7 +108,9 @@ const ProfileInfo = () => {
             // borderBottomWidth: 2,
           }}
         >
-          <Text style={{ fontWeight: '800', fontSize: 15 }}>John Smith</Text>
+          <Text style={{ fontWeight: '800', fontSize: 15 }}>
+            {data.user.displayName}
+          </Text>
         </View>
       </SafeAreaView>
 
@@ -87,7 +125,7 @@ const ProfileInfo = () => {
         }}
       >
         <Tabs.Container
-          renderHeader={ProfileHeader}
+          renderHeader={renderHeader}
           headerContainerStyle={{
             backgroundColor: 'transparent',
             elevation: 0,

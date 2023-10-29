@@ -19,7 +19,7 @@ const ChatBubble: FC<ChatBubbleProps> = ({ message }) => {
         />
       )}
       <View
-        key={message.id}
+        // key={message.id}
         style={[
           {
             backgroundColor: isUser ? 'lightblue' : 'grey',
@@ -46,10 +46,11 @@ const styles = StyleSheet.create({
   chatBubbleContainer: {
     flexDirection: 'row',
     alignItems: 'flex-end',
+    columnGap: 5,
   },
   chatBubble: {
     borderRadius: 20,
-    padding: 10,
+    padding: 7,
     maxWidth: '70%',
   },
 });

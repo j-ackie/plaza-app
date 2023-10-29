@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import {
   FlatList,
   View,
@@ -8,11 +8,7 @@ import {
   Image,
   SafeAreaView,
 } from 'react-native';
-import { CartItem } from '../../interfaces/queries.interfaces';
 import { Item } from '../../interfaces/queries.interfaces';
-import { getCartItems } from '../../api/cart-items';
-import { getItems } from '../../api/items';
-import ShoppingCartItem from './ShoppingCartItem';
 import styles from './ShoppingCartOrderScreen.styles';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Carousel from 'react-native-reanimated-carousel';
@@ -65,54 +61,27 @@ const mockData = [
 
 const ShoppingCart = () => {
   const [cartItems, setCartItems] = useState<Item[]>([]);
-  const [modalVis, setModalVis] = useState(false)
-  const [selected, setSelected] = useState(0)
+  const [modalVis, setModalVis] = useState(false);
+  const [selected, setSelected] = useState(0);
 
-  useEffect(() => {
-    console.log("calling api...");
-    for(let i = 0; i < mockData.length; i++){
-      mockData[i]["checked"] = false
-    }
-    setCartItems(mockData);
-    // getCartItems("643096950984a6e8284f5274")
-    //   .then(response => {
-    //     const itemIDs = [];
-    //     for (const cartItem of response) {
-    //       itemIDs.push(cartItem.itemID);
-    //     }
+  // useEffect(() => {
+  //   console.log("calling api...");
+  //   for(let i = 0; i < mockData.length; i++){
+  //     mockData[i]["checked"] = false
+  //   }
+  //   setCartItems(mockData);
+  // }, []);
 
-        // getItems(itemIDs)
-        //   .then(response => {
-        //     console.log(response);
-        //     // setCartItems(response);
-        //     // setCartItems(mockData);
-        //   });
-
-        // setCartItems(itemIDs);
-        // before setting cartItems, call api to retrieve item objects
-        // setCartItems(response);
-
-      //});
-  }, []);
-
-  const onButtonPress = () => {
-
-    const selectedCheckBoxes = cartItems.find((cb) => cb["checked"] === true);
-    // selectedCheckBoxes will have checboxes which are selected
-  }
-
-  const navigation = useNavigation()
+  const navigation = useNavigation();
   const handleConfirmPress = () => {
-    navigation.navigate("confirm");
-  }
-  
+    navigation.navigate('confirm');
+  };
 
   const toggleCheckbox = (index) => {
-
     const checkboxData = [...cartItems];
-    checkboxData[index]["checked"] = !checkboxData[index]["checked"];
+    checkboxData[index]['checked'] = !checkboxData[index]['checked'];
     setCartItems(checkboxData);
-  }
+  };
 
   return (
     <>
@@ -122,83 +91,101 @@ const ShoppingCart = () => {
         visible={modalVis}
         onRequestClose={() => {
           setModalVis(!modalVis);
-        }}>
-
+        }}
+      >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <Carousel 
+            <Carousel
               loop={false}
               vertical={false}
               width={330}
               height={450}
               data={[...new Array(2).keys()]}
-              renderItem={({index}) => {
-                if(index == 0){
-                  return (<CartModalItemInfo selected={mockData[selected]}></CartModalItemInfo>)
-                }
-                else{
-                  return (<CartModalVideo 
-                    videoIndex={selected}
-                    currViewableIndex={selected}
-                    postInfo={mockData[selected]}
-                  />)
+              renderItem={({ index }) => {
+                if (index == 0) {
+                  return (
+                    <CartModalItemInfo
+                      selected={mockData[selected]}
+                    ></CartModalItemInfo>
+                  );
+                } else {
+                  return (
+                    <CartModalVideo
+                      videoIndex={selected}
+                      currViewableIndex={selected}
+                      postInfo={mockData[selected]}
+                    />
+                  );
                 }
               }}
             />
 
             <Pressable
-                style={[styles.cartButton, styles.buttonClose]}
-                onPress={() => setModalVis(!modalVis)}>
-                <Text style={styles.textStyle}>Hide Modal</Text>
+              style={[styles.cartButton, styles.buttonClose]}
+              onPress={() => setModalVis(!modalVis)}
+            >
+              <Text style={styles.textStyle}>Hide Modal</Text>
             </Pressable>
           </View>
         </View>
-        
       </Modal>
 
       <FlatList
         data={cartItems}
-        renderItem={(item) => 
+        renderItem={(item) => (
           <Pressable
-          style={styles.cartButton}
-          onPress={() => {
-            setSelected(item.index)
-            setModalVis(true)
-          }}>
+            style={styles.cartButton}
+            onPress={() => {
+              setSelected(item.index);
+              setModalVis(true);
+            }}
+          >
             <SafeAreaView style={styles.shoppingCartItemContainer}>
               <Image
                 source={{
-                  uri: item.item.imageURL
+                  uri: item.item.imageURL,
                 }}
                 style={styles.shoppingCartItemImage}
                 resizeMode="cover"
               />
               <View style={styles.shoppingCartItemTextContainer}>
-                <Text style={{fontWeight: "bold"}}>{item.item.name}</Text>
+                <Text style={{ fontWeight: 'bold' }}>{item.item.name}</Text>
                 <Text>${item.item.price}</Text>
               </View>
-              
-              <View style={{height: "100%", flexDirection: "column", justifyContent: "center", marginRight: 20}}>
-                <CheckBox 
+
+              <View
+                style={{
+                  height: '100%',
+                  flexDirection: 'column',
+                  justifyContent: 'center',
+                  marginRight: 20,
+                }}
+              >
+                <CheckBox
                   disabled={false}
-                  value={item.item["checked"]}
-                  onValueChange={() => {toggleCheckbox(item.index)}}
-                  style={{width: 30, height: 30}}
+                  value={item.item['checked']}
+                  onValueChange={() => {
+                    toggleCheckbox(item.index);
+                  }}
+                  style={{ width: 30, height: 30 }}
                 />
               </View>
             </SafeAreaView>
           </Pressable>
-        }
+        )}
       />
       <View style={styles.shoppingCartButtonCentering}>
         <TouchableOpacity
           style={styles.shoppingCartCheckoutButton}
-          onPress={handleConfirmPress}>
-          <Text style={{fontWeight: "bold", fontSize: 20}}>Confirm Items</Text>
+          onPress={handleConfirmPress}
+        >
+          <Text style={{ fontWeight: 'bold', fontSize: 20 }}>
+            Confirm Items
+          </Text>
         </TouchableOpacity>
       </View>
     </>
-  )
-}
+  );
+};
 
 export default ShoppingCart;

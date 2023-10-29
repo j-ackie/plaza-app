@@ -11,7 +11,6 @@ const Tab = createMaterialTopTabNavigator();
 const SafeAreaMaterialTopBar = ({ ...props }) => {
   return (
     <SafeAreaView style={{ width: '100%' }}>
-      {/* @ts-ignore */}
       <MaterialTopTabBar {...props} />
     </SafeAreaView>
   );

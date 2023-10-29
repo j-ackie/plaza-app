@@ -10,6 +10,10 @@ const GET_USER = gql`
       username
     }
   }
-`
+`;
 
-export default GET_USER;
+const useUserById = (userID: number) =>
+  useQuery(GET_USER, { variables: { userID } });
+
+export default useUserById;
+export { GET_USER };
