@@ -11,7 +11,7 @@
     "build:gqlTypes": "npx graphql-codegen --config ./codegen.json"
   },
   "dependencies": {
-    "@apollo/client": "^3.8.3",
+    "@apollo/client": "^3.8.7",
     "@gorhom/bottom-sheet": "^4.4.5",
     "@gorhom/portal": "^1.0.14",
     "@react-native-async-storage/async-storage": "1.17.11",

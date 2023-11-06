@@ -3,6 +3,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import { PortalProvider } from '@gorhom/portal';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import { StatusBar } from 'expo-status-bar';
 import Home from '~/views/Home/Home';
 import ShoppingCartOrderScreen from '~/views/ShoppingCartOrderScreen/ShoppingCartOrderScreen';
@@ -10,6 +11,7 @@ import { Audio } from 'expo-av';
 import AddContent from './views/AddContent';
 import Profile from './views/Profile';
 import Inbox from './views/Inbox';
+import Search from './views/Search';
 import Authentication from './views/Authentication';
 import UserContextProvider, { UserContext } from './contexts/UserContext';
 import {
@@ -51,6 +53,9 @@ const TabNavigator = ({ navigation }) => {
               name = 'home';
               break;
             }
+            case 'search': {
+              return <Ionicons name="search" size={30} />;
+            }
             case 'cart': {
               name = 'cart';
               break;
@@ -60,7 +65,7 @@ const TabNavigator = ({ navigation }) => {
               break;
             }
             case 'inbox': {
-              name = 'mailbox-open';
+              name = 'package';
               break;
             }
             case 'profile': {
@@ -74,7 +79,8 @@ const TabNavigator = ({ navigation }) => {
       })}
     >
       <Tab.Screen name="home" component={Home} />
-      <Tab.Screen name="cart" component={ShoppingCartOrderScreen} />
+      <Tab.Screen name="search" component={Search} />
+      {/* <Tab.Screen name="cart" component={ShoppingCartOrderScreen} /> */}
       <Tab.Screen
         name="dummy-create"
         component={() => null}

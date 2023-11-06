@@ -8,17 +8,6 @@ const ProfileVideos = () => {
       videos(userID: $userID) {
         id
         userID
-        videoURL
-        description
-        products {
-          id
-          sellerID
-          name
-          description
-          quantity
-          price
-          imageURI
-        }
       }
     }
   `;
@@ -29,6 +18,8 @@ const ProfileVideos = () => {
     },
   });
 
+  const navigation = useNavigation();
+
   if (loading && !data)
     return (
       <View>
@@ -36,8 +27,6 @@ const ProfileVideos = () => {
       </View>
     );
   if (error) return console.log(JSON.stringify(error, null, 2));
-
-  const navigation = useNavigation();
 
   return (
     <View>

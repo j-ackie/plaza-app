@@ -63,7 +63,7 @@ const ProfileInfo = () => {
 
   console.log(context);
 
-  const { loading, data } = useUserById(1);
+  const { loading, data } = useUserById({ id: 1 });
 
   if (loading) {
     return (

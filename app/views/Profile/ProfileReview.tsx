@@ -1,3 +1,4 @@
+import { gql, useQuery } from '@apollo/client';
 import { useState } from 'react';
 import {
   View,
@@ -7,10 +8,33 @@ import {
   TouchableOpacity,
   Modal,
 } from 'react-native';
+import LoadingSpinner from '~/components/LoadingSpinner';
 
 const ProfileReview = () => {
+  const GET_REVIEWS = gql`
+    query reviews($filters: ReviewFilters!) {
+      reviews(filters: $filters) {
+        id
+        description
+        createdAt
+        productID
+        rating
+        reviewerID
+        title
+      }
+    }
+  `;
+
+  const { loading, error, data } = useQuery(GET_REVIEWS, {
+    variables: { filters: { productID: 2 } },
+  });
+
   const [isModalVisible, setModalVisible] = useState(false);
   const [selectedReview, setSelectedReview] = useState(null);
+
+  if (loading) {
+    return <LoadingSpinner />;
+  }
 
   const reviews = Array.from({ length: 10 }, (_, index) => ({
     id: index.toString(),
@@ -28,7 +52,7 @@ const ProfileReview = () => {
   return (
     <View style={styles.container}>
       <FlatList
-        data={reviews}
+        data={data.reviews}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <TouchableOpacity onPress={() => toggleModal(item)}>
