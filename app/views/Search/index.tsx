@@ -9,6 +9,8 @@ import {
 } from 'react-native';
 import useUserByUsername from './useByUsername';
 import LoadingSpinner from '~/components/LoadingSpinner';
+import Bold from '~/components/Bold';
+import { useNavigation } from '@react-navigation/native';
 
 const Search = () => {
   const [getUser, { loading, data }] = useUserByUsername();
@@ -17,6 +19,8 @@ const Search = () => {
     console.log('HELLO');
     getUser({ variables: { filters: { username: text } } });
   };
+
+  const navigation = useNavigation();
 
   console.log(data);
 
@@ -30,23 +34,28 @@ const Search = () => {
           autoCapitalize="none"
           autoCorrect={false}
         />
-        <Pressable>
-          <Text>Search</Text>
-        </Pressable>
       </View>
       <View>
         {!!data &&
           (loading ? (
             <LoadingSpinner />
           ) : (
-            <View>
-              <Image
-                source={{ uri: data.user.profilePictureURI }}
-                style={{ width: 50, height: 50 }}
-              />
-              <Text>{data.user.username}</Text>
-              <Text>{data.user.displayName}</Text>
-            </View>
+            <Pressable
+              onPress={() =>
+                navigation.navigate('ProfileInfo', { userID: data.user.id })
+              }
+            >
+              <View style={styles.searchResult}>
+                <Image
+                  source={{ uri: data.user.profilePictureURI }}
+                  style={styles.profilePicture}
+                />
+                <View>
+                  <Bold>{data.user.username}</Bold>
+                  <Text>{data.user.displayName}</Text>
+                </View>
+              </View>
+            </Pressable>
           ))}
       </View>
     </SafeAreaView>
@@ -61,5 +70,15 @@ const styles = StyleSheet.create({
   },
   searchBox: {
     padding: 10,
+  },
+  profilePicture: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+  },
+  searchResult: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
   },
 });

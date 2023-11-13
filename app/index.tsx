@@ -53,9 +53,6 @@ const TabNavigator = ({ navigation }) => {
               name = 'home';
               break;
             }
-            case 'search': {
-              return <Ionicons name="search" size={30} />;
-            }
             case 'cart': {
               name = 'cart';
               break;
@@ -79,7 +76,7 @@ const TabNavigator = ({ navigation }) => {
       })}
     >
       <Tab.Screen name="home" component={Home} />
-      <Tab.Screen name="search" component={Search} />
+      <Tab.Screen name="cart" component={ShoppingCartOrderScreen} />
       {/* <Tab.Screen name="cart" component={ShoppingCartOrderScreen} /> */}
       <Tab.Screen
         name="dummy-create"

@@ -20,6 +20,7 @@ import ProfileHeader from './ProfileHeader';
 import useUserById from './userById';
 import { useCallback, useContext } from 'react';
 import { UserContext } from '~/contexts/UserContext';
+import { useRoute } from '@react-navigation/native';
 
 const SafeAreaMaterialTopBar = ({ ...props }) => {
   return (
@@ -60,10 +61,9 @@ const SafeAreaMaterialTopBar = ({ ...props }) => {
 
 const ProfileInfo = () => {
   const context = useContext(UserContext);
+  const route = useRoute();
 
-  console.log(context);
-
-  const { loading, data } = useUserById({ id: 1 });
+  const { loading, data } = useUserById({ id: route.params.userID });
 
   if (loading) {
     return (
