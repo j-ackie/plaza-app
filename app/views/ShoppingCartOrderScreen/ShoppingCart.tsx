@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   FlatList,
   View,
@@ -16,53 +16,51 @@ import CartModalItemInfo from '~/components/Modal/CartModalItemInfo';
 import CartModalVideo from '~/components/Modal/CartModalVideo';
 import CheckBox from 'expo-checkbox';
 import { useNavigation } from '@react-navigation/native';
+import { gql, useQuery } from '@apollo/client';
 
-const mockData = [
-  {
-    _id: '1',
-    sellerID: '3',
-    name: 'Handbag',
-    description: 'Barely used.',
-    price: 24.67,
-    quantity: 2,
-    imageURL:
-      'https://m.media-amazon.com/images/W/IMAGERENDERING_521856-T1/images/I/51LhHqu9akL._AC_UY1000_.jpg',
-    videoURI:
-      'https://assets.mixkit.co/videos/preview/mixkit-man-doing-tricks-with-roller-skates-in-a-parking-lot-34553-large.mp4',
-    timestamp: '2023-04-07T22:24:39.000+00:00',
-  },
-  {
-    _id: '1',
-    sellerID: '3',
-    name: 'Handbag',
-    description: 'Barely used.',
-    price: 24.67,
-    quantity: 2,
-    imageURL:
-      'https://m.media-amazon.com/images/W/IMAGERENDERING_521856-T1/images/I/51LhHqu9akL._AC_UY1000_.jpg',
-    videoURI:
-      'https://assets.mixkit.co/videos/preview/mixkit-man-doing-tricks-with-roller-skates-in-a-parking-lot-34553-large.mp4',
-    timestamp: '2023-04-07T22:24:39.000+00:00',
-  },
-  {
-    _id: '1',
-    sellerID: '3',
-    name: 'backpack',
-    description: 'Barely used.',
-    price: 24.67,
-    quantity: 2,
-    imageURL:
-      'https://m.media-amazon.com/images/W/IMAGERENDERING_521856-T1/images/I/51LhHqu9akL._AC_UY1000_.jpg',
-    videoURI:
-      'https://assets.mixkit.co/videos/preview/mixkit-man-doing-tricks-with-roller-skates-in-a-parking-lot-34553-large.mp4',
-    timestamp: '2023-04-07T22:24:39.000+00:00',
-  },
-];
+const cartQuery = gql`
+  query Query($userId: Int!) {
+    cart(userID: $userId) {
+      id
+      productID
+      userID
+      name
+      imageURI
+      price
+    }
+  }
+`;
+
+const productQuery = gql`
+  query Query($productId: ID!) {
+    product(productID: $productId) {
+      id
+      sellerID
+      name
+      description
+      quantity
+      price
+      imageURI
+    }
+  }
+`;
 
 const ShoppingCart = () => {
-  const [cartItems, setCartItems] = useState<Item[]>([]);
+  //const [cartItems, setCartItems] = useState<Item[]>([]);
   const [modalVis, setModalVis] = useState(false);
   const [selected, setSelected] = useState(0);
+
+  const { loading, error, data } = useQuery(cartQuery, {
+    variables: {
+      userId: 1,
+    },
+  });
+
+  if (loading || error) {
+    return <Text>Loading...</Text>;
+  }
+
+  const cartItems = data.cart;
 
   // useEffect(() => {
   //   console.log("calling api...");
@@ -83,8 +81,18 @@ const ShoppingCart = () => {
     setCartItems(checkboxData);
   };
 
-  return (
-    <>
+  const VideoModal = (props) => {
+    const { loading, error, data } = useQuery(productQuery, {
+      variables: {
+        productId: cartItems[props.index].product_id,
+      },
+    });
+
+    if (loading || error) {
+      return '';
+    }
+
+    return (
       <Modal
         animationType="fade"
         transparent={true}
@@ -104,16 +112,14 @@ const ShoppingCart = () => {
               renderItem={({ index }) => {
                 if (index == 0) {
                   return (
-                    <CartModalItemInfo
-                      selected={mockData[selected]}
-                    ></CartModalItemInfo>
+                    <CartModalItemInfo selected={data}></CartModalItemInfo>
                   );
                 } else {
                   return (
                     <CartModalVideo
                       videoIndex={selected}
                       currViewableIndex={selected}
-                      postInfo={mockData[selected]}
+                      postInfo={data}
                     />
                   );
                 }
@@ -129,50 +135,58 @@ const ShoppingCart = () => {
           </View>
         </View>
       </Modal>
+    );
+  };
 
+  return (
+    <>
+      <VideoModal index={selected != -1 ? selected : 0} />
       <FlatList
         data={cartItems}
-        renderItem={(item) => (
-          <Pressable
-            style={styles.cartButton}
-            onPress={() => {
-              setSelected(item.index);
-              setModalVis(true);
-            }}
-          >
-            <SafeAreaView style={styles.shoppingCartItemContainer}>
-              <Image
-                source={{
-                  uri: item.item.imageURL,
-                }}
-                style={styles.shoppingCartItemImage}
-                resizeMode="cover"
-              />
-              <View style={styles.shoppingCartItemTextContainer}>
-                <Text style={{ fontWeight: 'bold' }}>{item.item.name}</Text>
-                <Text>${item.item.price}</Text>
-              </View>
-
-              <View
-                style={{
-                  height: '100%',
-                  flexDirection: 'column',
-                  justifyContent: 'center',
-                  marginRight: 20,
-                }}
-              >
-                <CheckBox
-                  disabled={false}
-                  value={item.item['checked']}
-                  onValueChange={() => {
-                    toggleCheckbox(item.index);
+        renderItem={(item) => {
+          console.log(item);
+          return (
+            <Pressable
+              style={styles.cartButton}
+              onPress={() => {
+                setSelected(item.index);
+                setModalVis(true);
+              }}
+            >
+              <SafeAreaView style={styles.shoppingCartItemContainer}>
+                <Image
+                  source={{
+                    uri: item.item.imageURI,
                   }}
-                  style={{ width: 30, height: 30 }}
+                  style={styles.shoppingCartItemImage}
+                  resizeMode="cover"
                 />
-              </View>
-            </SafeAreaView>
-          </Pressable>
-        )}
+                <View style={styles.shoppingCartItemTextContainer}>
+                  <Text style={{ fontWeight: 'bold' }}>{item.item.name}</Text>
+                  <Text>${item.item.price}</Text>
+                </View>
+
+                <View
+                  style={{
+                    height: '100%',
+                    flexDirection: 'column',
+                    justifyContent: 'center',
+                    marginRight: 20,
+                  }}
+                >
+                  <CheckBox
+                    disabled={false}
+                    value={item.item['checked']}
+                    onValueChange={() => {
+                      toggleCheckbox(item.index);
+                    }}
+                    style={{ width: 30, height: 30 }}
+                  />
+                </View>
+              </SafeAreaView>
+            </Pressable>
+          );
+        }}
       />
       <View style={styles.shoppingCartButtonCentering}>
         <TouchableOpacity
