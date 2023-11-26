@@ -4,6 +4,7 @@ import ProfilePost from './ProfilePost';
 import ProfileProductListing from './ProfileProductListing';
 import ProfileInfo from './ProfileInfo';
 import { UserContext } from '~/contexts/UserContext';
+import { StatusBar } from 'expo-status-bar';
 
 // https://reactnavigation.org/docs/material-top-tab-navigator
 
@@ -13,18 +14,21 @@ const Profile = () => {
   const context = useContext(UserContext);
 
   return (
-    <ProfileStack.Navigator screenOptions={{ headerShown: false }}>
-      <ProfileStack.Screen
-        name="ProfileInfo"
-        component={ProfileInfo}
-        initialParams={{ userID: 1 }}
-      />
-      <ProfileStack.Screen name="ProfilePost" component={ProfilePost} />
-      <ProfileStack.Screen
-        name="ProfileProductListing"
-        component={ProfileProductListing}
-      />
-    </ProfileStack.Navigator>
+    <>
+      <StatusBar style="dark" />
+      <ProfileStack.Navigator screenOptions={{ headerShown: false }}>
+        <ProfileStack.Screen
+          name="ProfileInfo"
+          component={ProfileInfo}
+          initialParams={{ userID: 1 }}
+        />
+        <ProfileStack.Screen name="ProfilePost" component={ProfilePost} />
+        <ProfileStack.Screen
+          name="ProfileProductListing"
+          component={ProfileProductListing}
+        />
+      </ProfileStack.Navigator>
+    </>
   );
 };
 

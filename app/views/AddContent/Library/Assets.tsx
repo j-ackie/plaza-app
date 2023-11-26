@@ -7,12 +7,13 @@ const Assets: FC = ({ navigation, route }) => {
   const [libraryPermissions, requestLibraryPermission] =
     MediaLibrary.usePermissions();
   const [userAssets, setUserAssets] = useState<MediaLibrary.Asset[]>(null);
-  const { assetType = '', nextRoute = 'addProducts' } = route.params;
+  const { assetType = null, nextRoute = 'addProducts' } = route.params;
 
   useEffect(() => {
     if (!libraryPermissions) {
       return;
     }
+
     if (libraryPermissions.granted) {
       MediaLibrary.getAssetsAsync({
         mediaType: assetType ?? ['audio', 'photo', 'video', 'unknown'],

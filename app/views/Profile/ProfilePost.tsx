@@ -1,27 +1,27 @@
-import { View, Text, Pressable } from 'react-native';
+import { View, Text, Pressable, SafeAreaView } from 'react-native';
 import { useNavigation } from 'expo-router';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import VideoCard from '~/components/VideoCard/VideoCard';
 import { gql, useQuery } from '@apollo/client';
+import LoadingSpinner from '~/components/LoadingSpinner';
 
 const ProfilePost = ({ route }) => {
   const navigation = useNavigation();
   const query = gql`
     query Query($videoId: ID!) {
       video(videoID: $videoId) {
-        description
         id
+        userID
+        videoURL
+        description
         products {
-          description
           id
+          description
           imageURI
           name
           price
           quantity
           sellerID
         }
-        userID
-        videoURL
       }
     }
   `;
@@ -32,13 +32,12 @@ const ProfilePost = ({ route }) => {
       videoId: params.id,
     },
   });
-  if (loading && !data)
-    return (
-      <View>
-        <Text>{'Loading...'}</Text>
-      </View>
-    );
-  const res = data.video[0];
+
+  if (loading) return <LoadingSpinner />;
+
+  if (error) return <Text>Something went wrong</Text>;
+
+  const res = data.video;
   return (
     <View style={{ flexDirection: 'column', height: '100%' }}>
       <SafeAreaView style={{ backgroundColor: 'white' }}>
