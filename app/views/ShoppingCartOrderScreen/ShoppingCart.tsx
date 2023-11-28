@@ -17,6 +17,7 @@ import CartModalVideo from '~/components/Modal/CartModalVideo';
 import CheckBox from 'expo-checkbox';
 import { useNavigation } from '@react-navigation/native';
 import { gql, useQuery } from '@apollo/client';
+import LoadingSpinner from '~/components/LoadingSpinner';
 
 const cartQuery = gql`
   query Query($userId: Int!) {
@@ -36,6 +37,7 @@ const ShoppingCart = () => {
   //const [cartItems, setCartItems] = useState<Item[]>([]);
   const [modalVis, setModalVis] = useState(false);
   const [selected, setSelected] = useState(-1);
+  const navigation = useNavigation();
 
   const { loading, error, data } = useQuery(cartQuery, {
     variables: {
@@ -43,22 +45,13 @@ const ShoppingCart = () => {
     },
   });
 
-  const cartItems = data.cart;
-  const [checked, setChecked] = useState(Array(cartItems.length));
+  const [checked, setChecked] = useState(Array(0));
 
-  // useEffect(() => {
-  //   console.log("calling api...");
-  //   for(let i = 0; i < mockData.length; i++){
-  //     mockData[i]["checked"] = false
-  //   }
-  //   setCartItems(mockData);
-  // }, []);
+  if (loading) return <LoadingSpinner />;
 
-  const navigation = useNavigation();
+  if (error) return <Text>{error.message}</Text>;
 
-  if (loading || error) {
-    return <Text>Loading...</Text>;
-  }
+  console.log(data);
 
   const handleConfirmPress = () => {
     navigation.navigate('confirm');
@@ -96,7 +89,7 @@ const ShoppingCart = () => {
                 if (index == 0) {
                   return (
                     <CartModalItemInfo
-                      productID={cartItems[selected].id}
+                      productID={data.cart[selected].id}
                     ></CartModalItemInfo>
                   );
                 } else {
@@ -104,7 +97,7 @@ const ShoppingCart = () => {
                     <CartModalVideo
                       videoIndex={selected}
                       currViewableIndex={selected}
-                      postInfo={cartItems[selected].videoID}
+                      postInfo={data.cart[selected].videoID}
                     />
                   );
                 }
@@ -127,8 +120,9 @@ const ShoppingCart = () => {
     <>
       <VideoModal index={selected != -1 ? selected : 0} />
       <FlatList
-        data={cartItems}
+        data={data.cart}
         renderItem={(item) => {
+          console.log(item);
           return (
             <Pressable
               style={styles.cartButton}
