@@ -7,21 +7,12 @@ import LoadingSpinner from '~/components/LoadingSpinner';
 const ProfilePost = ({ route }) => {
   const navigation = useNavigation();
   const query = gql`
-    query Query($filter: VideoFilter!) {
-      video(filter: $filter) {
+    query Query($videoId: ID!) {
+      video(videoID: $videoId) {
         description
         id
         userID
         videoURL
-        products {
-          description
-          id
-          imageURI
-          name
-          price
-          quantity
-          sellerID
-        }
       }
     }
   `;
@@ -29,10 +20,7 @@ const ProfilePost = ({ route }) => {
   const params = route.params?.data;
   const { loading, error, data } = useQuery(query, {
     variables: {
-      filter: {
-        productID: null,
-        videoID: params.id,
-      },
+      videoId: params.id,
     },
   });
 

@@ -7,11 +7,10 @@ import styles from './CartModal.styles';
 import { gql, useQuery } from '@apollo/client';
 
 const videoQuery = gql`
-  query Query($filter: VideoFilter!) {
-    video(filter: $filter) {
+  query Query($videoId: ID!) {
+    video(videoID: $videoId) {
       description
       id
-      userID
       videoURL
     }
   }
@@ -22,16 +21,16 @@ const CartModalVideo = ({ videoIndex, currViewableIndex, postInfo }) => {
 
   const { loading, error, data } = useQuery(videoQuery, {
     variables: {
-      filter: {
-        productID: postInfo,
-        videoID: null,
-      },
+      videoId: postInfo,
     },
   });
 
   if (loading || error) {
+    console.log('loading...');
     return <Text></Text>;
   }
+
+  console.log(data);
 
   return (
     <View style={styles.shoppingCartModalVideo}>

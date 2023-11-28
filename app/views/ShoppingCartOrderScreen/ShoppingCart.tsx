@@ -27,6 +27,7 @@ const cartQuery = gql`
       name
       imageURI
       price
+      videoID
     }
   }
 `;
@@ -42,11 +43,8 @@ const ShoppingCart = () => {
     },
   });
 
-  if (loading || error) {
-    return <Text>Loading...</Text>;
-  }
-
   const cartItems = data.cart;
+  const [checked, setChecked] = useState(Array(cartItems.length));
 
   // useEffect(() => {
   //   console.log("calling api...");
@@ -57,14 +55,19 @@ const ShoppingCart = () => {
   // }, []);
 
   const navigation = useNavigation();
+
+  if (loading || error) {
+    return <Text>Loading...</Text>;
+  }
+
   const handleConfirmPress = () => {
     navigation.navigate('confirm');
   };
 
   const toggleCheckbox = (index) => {
-    const checkboxData = [...cartItems];
-    checkboxData[index]['checked'] = !checkboxData[index]['checked'];
-    setCartItems(checkboxData);
+    const checkedData = [...checked];
+    checkedData[index] = !checkedData[index];
+    setChecked(checkedData);
   };
 
   const VideoModal = (props) => {
@@ -101,7 +104,7 @@ const ShoppingCart = () => {
                     <CartModalVideo
                       videoIndex={selected}
                       currViewableIndex={selected}
-                      postInfo={cartItems[selected].id}
+                      postInfo={cartItems[selected].videoID}
                     />
                   );
                 }
@@ -126,7 +129,6 @@ const ShoppingCart = () => {
       <FlatList
         data={cartItems}
         renderItem={(item) => {
-          console.log(item);
           return (
             <Pressable
               style={styles.cartButton}
@@ -158,7 +160,7 @@ const ShoppingCart = () => {
                 >
                   <CheckBox
                     disabled={false}
-                    value={item.item['checked']}
+                    value={checked[item.index]}
                     onValueChange={() => {
                       toggleCheckbox(item.index);
                     }}
