@@ -25,6 +25,7 @@ import { createClient } from 'graphql-ws';
 import { getMainDefinition } from '@apollo/client/utilities';
 import { setContext } from '@apollo/client/link/context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { LogBox } from 'react-native';
 
 // https://reactnavigation.org/docs/material-bottom-tab-navigator
 const Tab = createMaterialBottomTabNavigator();
@@ -148,6 +149,7 @@ const App = () => {
       playsInSilentModeIOS: true,
     });
   }, []);
+  LogBox.ignoreAllLogs(); //Ignore all log notifications
 
   return (
     <ApolloProvider client={client}>
