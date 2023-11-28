@@ -1,4 +1,4 @@
-import { SafeAreaView, Text, View } from 'react-native';
+import { Image, Pressable, SafeAreaView, Text, View } from 'react-native';
 import { MaterialTopTabBar } from '@react-navigation/material-top-tabs';
 
 const SafeAreaTopTabBar = ({ ...props }) => {
@@ -18,7 +18,13 @@ const SafeAreaTopTabBar = ({ ...props }) => {
         <MaterialTopTabBar {...props} />
       </View>
       <View style={{ flex: 1 }}>
-        <Text onPress={() => props.navigation.navigate('search')}>S</Text>
+        <Pressable onPress={() => props.navigation.navigate('search')}>
+          <Image
+            source={require('./search2clear.png')}
+            style={{ width: 40, height: 40 }}
+          />
+        </Pressable>
+        {/* <Text onPress={() => props.navigation.navigate('search')}>S</Text> */}
       </View>
     </SafeAreaView>
   );

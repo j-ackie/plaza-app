@@ -165,7 +165,11 @@ const App = () => {
             <Stack.Screen
               name="search"
               component={Search}
-              options={{ headerShown: true }}
+              options={{
+                headerShown: true,
+                headerTitle: '',
+                headerBackTitle: 'Tabs',
+              }}
             />
             <Stack.Screen name="create" component={AddContent} />
           </Stack.Navigator>
