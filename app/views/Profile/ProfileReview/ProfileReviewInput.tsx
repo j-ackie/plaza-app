@@ -38,7 +38,7 @@ const ProfileReviewInput = () => {
 
   if (loading) return <LoadingSpinner />;
 
-  if (!data || !data.review) return <Text>Something went wrong</Text>;
+  // if (!data || !data.review) return <Text>Something went wrong</Text>;
 
   return (
     <SafeAreaView>
