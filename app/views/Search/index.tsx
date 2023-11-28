@@ -10,9 +10,9 @@ import {
 import useUserByUsername from './useByUsername';
 import LoadingSpinner from '~/components/LoadingSpinner';
 import Bold from '~/components/Bold';
-import { useNavigation } from '@react-navigation/native';
+// import { useNavigation } from '@react-navigation/native';
 
-const Search = () => {
+const Search = ({ navigation }) => {
   const [getUser, { loading, data }] = useUserByUsername();
 
   const handleChange = (text: string) => {
@@ -20,7 +20,7 @@ const Search = () => {
     getUser({ variables: { filters: { username: text } } });
   };
 
-  const navigation = useNavigation();
+  // const navigation = useNavigation();
 
   console.log(data);
 
@@ -42,7 +42,15 @@ const Search = () => {
           ) : (
             <Pressable
               onPress={() =>
-                navigation.navigate('ProfileInfo', { userID: data.user.id })
+                navigation.navigate('tabs', {
+                  screen: 'profile',
+                  params: {
+                    screen: 'ProfileInfo',
+                    params: {
+                      userID: data.user.id,
+                    },
+                  },
+                })
               }
             >
               <View style={styles.searchResult}>

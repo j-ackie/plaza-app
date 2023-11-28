@@ -26,6 +26,8 @@ const Login: React.FC = () => {
       const username = items[0][1];
       const password = items[1][1];
 
+      console.log(username, password);
+
       if (!username || !password) {
         return;
       }
@@ -102,8 +104,8 @@ const Login: React.FC = () => {
         }}
       >
         <Image
-          source={require('assets/favicon.png')}
-          style={{ width: 100, height: 100 }}
+          source={require('assets/logo.png')}
+          style={{ width: 200, height: 200 }}
         />
         <TextInput
           style={styles.input}
