@@ -9,6 +9,7 @@ const ProfileVideos = () => {
       videos(filters: $filters) {
         id
         userID
+        thumbnailURL
       }
     }
   `;
@@ -48,7 +49,7 @@ const ProfileVideos = () => {
               >
                 <Image
                   source={{
-                    uri: data.imageURI,
+                    uri: data.thumbnailURL,
                   }}
                   style={{ width: '100%', height: '100%' }}
                   resizeMode="cover"
