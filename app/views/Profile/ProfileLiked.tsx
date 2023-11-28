@@ -1,7 +1,8 @@
 import { View, Pressable, Image, Text } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { gql, useQuery } from '@apollo/client';
-const mockData = [];
+import LoadingSpinner from '~/components/LoadingSpinner';
+
 const ProfileLiked = () => {
   const GET_LIKED = gql`
     query Query($userId: Int!) {
@@ -13,19 +14,17 @@ const ProfileLiked = () => {
     }
   `;
 
+  const navigation = useNavigation();
   const { loading, error, data } = useQuery(GET_LIKED, {
     variables: { userId: 1 },
   });
 
-  if (loading && !data)
-    return (
-      <View>
-        <Text>{'Loading...'}</Text>
-      </View>
-    );
+  if (loading) return <LoadingSpinner />;
+
   if (error) return console.log(JSON.stringify(error, null, 2));
 
-  const navigation = useNavigation();
+  if (!data || !data.likedVideos) return <Text>Something went wrong...</Text>;
+
   return (
     <View>
       <View style={{ flexDirection: 'row', flexWrap: 'wrap', width: '100%' }}>

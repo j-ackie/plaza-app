@@ -1,6 +1,7 @@
 import Feed from '../Feed/Feed';
 import SafeAreaTopTabBar from '~/components/SafeAreaTopTabBar/SafeAreaTopTabBar';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import Search from '../Search';
 
 // https://reactnavigation.org/docs/material-top-tab-navigator
 const Tab = createMaterialTopTabNavigator();

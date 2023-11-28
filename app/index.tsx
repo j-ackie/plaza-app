@@ -3,9 +3,8 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import { PortalProvider } from '@gorhom/portal';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import { StatusBar } from 'expo-status-bar';
-import Home from '~/views/Home/Home';
+import Home from '~/views/Home';
 import ShoppingCartOrderScreen from '~/views/ShoppingCartOrderScreen/ShoppingCartOrderScreen';
 import { Audio } from 'expo-av';
 import AddContent from './views/AddContent';
@@ -163,6 +162,11 @@ const App = () => {
           >
             <Stack.Screen name="authentication" component={Authentication} />
             <Stack.Screen name="tabs" component={TabNavigator} />
+            <Stack.Screen
+              name="search"
+              component={Search}
+              options={{ headerShown: true }}
+            />
             <Stack.Screen name="create" component={AddContent} />
           </Stack.Navigator>
         </PortalProvider>

@@ -25,7 +25,7 @@ const Search = () => {
   console.log(data);
 
   return (
-    <SafeAreaView style={{ marginTop: 100 }}>
+    <SafeAreaView>
       <View style={styles.searchBoxContainer}>
         <TextInput
           style={styles.searchBox}
