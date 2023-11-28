@@ -14,8 +14,7 @@ const GET_USER = gql`
 
 const useUserById = (filters) => {
   return useQuery(GET_USER, { variables: { filters } });
-
-}
+};
 
 export default useUserById;
 export { GET_USER };

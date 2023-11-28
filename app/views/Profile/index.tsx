@@ -5,6 +5,7 @@ import ProfileProductListing from './ProfileProductListing';
 import ProfileInfo from './ProfileInfo';
 import { UserContext } from '~/contexts/UserContext';
 import { StatusBar } from 'expo-status-bar';
+import ProfileReviewInput from './ProfileReview/ProfileReviewInput';
 
 // https://reactnavigation.org/docs/material-top-tab-navigator
 
@@ -26,6 +27,12 @@ const Profile = () => {
         <ProfileStack.Screen
           name="ProfileProductListing"
           component={ProfileProductListing}
+        />
+        <ProfileStack.Screen
+          name="ProfileReviewInput"
+          component={ProfileReviewInput}
+          options={{ headerShown: true }}
+          initialParams={{ userID: 1 }}
         />
       </ProfileStack.Navigator>
     </>

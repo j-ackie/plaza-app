@@ -1,4 +1,3 @@
-import { gql, useQuery } from '@apollo/client';
 import { useState } from 'react';
 import {
   View,
@@ -7,42 +6,24 @@ import {
   StyleSheet,
   TouchableOpacity,
   Modal,
+  Pressable,
+  Image,
 } from 'react-native';
 import LoadingSpinner from '~/components/LoadingSpinner';
+import useReviewsBySellerID from './reviewsBySellerID';
+import { useNavigation } from 'expo-router';
 
 const ProfileReview = () => {
-  const GET_REVIEWS = gql`
-    query reviews($filters: ReviewFilters!) {
-      reviews(filters: $filters) {
-        id
-        description
-        createdAt
-        productID
-        rating
-        reviewerID
-        title
-      }
-    }
-  `;
-
-  const { loading, error, data } = useQuery(GET_REVIEWS, {
-    variables: { filters: { productID: 2 } },
-  });
+  const navigation = useNavigation();
+  const { loading, error, data } = useReviewsBySellerID(1);
 
   const [isModalVisible, setModalVisible] = useState(false);
   const [selectedReview, setSelectedReview] = useState(null);
+  const [isReviewPostVisible, setIsReviewPostVisible] = useState(true);
 
-  if (loading) {
-    return <LoadingSpinner />;
-  }
+  if (loading) return <LoadingSpinner />;
 
-  const reviews = Array.from({ length: 10 }, (_, index) => ({
-    id: index.toString(),
-    title: `Review Title ${index + 1}`,
-    description: `Sample review description ${index + 1}`,
-    rating: Math.floor(Math.random() * 5) + 1,
-    user: `User${index + 1}`,
-  }));
+  if (!data || !data.reviews) return <Text>Something went wrong</Text>;
 
   const toggleModal = (review) => {
     setSelectedReview(review);
@@ -51,6 +32,35 @@ const ProfileReview = () => {
 
   return (
     <View style={styles.container}>
+      {isReviewPostVisible && (
+        <View style={styles.reviewPost}>
+          <Text
+            onPress={() => setIsReviewPostVisible(false)}
+            style={{ position: 'absolute', top: 0, right: 10 }}
+          >
+            X
+          </Text>
+          <View style={styles.reviewPostText}>
+            <Text>You recently purchased a Bag</Text>
+            <Image
+              source={{
+                uri: 'https://www.ikea.com/us/en/images/products/goersnygg-shopping-bag-large-light-beige__1013442_pe829201_s5.jpg',
+              }}
+              style={{
+                width: 50,
+                height: 50,
+              }}
+            />
+          </View>
+          <Pressable
+            style={styles.reviewPostButton}
+            onPress={() => navigation.navigate('ProfileReviewInput')}
+          >
+            <Text>Post a review</Text>
+          </Pressable>
+        </View>
+      )}
+
       <FlatList
         data={data.reviews}
         keyExtractor={(item) => item.id}
@@ -104,6 +114,21 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 10,
+  },
+  reviewPost: {
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 20,
+    backgroundColor: 'white',
+  },
+  reviewPostText: { flexDirection: 'row', alignItems: 'center', gap: 10 },
+  reviewPostButton: {
+    margin: 'auto',
+    backgroundColor: 'lightblue',
+    alignItems: 'center',
+    // justifyContent: 'center',
+    width: 100,
   },
   reviewBox: {
     backgroundColor: '#f0f0f0',
