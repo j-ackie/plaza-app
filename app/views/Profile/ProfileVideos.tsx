@@ -1,11 +1,12 @@
 import { View, Pressable, Image, Text } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { gql, useQuery } from '@apollo/client';
+import { useContext } from 'react';
 
 const ProfileVideos = () => {
   const query = gql`
-    query GetVideos($userID: ID!) {
-      videos(userID: $userID) {
+    query Query($filters: VideoFilters!) {
+      videos(filters: $filters) {
         id
         userID
       }
@@ -14,7 +15,9 @@ const ProfileVideos = () => {
 
   const { loading, error, data } = useQuery(query, {
     variables: {
-      userID: 1,
+      filters: {
+        userID: 1,
+      },
     },
   });
 

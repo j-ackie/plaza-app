@@ -11,7 +11,7 @@ const CartModalItemDelivery = (props) => {
     <View style={styles.container}>
       <Image
         source={{
-          uri: props.selected.imageURL,
+          uri: props.selected.imageURI,
         }}
         style={styles.shoppingCartModalImage}
         resizeMode="cover"
@@ -30,7 +30,7 @@ const CartModalItemDelivery = (props) => {
         }}
       >
         <Progress.Bar
-          progress={0.35}
+          progress={0.35 * props.selected.status}
           width={progressWidth}
           height={4}
           color="rgba(0, 0, 0, 1)"
@@ -50,29 +50,40 @@ const CartModalItemDelivery = (props) => {
             justifyContent: 'space-between',
           }}
         >
-          <View style={{ flexDirection: 'row' }}>
-            <View style={styles.orderHistoryModalDot}></View>
-            <Text style={styles.orderHistoryModalText}>Order confirmed</Text>
-          </View>
+          {[0, 1, 2, 3].map((element) => {
+            let message = '';
+            switch (element) {
+              case 0:
+                message = 'Order confirmed';
+                break;
+              case 1:
+                message = 'Seller shipped out';
+                break;
+              case 2:
+                message = 'Out for delivery';
+                break;
+              case 3:
+                message = 'Order delivered';
+                break;
+            }
 
-          <View style={{ flexDirection: 'row' }}>
-            <View style={styles.orderHistoryModalDot}></View>
-            <Text style={styles.orderHistoryModalText}>Seller shipped out</Text>
-          </View>
-
-          <View style={{ flexDirection: 'row' }}>
-            <View style={styles.orderHistoryModalDotUnselected}></View>
-            <Text style={styles.orderHistoryModalTextUnselected}>
-              Out for delivery
-            </Text>
-          </View>
-
-          <View style={{ flexDirection: 'row' }}>
-            <View style={styles.orderHistoryModalDotUnselected}></View>
-            <Text style={styles.orderHistoryModalTextUnselected}>
-              Order delivered
-            </Text>
-          </View>
+            if (element <= props.selected.status) {
+              return (
+                <View style={{ flexDirection: 'row' }}>
+                  <View style={styles.orderHistoryModalDot}></View>
+                  <Text style={styles.orderHistoryModalText}>{message}</Text>
+                </View>
+              );
+            }
+            return (
+              <View style={{ flexDirection: 'row' }}>
+                <View style={styles.orderHistoryModalDotUnselected}></View>
+                <Text style={styles.orderHistoryModalTextUnselected}>
+                  {message}
+                </Text>
+              </View>
+            );
+          })}
         </View>
       </View>
     </View>

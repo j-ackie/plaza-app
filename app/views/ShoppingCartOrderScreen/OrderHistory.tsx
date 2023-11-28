@@ -37,12 +37,14 @@ const query = gql`
   query Query($userId: Int!) {
     history(userID: $userId) {
       id
-      productID
-      userID
-      orderedAt
       imageURI
       name
+      orderedAt
+      productID
       status
+      userID
+      videoID
+      quantity
     }
   }
 `;
@@ -62,6 +64,7 @@ const OrderHistory = () => {
   }
 
   const historyItems = data.history;
+  console.log(historyItems);
 
   return (
     <>
@@ -85,13 +88,13 @@ const OrderHistory = () => {
                 if (index == 0) {
                   return (
                     <CartModalItemDelivery
-                      selected={mockData[selected]}
+                      selected={historyItems[selected]}
                     ></CartModalItemDelivery>
                   );
                 } else if (index == 1) {
                   return (
                     <CartModalItemInfo
-                      selected={mockData[selected]}
+                      productID={historyItems[selected].id}
                     ></CartModalItemInfo>
                   );
                 } else {
@@ -99,7 +102,7 @@ const OrderHistory = () => {
                     <CartModalVideo
                       videoIndex={selected}
                       currViewableIndex={selected}
-                      postInfo={mockData[selected]}
+                      postInfo={historyItems[selected].videoID}
                     />
                   );
                 }
