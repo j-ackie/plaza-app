@@ -31,24 +31,10 @@ const cartQuery = gql`
   }
 `;
 
-const productQuery = gql`
-  query Query($productId: ID!) {
-    product(productID: $productId) {
-      id
-      sellerID
-      name
-      description
-      quantity
-      price
-      imageURI
-    }
-  }
-`;
-
 const ShoppingCart = () => {
   //const [cartItems, setCartItems] = useState<Item[]>([]);
   const [modalVis, setModalVis] = useState(false);
-  const [selected, setSelected] = useState(0);
+  const [selected, setSelected] = useState(-1);
 
   const { loading, error, data } = useQuery(cartQuery, {
     variables: {
@@ -82,14 +68,8 @@ const ShoppingCart = () => {
   };
 
   const VideoModal = (props) => {
-    const { loading, error, data } = useQuery(productQuery, {
-      variables: {
-        productId: cartItems[props.index].product_id,
-      },
-    });
-
     if (loading || error) {
-      return '';
+      return <Text></Text>;
     }
 
     return (
@@ -112,14 +92,16 @@ const ShoppingCart = () => {
               renderItem={({ index }) => {
                 if (index == 0) {
                   return (
-                    <CartModalItemInfo selected={data}></CartModalItemInfo>
+                    <CartModalItemInfo
+                      productID={cartItems[selected].id}
+                    ></CartModalItemInfo>
                   );
                 } else {
                   return (
                     <CartModalVideo
                       videoIndex={selected}
                       currViewableIndex={selected}
-                      postInfo={data}
+                      postInfo={cartItems[selected].id}
                     />
                   );
                 }
