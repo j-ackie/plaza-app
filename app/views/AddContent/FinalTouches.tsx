@@ -14,6 +14,7 @@ import LoadingSpinner from '~/components/LoadingSpinner';
 import * as Filesystem from 'expo-file-system';
 import * as MediaLibrary from 'expo-media-library';
 import { Buffer } from 'buffer';
+import mime from 'mime';
 
 const mockData = [
   {
@@ -170,22 +171,21 @@ const FinalTouches: FC = ({ navigation, route }) => {
   const selectedProducts = mockData;
 
   const onCompleted = async (data) => {
-    const localURI = (await MediaLibrary.getAssetInfoAsync(asset)).localUri;
+    const assetInfo = await MediaLibrary.getAssetInfoAsync(asset);
+    const localURI = assetInfo.localUri;
     const base64Payload = await Filesystem.readAsStringAsync(localURI, {
       encoding: 'base64',
     });
 
     const payload = Buffer.from(base64Payload, 'base64');
-
     const response = await fetch(data.createVideo.videoURL, {
       method: 'PUT',
       body: payload,
       headers: {
         // right now, it's only using video/mov - replace it later with other mimetypes
-        'Content-Type': 'video/mov',
+        'Content-Type': mime.getType(assetInfo.filename),
       },
     });
-
     if (response.status === 200) {
       navigation.navigate('profile');
     } else {

@@ -12,8 +12,8 @@ const GET_USER = gql`
   }
 `;
 
-const useUserById = (filters) => {
-  return useQuery(GET_USER, { variables: { filters } });
+const useUserById = (id: number) => {
+  return useQuery(GET_USER, { variables: { filters: { id } } });
 };
 
 export default useUserById;

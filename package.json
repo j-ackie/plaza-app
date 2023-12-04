@@ -38,6 +38,7 @@
     "formik": "^2.4.5",
     "graphql": "^15.8.0",
     "graphql-ws": "^5.14.0",
+    "mime": "^4.0.0",
     "react": "18.2.0",
     "react-native": "0.71.8",
     "react-native-collapsible-tab-view": "^6.2.0",

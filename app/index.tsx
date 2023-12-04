@@ -26,6 +26,7 @@ import { getMainDefinition } from '@apollo/client/utilities';
 import { setContext } from '@apollo/client/link/context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { LogBox } from 'react-native';
+import Settings from './views/Settings';
 
 // https://reactnavigation.org/docs/material-bottom-tab-navigator
 const Tab = createMaterialBottomTabNavigator();
@@ -102,11 +103,13 @@ const getToken = async () => {
 
 const httpLink = new HttpLink({
   uri: 'http://localhost:8000/graphql/',
+  // uri: 'http://ec2-3-80-101-13.compute-1.amazonaws.com:8000/graphql/',
 });
 
 const wsLink = new GraphQLWsLink(
   createClient({
     url: 'ws://localhost:8000/',
+    // url: 'ws://ec2-3-80-101-13.compute-1.amazonaws.com:8000/',
     connectionParams: async () => {
       return {
         authorization: await getToken(),
@@ -174,6 +177,7 @@ const App = () => {
               }}
             />
             <Stack.Screen name="create" component={AddContent} />
+            <Stack.Screen name="settings" component={Settings} />
           </Stack.Navigator>
         </PortalProvider>
       </UserContextProvider>

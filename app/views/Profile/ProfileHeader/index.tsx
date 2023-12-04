@@ -1,14 +1,19 @@
 import { View, Image, Text, StyleSheet } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import useUserById from './userById';
-import { useCallback } from 'react';
+import useUpdateProfilePicture from '../../Settings/updateProfilePicture';
+import ProfilePicture from './ProfilePicture';
 
 type ProfileHeaderProps = {
   user: object;
 };
 
 const ProfileHeader: React.FC<ProfileHeaderProps> = ({ user }) => {
+  const [updateProfilePicture, { loading, error, data }] =
+    useUpdateProfilePicture();
+
   if (!user) return null;
+
+  console.log(user);
 
   let rating = 4;
   return (
@@ -20,15 +25,9 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({ user }) => {
         alignItems: 'center',
       }}
     >
-      <Image
-        source={{
-          uri: user.profilePictureURI,
-        }}
-        style={{ width: 120, height: 120, marginTop: 15, borderRadius: 60 }}
-        resizeMethod="auto"
-      />
+      <ProfilePicture user={user} />
       <Text style={{ fontWeight: '800', fontSize: 15, marginTop: 10 }}>
-        @{user.username}
+        {user.displayName}
       </Text>
       <View
         style={{

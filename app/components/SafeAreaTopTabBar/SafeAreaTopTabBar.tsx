@@ -20,7 +20,7 @@ const SafeAreaTopTabBar = ({ ...props }) => {
       <View style={{ flex: 1 }}>
         <Pressable onPress={() => props.navigation.navigate('search')}>
           <Image
-            source={require('./search2clear.png')}
+            source={require('./search2whitefilled.png')}
             style={{ width: 40, height: 40 }}
           />
         </Pressable>

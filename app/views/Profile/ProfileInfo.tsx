@@ -1,10 +1,4 @@
-import {
-  View,
-  Text,
-  Pressable,
-  SafeAreaView,
-  ActivityIndicator,
-} from 'react-native';
+import { View, Text, Pressable, SafeAreaView, StyleSheet } from 'react-native';
 
 import {
   Tabs,
@@ -16,11 +10,19 @@ import ProfileProduct from './ProfileProduct';
 import ProfileReview from './ProfileReview';
 import ProfileLiked from './ProfileLiked';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import Octicons from 'react-native-vector-icons/Octicons';
 import ProfileHeader from './ProfileHeader';
 import useUserById from './userById';
-import { useCallback, useContext } from 'react';
+import { useContext, useMemo, useRef, useState } from 'react';
 import { UserContext } from '~/contexts/UserContext';
 import { useRoute } from '@react-navigation/native';
+import LoadingSpinner from '~/components/LoadingSpinner';
+import { Portal } from '@gorhom/portal';
+import BottomSheetModal, { BottomSheetView } from '@gorhom/bottom-sheet';
+import Backdrop from '~/components/Backdrop/Backdrop';
+import Bold from '~/components/Bold';
+import { useNavigation } from 'expo-router';
 
 const SafeAreaMaterialTopBar = ({ ...props }) => {
   return (
@@ -60,24 +62,19 @@ const SafeAreaMaterialTopBar = ({ ...props }) => {
 };
 
 const ProfileInfo = () => {
-  const context = useContext(UserContext);
+  const navigation = useNavigation();
   const route = useRoute();
 
-  const { loading, data } = useUserById({ id: route.params.userID });
+  const bottomSheetModalRef = useRef(null);
+  const snapPoints = useMemo(() => ['75%'], []);
 
-  if (loading) {
-    return (
-      <View
-        style={{
-          alignItems: 'center',
-          justifyContent: 'center',
-          flex: 1,
-        }}
-      >
-        <ActivityIndicator size="large" />
-      </View>
-    );
-  }
+  const handleExpand = () => bottomSheetModalRef.current.snapToIndex(0);
+
+  const handleClose = () => bottomSheetModalRef.current.close();
+
+  const { loading, data } = useUserById(route.params.userID);
+
+  if (loading) return <LoadingSpinner />;
 
   if (!data || !data.user) return <Text>Something went wrong</Text>;
 
@@ -88,29 +85,22 @@ const ProfileInfo = () => {
   console.log(data);
   // TODO: Figure out a way to split a line of description into 3 lines
   return (
-    <View
-      style={{ flexDirection: 'column', alignItems: 'center', height: '100%' }}
-    >
+    <>
       <SafeAreaView
         style={{
-          width: '100%',
+          flexDirection: 'row',
           zIndex: 99,
-          justifyContent: 'center',
-          alignItems: 'center',
+          margin: 10,
         }}
       >
-        <View
-          style={{
-            width: '90%',
-            padding: 10,
-            flexDirection: 'row',
-            justifyContent: 'center',
-            // borderBottomWidth: 2,
-          }}
-        >
-          <Text style={{ fontWeight: '800', fontSize: 15 }}>
-            {data.user.displayName}
-          </Text>
+        <View style={{ flex: 1 }} />
+
+        <View style={styles.displayNameContainer}>
+          <Bold size={16}>@{data.user.username}</Bold>
+        </View>
+
+        <View style={styles.settingsIconContainer}>
+          <Ionicons name="reorder-three" size={30} onPress={handleExpand} />
         </View>
       </SafeAreaView>
 
@@ -154,8 +144,49 @@ const ProfileInfo = () => {
           </Tabs.Tab>
         </Tabs.Container>
       </View>
-    </View>
+      <Portal>
+        <BottomSheetModal
+          ref={bottomSheetModalRef}
+          index={-1}
+          snapPoints={snapPoints}
+          enablePanDownToClose={true}
+          backdropComponent={Backdrop}
+        >
+          <BottomSheetView style={{ padding: 15 }}>
+            <Pressable
+              style={styles.settingsContainer}
+              onPress={() => {
+                navigation.navigate('settings');
+                handleClose();
+              }}
+            >
+              <Octicons name="gear" size={24} />
+              <Text style={styles.settingsText}>Settings and privacy</Text>
+            </Pressable>
+          </BottomSheetView>
+        </BottomSheetModal>
+      </Portal>
+    </>
   );
 };
 
 export default ProfileInfo;
+
+const styles = StyleSheet.create({
+  headerItem: {
+    flex: 1,
+  },
+  displayNameContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  settingsIconContainer: { flex: 1, alignItems: 'flex-end' },
+  settingsContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 20,
+  },
+  settingsText: {
+    fontSize: 16,
+  },
+});
