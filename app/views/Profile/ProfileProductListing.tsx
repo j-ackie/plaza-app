@@ -1,7 +1,7 @@
 import { View, Text, SafeAreaView, Pressable, Image } from 'react-native';
 
 const ProfileProductListing = ({ route, navigation }) => {
-  const data = route.params?.data;
+  const data = route.params?.product;
   return (
     <View style={{ flexDirection: 'column', height: '100%' }}>
       <SafeAreaView style={{ backgroundColor: 'white' }}>
@@ -41,7 +41,7 @@ const ProfileProductListing = ({ route, navigation }) => {
       <View style={{ flexDirection: 'column', alignItems: 'center' }}>
         <Image
           source={{
-            uri: data.imageURI,
+            uri: data.imageURIs[0],
           }}
           style={{ width: 200, height: 200, marginTop: 20 }}
           resizeMode="cover"

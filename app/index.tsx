@@ -32,6 +32,8 @@ import Settings from './views/Settings';
 const Tab = createMaterialBottomTabNavigator();
 const Stack = createStackNavigator();
 
+const DummyCreate = () => null;
+
 const TabNavigator = ({ navigation }) => {
   // const tabNames = ['home', 'cart', 'create', 'inbox', 'profile'];
   // const tabComponents = [Home, ShoppingCartOrderScreen, AddContent, Home, Home];
@@ -81,7 +83,7 @@ const TabNavigator = ({ navigation }) => {
       {/* <Tab.Screen name="cart" component={ShoppingCartOrderScreen} /> */}
       <Tab.Screen
         name="dummy-create"
-        component={() => null}
+        component={DummyCreate}
         listeners={{
           tabPress: (e) => {
             e.preventDefault();
