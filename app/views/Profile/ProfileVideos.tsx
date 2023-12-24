@@ -22,6 +22,7 @@ const ProfileVideos = () => {
     },
   });
 
+  console.log(data);
   const navigation = useNavigation();
 
   if (loading && !data)

@@ -15,6 +15,8 @@ import * as Filesystem from 'expo-file-system';
 import * as MediaLibrary from 'expo-media-library';
 import { Buffer } from 'buffer';
 import mime from 'mime';
+import { gql } from '@apollo/client';
+// import { InMemoryCache, ApolloClient } from '@apollo/client';
 
 const mockData = [
   {
@@ -177,6 +179,8 @@ const FinalTouches: FC = ({ navigation, route }) => {
       encoding: 'base64',
     });
 
+    const listVideos = [];
+
     const payload = Buffer.from(base64Payload, 'base64');
     const response = await fetch(data.createVideo.videoURL, {
       method: 'PUT',
@@ -193,7 +197,36 @@ const FinalTouches: FC = ({ navigation, route }) => {
     }
   };
 
-  const [createVideo, { data, loading, error }] = useCreateVideo(onCompleted);
+  const update = (cache, data) => {
+    console.log(data);
+    cache.modify({
+      id: cache.identify('videos'),
+      fields: {
+        // uhhh i have no idea why "comments" works but "videos" does not but it work lmao
+        // i suspect its because "videos" doesnt have any fields so when it tries to put a random field it just doesnt do anything
+        // TODO: Change
+        comments(existingCommentRefs = [], { readField }) {
+          const newCommentRef = cache.writeFragment({
+            data: data,
+            fragment: gql`
+              fragment NewVideo on Video {
+                id
+                userID
+                thumbnailURL
+              }
+            `,
+          });
+
+          return [...existingCommentRefs, newCommentRef];
+        },
+      },
+    });
+  };
+
+  const [createVideo, { data, loading, error }] = useCreateVideo(
+    onCompleted,
+    update
+  );
 
   const uploadVideo = async () => {
     setIsUploading(true);

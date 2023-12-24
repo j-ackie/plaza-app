@@ -14,6 +14,6 @@ const CREATE_VIDEO = gql`
   }
 `;
 
-const useCreateVideo = (onCompleted) => useMutation(CREATE_VIDEO, { onCompleted });
+const useCreateVideo = (onCompleted, update) => useMutation(CREATE_VIDEO, { onCompleted, update });
 
 export default useCreateVideo;

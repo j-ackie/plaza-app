@@ -24,6 +24,7 @@ const ProfilePost = ({ route }) => {
     },
   });
 
+  console.log(data);
   if (loading) return <LoadingSpinner />;
 
   if (error) return <Text>Something went wrong</Text>;
