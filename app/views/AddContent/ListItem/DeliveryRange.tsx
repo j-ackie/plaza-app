@@ -11,6 +11,21 @@ import MapboxGL, {
   ShapeSource,
   UserLocation,
 } from '@rnmapbox/maps';
+import { FeatureCollection } from 'geojson';
+
+const geojson = {
+  // type: 'FeatureCollection',
+  features: [
+    {
+      // type: 'Feature',
+      geometry: {
+        type: 'Point',
+        coordinates: [-70, 40],
+        properties: null,
+      },
+    },
+  ],
+};
 
 const DeliveryRange = () => {
   const [location, setLocation] = useState(null);
@@ -45,8 +60,17 @@ const DeliveryRange = () => {
       >
         <ShapeSource
           shape={{
-            type: 'Point',
-            coordinates: [-74.004, 40.714],
+            type: 'FeatureCollection',
+            features: [
+              {
+                type: 'Feature',
+                geometry: {
+                  type: 'Point',
+                  coordinates: [-70, 40],
+                },
+                properties: null,
+              },
+            ],
           }}
         >
           <CircleLayer
