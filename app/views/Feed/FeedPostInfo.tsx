@@ -6,6 +6,7 @@ import ItemImage, { ItemImageSize } from '~/components/Item/ItemImage';
 const FeedPostInfo = ({ postInfo, handleExpand }) => {
   const sellingItems = [];
   let index = 0;
+  console.log(postInfo.sellingItems);
   for (const item of postInfo.sellingItems) {
     sellingItems.push(
       <TouchableOpacity onPress={handleExpand} style={styles.itemTouchable}>

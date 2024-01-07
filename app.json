@@ -12,9 +12,7 @@
       "backgroundColor": "#ffffff"
     },
     "scheme": "myapp",
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
       "infoPlist": {
@@ -58,6 +56,13 @@
           "photosPermission": "Allow $(PRODUCT_NAME) to access your photos.",
           "savePhotosPermission": "Allow $(PRODUCT_NAME) to save photos.",
           "isAccessMediaLocationEnabled": true
+        }
+      ],
+      [
+        "@rnmapbox/maps",
+        {
+          "RNMapboxMapsImpl": "mapbox",
+          "RNMapboxMapsDownloadToken": "sk.eyJ1Ijoiai1hY2tpZSIsImEiOiJjbHIycWo0ZTAxNmNkMm1xYnkyYXY4N3hsIn0.5jlxFDTm3eLFP_j1SZ8e7Q"
         }
       ]
     ]

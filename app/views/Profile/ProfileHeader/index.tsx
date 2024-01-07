@@ -1,4 +1,4 @@
-import { View, Image, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import useUpdateProfilePicture from '../../Settings/updateProfilePicture';
 import ProfilePicture from './ProfilePicture';
@@ -12,8 +12,6 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({ user }) => {
     useUpdateProfilePicture();
 
   if (!user) return null;
-
-  console.log(user);
 
   let rating = 4;
   return (

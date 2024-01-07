@@ -1,10 +1,6 @@
-import { FC, useState, useRef } from 'react';
+import { FC, useState } from 'react';
 import { Pressable } from 'react-native';
-import {
-  ResizeMode,
-  Video as VideoPlayer,
-  VideoReadyForDisplayEvent,
-} from 'expo-av';
+import { ResizeMode, Video as VideoPlayer } from 'expo-av';
 import { useIsFocused } from '@react-navigation/native';
 
 const handleVideoRef = (

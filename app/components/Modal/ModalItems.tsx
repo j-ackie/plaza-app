@@ -77,6 +77,7 @@ const renderModalPurchase = (item, setPage) => {
 };
 
 const renderModalItems = (item, index, setPage, setSelectedItemIndex) => {
+  console.log(item);
   const postInfo = item;
 
   const handlePurchasePress = () => {

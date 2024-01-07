@@ -27,6 +27,13 @@ import { setContext } from '@apollo/client/link/context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { LogBox } from 'react-native';
 import Settings from './views/Settings';
+import Library from './components/Library';
+import Playground from './views/Playground';
+import MapboxGL from '@rnmapbox/maps';
+
+MapboxGL.setAccessToken(
+  'pk.eyJ1Ijoiai1hY2tpZSIsImEiOiJjbHIycWV3ZncxM3ByMmpxYnkza3JpeXAxIn0.5lCTTnD_5qbS8vE9VVXUGA'
+);
 
 // https://reactnavigation.org/docs/material-bottom-tab-navigator
 const Tab = createMaterialBottomTabNavigator();
@@ -167,6 +174,7 @@ const App = () => {
               // container
             }}
           >
+            {/* <Stack.Screen name="Playground" component={Playground} /> */}
             <Stack.Screen name="authentication" component={Authentication} />
             <Stack.Screen name="tabs" component={TabNavigator} />
             <Stack.Screen
@@ -180,6 +188,14 @@ const App = () => {
             />
             <Stack.Screen name="create" component={AddContent} />
             <Stack.Screen name="settings" component={Settings} />
+            <Stack.Screen
+              name="Library"
+              component={Library}
+              options={{
+                headerShown: true,
+                headerTitle: 'Library',
+              }}
+            />
           </Stack.Navigator>
         </PortalProvider>
       </UserContextProvider>
