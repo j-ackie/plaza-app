@@ -2,16 +2,7 @@ import { useEffect, useState } from 'react';
 import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import Button from '~/components/Buttons/Button';
 import * as Location from 'expo-location';
-import MapboxGL, {
-  Callout,
-  CircleLayer,
-  MapView,
-  MarkerView,
-  PointAnnotation,
-  ShapeSource,
-  UserLocation,
-} from '@rnmapbox/maps';
-import { FeatureCollection } from 'geojson';
+import MapView, { Circle, Marker } from 'react-native-maps';
 
 const geojson = {
   // type: 'FeatureCollection',
@@ -29,6 +20,11 @@ const geojson = {
 
 const DeliveryRange = () => {
   const [location, setLocation] = useState(null);
+  const [markerLocation, setMarkerLocation] = useState({
+    latitude: 2,
+    longitude: 2,
+  });
+  const [showRadius, setShowRadius] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -55,30 +51,30 @@ const DeliveryRange = () => {
       </View>
       <MapView
         style={styles.map}
-        attributionEnabled={false}
-        logoEnabled={false}
+        // attributionEnabled={false}
+        // logoEnabled={false}
+        showsUserLocation
       >
-        <ShapeSource
-          shape={{
-            type: 'FeatureCollection',
-            features: [
-              {
-                type: 'Feature',
-                geometry: {
-                  type: 'Point',
-                  coordinates: [-70, 40],
-                },
-                properties: null,
-              },
-            ],
-          }}
-        >
-          <CircleLayer
-            id="HJAHAHAH"
-            style={{ circleRadius: 100 }}
-          ></CircleLayer>
-        </ShapeSource>
-        <UserLocation />
+        {!!location && (
+          <>
+            <Marker
+              draggable
+              coordinate={location.coords}
+              tracksViewChanges={false}
+              onDragStart={() => setShowRadius(false)}
+              onDragEnd={(e) => {
+                setShowRadius(true);
+                setMarkerLocation(e.nativeEvent.coordinate);
+              }}
+              // onPointerMove={() => console.log('HELLO')}
+            >
+              {/* <Text>HELLO</Text> */}
+            </Marker>
+            {showRadius && <Circle center={markerLocation} radius={500} />}
+          </>
+        )}
+
+        {/* <UserLocation /> */}
       </MapView>
       <View style={styles.buttonContainer}>
         <Button title="Confirm Delivery Range" />
