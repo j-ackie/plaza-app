@@ -1,5 +1,5 @@
 import { useMemo, useRef } from 'react';
-import { View } from 'react-native';
+import { View, Text, Pressable } from 'react-native';
 import Video from '~/components/Video/Video';
 import FeedPostInfo from './FeedPostInfo';
 import styles from './Feed.styles';
