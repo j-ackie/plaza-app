@@ -4,6 +4,8 @@ import { gql, useQuery } from '@apollo/client';
 import { useContext } from 'react';
 import LoadingSpinner from '~/components/LoadingSpinner';
 import useVideosByUserID from './videosByUserId';
+import PLAZA_BW from '../../../../assets/plaza-bw.png';
+const DEFAULT_IMAGE = Image.resolveAssetSource(PLAZA_BW).uri;
 
 const ProfileVideos = () => {
   const navigation = useNavigation();
@@ -16,6 +18,7 @@ const ProfileVideos = () => {
   return (
     <View style={styles.container}>
       {data.videos.map((data) => {
+        console.log(data);
         return (
           <View
             key={data._id}
@@ -29,7 +32,7 @@ const ProfileVideos = () => {
             >
               <Image
                 source={{
-                  uri: data.thumbnailURL,
+                  uri: data.thumbnailURL ? data.thumbnailURL : DEFAULT_IMAGE,
                 }}
                 style={{ width: '100%', height: '100%' }}
                 resizeMode="cover"
