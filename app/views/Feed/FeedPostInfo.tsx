@@ -6,7 +6,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import { useState } from 'react';
 import useCreateLiked, { useDeleteLiked } from './FeedLiked';
 
-const FeedPostInfo = ({ postInfo, handleExpand }) => {
+const FeedPostInfo = ({ postInfo, handleExpand, handleExpandComment }) => {
   const [createLiked, { loading, error, data }] = useCreateLiked();
   const [deleteLiked] = useDeleteLiked();
   const [liked, setLiked] = useState(postInfo.isLiked);
@@ -81,7 +81,8 @@ const FeedPostInfo = ({ postInfo, handleExpand }) => {
           </Text>
         </Pressable>
 
-        <Pressable style={[styles.optionTouchable, { marginBottom: 10 }]}>
+        <Pressable style={[styles.optionTouchable, { marginBottom: 10 }]}
+          onPress={handleExpandComment}>
           <Text>
             <MaterialCommunityIcons
               name="comment"

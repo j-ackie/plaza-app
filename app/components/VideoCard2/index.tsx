@@ -11,6 +11,7 @@ import ItemImage, { ItemImageSize } from '../Item/ItemImage';
 import Modal from '../Modal';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import useCreateLiked, { useDeleteLiked } from '~/views/Feed/FeedLiked';
+import { gql } from '@apollo/client';
 
 interface VideoCardProps {
   videoInfo: object;
@@ -20,6 +21,15 @@ interface VideoCardProps {
 const VideoCard: FC<VideoCardProps> = ({ videoInfo, shouldPlay = true }) => {
   const bottomSheetModalRef = useRef(null);
   const snapPoints = useMemo(() => ['75%', '93%'], []);
+
+  const GET_VIDEO = gql`
+    query ($videoID: ID!) {
+      video(videoID: $videoID) {
+        id
+        isLiked
+      }
+    }
+  `;
 
   const handleExpand = () => bottomSheetModalRef.current.snapToIndex(0);
   console.log(videoInfo);
@@ -37,9 +47,32 @@ const VideoCard: FC<VideoCardProps> = ({ videoInfo, shouldPlay = true }) => {
           },
         },
         onCompleted: async (data) => {
-          console.log(data);
           setLiked(true);
         },
+        update: async (cache, data) => {
+          console.log("data", data)
+          const likedResults = data.data.createLiked
+          const queryRes = cache.readQuery({
+            query: GET_VIDEO,
+            // Provide any required variables in this object.
+            // Variables of mismatched types will return `null`.
+            variables: {
+              videoID: videoInfo.id,
+            },
+          });
+          cache.writeQuery({
+            query: GET_VIDEO,
+            data: {
+              video: {
+                id: videoInfo.id,
+                isLiked: true
+              }
+            },
+            variables: {
+              videoID: videoInfo.id
+            }
+          })
+        }
       });
     } else {
       // Delete liked somehow
@@ -50,9 +83,32 @@ const VideoCard: FC<VideoCardProps> = ({ videoInfo, shouldPlay = true }) => {
           },
         },
         onCompleted: async (data) => {
-          console.log(data);
           setLiked(false);
         },
+        update: async (cache, data) => {
+          console.log("data", data)
+          const likedResults = data.data.createLiked
+          const queryRes = cache.readQuery({
+            query: GET_VIDEO,
+            // Provide any required variables in this object.
+            // Variables of mismatched types will return `null`.
+            variables: {
+              videoID: videoInfo.id,
+            },
+          });
+          cache.writeQuery({
+            query: GET_VIDEO,
+            data: {
+              video: {
+                id: videoInfo.id,
+                isLiked: false
+              }
+            },
+            variables: {
+              videoID: videoInfo.id
+            }
+          })
+        }
       });
     }
   };
@@ -107,7 +163,8 @@ const VideoCard: FC<VideoCardProps> = ({ videoInfo, shouldPlay = true }) => {
               </Text>
             </Pressable>
 
-            <Pressable style={[styles.optionTouchable, { marginBottom: 10 }]}>
+            <Pressable style={[styles.optionTouchable, { marginBottom: 10 }]}
+              onPress={handleExpand}>
               <Text>
                 <MaterialCommunityIcons
                   name="comment"

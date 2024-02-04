@@ -50,6 +50,18 @@ const styles = StyleSheet.create({
     borderRadius: '50%',
     backgroundColor: '#00000080',
   },
+  form: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: 20,
+    borderWidth: 1,
+    marginTop: -1,
+  },
+  commentInput: {
+    borderRadius: 10,
+    flex: 1
+  },
 });
 
 export default styles;
