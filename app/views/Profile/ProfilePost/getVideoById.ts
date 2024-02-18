@@ -15,6 +15,7 @@ const GET_VIDEO = gql`
         description
         name
       }
+      isLiked
     }
   }
 `;

@@ -14,8 +14,10 @@ const styles = StyleSheet.create({
   feedPostInfoContainer: {
     position: 'absolute',
     bottom: 20,
-    left: 10,
-    right: 10,
+    flexDirection: 'row',
+    alignItems: 'flex-end',
+    width: '100%',
+    paddingHorizontal: 10,
     // backgroundColor: "green"
   },
   feedPostInfoUserName: {
@@ -42,6 +44,23 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderWidth: 1,
     overflow: 'hidden',
+  },
+  optionTouchable: {
+    padding: 10,
+    borderRadius: '50%',
+    backgroundColor: '#00000080',
+  },
+  form: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: 20,
+    borderWidth: 1,
+    marginTop: -1,
+  },
+  commentInput: {
+    borderRadius: 10,
+    flex: 1
   },
 });
 
