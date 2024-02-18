@@ -18,7 +18,10 @@ const Information = () => {
           />
         </InformationRow>
         <InformationRow label="Delivery Times">
-          <Button title="Add" />
+          <Button
+            title="Add"
+            onPress={() => navigation.navigate('Delivery Times')}
+          />
         </InformationRow>
         <InformationRow isBottom label="Price">
           <Text>HELLO</Text>
