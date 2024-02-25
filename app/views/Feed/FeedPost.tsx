@@ -7,16 +7,15 @@ import BottomSheetModal, { BottomSheetFooter, BottomSheetTextInput } from '@gorh
 import { Portal } from '@gorhom/portal';
 import ModalItems from '~/components/Modal/ModalItems';
 import Backdrop from '~/components/Backdrop/Backdrop';
-import { FlatList, ScrollView, TextInput } from 'react-native-gesture-handler';
 import ModalComments from '~/components/Comments/ModalComments';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useCreateComment, useGetComment} from '~/components/Comments/commentQueries';
 import { gql } from '@apollo/client';
-import LoadingSpinner from '~/components/LoadingSpinner';
 
 const FeedPost = ({ videoIndex, currViewableIndex, postInfo }) => {
   const bottomSheetModalRef = useRef(null);
   const bottomSheetModalRefComment = useRef(null);
+  const bottomSheetCommentInput = useRef(null)
   const snapPoints = useMemo(() => ['75%', '93%'], []);
   const snapPointsComment = useMemo(() => ['75%', '95%'], []);
 
@@ -29,7 +28,6 @@ const FeedPost = ({ videoIndex, currViewableIndex, postInfo }) => {
   const {data} = useGetComment(66)
 
   const update = (cache, data) => {
-    console.log("UPDATING !")
     const query = gql`
       query Query($videoId: ID!) {
         comments(videoID: $videoId) {
@@ -49,12 +47,10 @@ const FeedPost = ({ videoIndex, currViewableIndex, postInfo }) => {
         videoId: 66
       },
     });
-    console.log("Cache is: ", cacheData)
     if (!cacheData) {
       console.log("Cache hasn't been populated yet, no need to do anything");
       return;
     }
-    console.log("HERE! ", data)
     const incoming = {
       id: data.data.createComment.id,
       userID: data.data.createComment.userID,
@@ -82,6 +78,7 @@ const FeedPost = ({ videoIndex, currViewableIndex, postInfo }) => {
 
   const onSubmitEditing = async (event) => {
     //const text = event.nativeEvent.text
+    bottomSheetCommentInput.current.clear()
     createComment({
       variables: {
         comment: {
@@ -99,6 +96,7 @@ const FeedPost = ({ videoIndex, currViewableIndex, postInfo }) => {
           <View style={{width: "95%", height: "100%", borderTopColor: "#DADEDF", borderTopWidth: 2, flexDirection: "row", alignItems: "center"}}>
             <BottomSheetTextInput 
               style={[styles.commentInput, styles.form]}
+              ref={bottomSheetCommentInput}
               // value={commentText}
               // onChangeText={onChangeCommentText}
               placeholder='Add comment...'
