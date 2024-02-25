@@ -58,10 +58,20 @@ const Schedule = () => {
   );
 
   const times = [];
-  for (let i = 0; i < 18; i++) {
+  for (let i = 8; i <= 20; i++) {
+    const time = i % 12 + 1;
+
+    let meridiem;
+    if(Math.floor(((i + 1) / 12)) % 2 == 0){
+      meridiem = "AM"
+    }
+    else{
+      meridiem = "PM"
+    }
+
     times.push(
       <View style={styles.time}>
-        <Text>WOW</Text>
+        <Text style={{color: "gray"}}>{time} {meridiem}</Text>
       </View>
     );
   }
@@ -69,21 +79,26 @@ const Schedule = () => {
   const cells = [];
   for (let i = 0; i < 7; i++) {
     cells.push([]);
-    for (let j = 0; j < 18; j++) {
+    for (let j = 0; j < 13; j++) {
       cells[i].push(
         <Pressable
           style={
-            hoveredIndexes.has(i * 18 + j) ? styles.active : styles.inactive
+            [
+              
+              styles.item
+            ]
           }
           key={`row${i}col${j}`}
           onTouchStart={() => {
             const newHoveredIndices = new Set(hoveredIndexes);
-            newHoveredIndices.add(i * 18 + j);
+            newHoveredIndices.add(i * 13 + j);
             setHoveredIndexes(newHoveredIndices);
           }}
-          ref={(ref) => (viewRefs.current[i * 18 + j] = ref)}
+          ref={(ref) => (viewRefs.current[i * 13 + j] = ref)}
         >
-          <Text>{i * 18 + j}</Text>
+            <View style={hoveredIndexes.has(i * 13 + j) ? styles.active : styles.inactive}>
+              {/* <Text>{i * 13 + j}</Text> */}
+            </View>
         </Pressable>
       );
     }
@@ -92,32 +107,34 @@ const Schedule = () => {
   // console.log(hoveredIndexes);
 
   return (
-    <View style={styles.container}>
-      <View style={styles.timesContainer}>
-        <Text></Text>
-        {times}
-      </View>
-      {cells.map((column, idx) => (
-        <View
-          style={styles.columnContainer}
-          key={`column-${idx}`}
-          {...panResponder.panHandlers}
-        >
-          <View style={styles.columnTextContainer}>
-            <Text>{idxToDay(idx)}</Text>
-          </View>
-          {/* {column} */}
-          <View style={styles.column}>{column}</View>
+    <View style={styles.center}>
+      <View style={styles.container}>
+        <View style={styles.timesContainer}>
+          <Text></Text>
+          {times}
         </View>
-      ))}
-      {/* <Pressable
-        style={styles.pressable}
-        onTouchStart={() => console.log('HELLO')}
-      ></Pressable>
-      <Pressable
-        style={styles.pressable}
-        onTouchStart={() => console.log('HELLO')}
-      ></Pressable> */}
+        {cells.map((column, idx) => (
+          <View
+            style={styles.columnContainer}
+            key={`column-${idx}`}
+            {...panResponder.panHandlers}
+          >
+            <View style={styles.columnTextContainer}>
+              <Text>{idxToDay(idx)}</Text>
+            </View>
+            {/* {column} */}
+            <View style={styles.column}>{column}</View>
+          </View>
+        ))}
+        {/* <Pressable
+          style={styles.pressable}
+          onTouchStart={() => console.log('HELLO')}
+        ></Pressable>
+        <Pressable
+          style={styles.pressable}
+          onTouchStart={() => console.log('HELLO')}
+        ></Pressable> */}
+      </View>
     </View>
   );
 };
@@ -125,8 +142,15 @@ const Schedule = () => {
 export default Schedule;
 
 const styles = StyleSheet.create({
+  center: {
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    flex: 1
+  },
   container: {
-    flex: 1,
+    height: "90%",
+    width: "95%",
     flexDirection: 'row',
   },
   timesContainer: {
@@ -145,19 +169,22 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   column: {
-    flex: 1,
-    borderLeftWidth: 1,
+    flex: 1
+  },
+  item: {
+    padding: 4,
+    flex: 1
   },
   inactive: {
-    borderBottomWidth: 1,
-    backgroundColor: 'red',
+    borderWidth: 1,
+    backgroundColor: '#C2F2FE',
     flex: 1,
     // width: 10,
     // height: 10,
   },
   active: {
-    borderBottomWidth: 1,
-    backgroundColor: 'green',
+    borderWidth: 1,
+    backgroundColor: '#0FCEFE',
     flex: 1,
   },
 });
