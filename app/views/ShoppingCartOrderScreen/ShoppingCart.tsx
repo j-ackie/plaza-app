@@ -16,7 +16,7 @@ import CartModalItemInfo from '~/components/Modal/CartModalItemInfo';
 import CartModalVideo from '~/components/Modal/CartModalVideo';
 import CheckBox from 'expo-checkbox';
 import { useNavigation } from '@react-navigation/native';
-import { gql, useQuery } from '@apollo/client';
+import { gql, useMutation, useQuery } from '@apollo/client';
 import LoadingSpinner from '~/components/LoadingSpinner';
 
 const cartQuery = gql`
@@ -39,22 +39,62 @@ const ShoppingCart = () => {
   const [selected, setSelected] = useState(-1);
   const navigation = useNavigation();
 
+  const ADD_HISTORY = gql`
+    mutation Mutation($order: HistoryInsertInput) {
+      insertHistory(order: $order) {
+        id
+        imageURI
+        name
+        orderedAt
+        quantity
+        productID
+        status
+        userID
+        videoID
+      }
+    }
+  `
+
+  // TODO: We should probably have a separate directory that contains all of the queries
+  const onCompleted = () => {
+
+  }
+
+  const update = () => {
+
+  }
+
+  const [addHistory, {}] = useMutation(ADD_HISTORY, { onCompleted, update });
+
+  
+
+  const [checked, setChecked] = useState(Array(0));
+
   const { loading, error, data } = useQuery(cartQuery, {
     variables: {
       userId: 1,
     },
   });
 
-  const [checked, setChecked] = useState(Array(0));
-
   if (loading) return <LoadingSpinner />;
 
   if (error) return <Text>{error.message}</Text>;
 
-  console.log(data);
-
   const handleConfirmPress = () => {
-    navigation.navigate('confirm');
+    for(let i = 0; i < checked.length; i++){
+      if(checked[i]){
+        console.log("confirming index:", checked[i])
+        console.log("which is item", data.cart[i])
+        addHistory({
+          variables: {
+            "order": {
+              "productID": data.cart[i].productID,
+              "videoID": data.cart[i].videoID
+            }
+          }
+        })
+      }
+    }
   };
 
   const toggleCheckbox = (index) => {
@@ -89,7 +129,7 @@ const ShoppingCart = () => {
                 if (index == 0) {
                   return (
                     <CartModalItemInfo
-                      productID={data.cart[selected].id}
+                      productID={data.cart[selected].productID}
                     ></CartModalItemInfo>
                   );
                 } else {

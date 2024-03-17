@@ -5,29 +5,28 @@ import { gql, useQuery } from '@apollo/client';
 
 const productQuery = gql`
   query Query($productId: ID!) {
-    product(productID: $productId) {
-      id
-      sellerID
-      name
+    product(id: $productId) {
       description
-      quantity
+      id
+      imageURIs
+      name
       price
-      imageURI
+      quantity
+      sellerID
     }
   }
 `;
 
 function CartModalItemInfo(props) {
-  console.log(props.productID);
 
   const { loading, error, data } = useQuery(productQuery, {
     variables: {
-      productId: props.productID,
+      productId: parseInt(props.productID),
     },
   });
 
   if (loading || error) {
-    return <Text></Text>;
+    return <Text>Loading...</Text>;
   }
 
   const product = data.product;

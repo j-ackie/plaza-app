@@ -94,7 +94,7 @@ const OrderHistory = () => {
                 } else if (index == 1) {
                   return (
                     <CartModalItemInfo
-                      productID={historyItems[selected].id}
+                      productID={historyItems[selected].productID}
                     ></CartModalItemInfo>
                   );
                 } else {
