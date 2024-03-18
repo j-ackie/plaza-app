@@ -1,20 +1,31 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { UserContextProvider } from '@/contexts/UserContext';
+import Navigation from '@/wrappers/Navigation';
+import {
+  ApolloClient,
+  ApolloProvider,
+  HttpLink,
+  InMemoryCache,
+} from '@apollo/client';
+import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+const client = new ApolloClient({
+  uri: process.env.GRAPHQL_API_URL,
+  cache: new InMemoryCache(),
 });
+
+const App = () => {
+  return (
+    <ApolloProvider client={client}>
+      <UserContextProvider>
+        <GestureHandlerRootView style={{ flex: 1 }}>
+          <BottomSheetModalProvider>
+            <Navigation />
+          </BottomSheetModalProvider>
+        </GestureHandlerRootView>
+      </UserContextProvider>
+    </ApolloProvider>
+  );
+};
+
+export default App;
