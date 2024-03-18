@@ -10,7 +10,7 @@ import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 const client = new ApolloClient({
-  uri: process.env.GRAPHQL_API_URL,
+  uri: process.env.EXPO_PUBLIC_API_URL,
   cache: new InMemoryCache(),
 });
 

@@ -1,9 +1,10 @@
-import { useCallback, useState } from 'react';
-import { Dimensions, FlatList, View } from 'react-native';
+import { FC, useCallback, useState } from 'react';
+import { Dimensions, FlatList, StyleSheet, View } from 'react-native';
 import useGetFeedVideos from './useGetFeedVideos';
 import Loading from '../Loading';
 import Error from '../Error';
 import VideoCard from '../VideoCard';
+import { VideoFilters } from '@/__generated__/graphql';
 
 const mockData = [
   {
@@ -65,14 +66,20 @@ const mockData = [
   },
 ];
 
-const Feed = () => {
+const VIDEO_HEIGHT = Dimensions.get('window').height - 80;
+
+interface FeedProps {
+  videoFilters?: VideoFilters;
+}
+
+const Feed: FC<FeedProps> = ({ videoFilters }) => {
   const { data, loading, error } = useGetFeedVideos();
   const [currViewableIndex, setCurrViewableIndex] = useState(0);
 
   const renderItem = useCallback(
     ({ item, index }) => {
       return (
-        <View style={{ height: Dimensions.get('window').height - 80 }}>
+        <View style={{ height: VIDEO_HEIGHT }}>
           <VideoCard video={item} shouldPlay={index === currViewableIndex} />
         </View>
       );
@@ -86,12 +93,18 @@ const Feed = () => {
     setCurrViewableIndex(viewableItems[0].index);
   }, []);
 
-  if (loading) return <Loading />;
+  if (loading)
+    return (
+      <View style={styles.loading}>
+        <Loading />
+      </View>
+    );
 
   if (error) return <Error error={error} />;
 
   return (
     <FlatList
+      // data={data.feedVideos}
       data={mockData}
       renderItem={renderItem}
       pagingEnabled
@@ -101,8 +114,8 @@ const Feed = () => {
       onViewableItemsChanged={handleViewableItemsChanged}
       viewabilityConfig={{ itemVisiblePercentThreshold: 100 }}
       getItemLayout={(_, index) => ({
-        length: Dimensions.get('window').height - 80,
-        offset: (Dimensions.get('window').height - 80) * index,
+        length: VIDEO_HEIGHT,
+        offset: VIDEO_HEIGHT * index,
         index,
       })}
     />
@@ -110,3 +123,9 @@ const Feed = () => {
 };
 
 export default Feed;
+
+const styles = StyleSheet.create({
+  loading: {
+    height: VIDEO_HEIGHT,
+  },
+});
