@@ -1,37 +1,26 @@
 import { SafeAreaView } from 'react-native';
-import {
-  createMaterialTopTabNavigator,
-  MaterialTopTabBar,
-} from '@react-navigation/material-top-tabs';
-import { gql } from '@apollo/client';
+import { TopTabNavigator, TopTabScreen } from '@/components/TopTab';
 import Cart from './CartTabs/Cart';
-import History from './CartTabs/History';
+import History from './CartTabs/History'
+import BlockTopTabBar from '@/components/BlockTopTabBar';
 
-const Tab = createMaterialTopTabNavigator();
+enum HomeTab {
+  CART = 'Cart',
+  HISTORY = 'Order History',
+}
 
-const CartOrder = ({ ...props }) => {
+const CartOrder = () => {
   return (
-    <SafeAreaView style={{ width: '100%' }}>
-      <MaterialTopTabBar {...props} />
-    </SafeAreaView>
-  );
-};
-
-const ShoppingCartOrderScreen = () => {
-  return (
-    <Tab.Navigator
-      tabBar={(props) => <SafeAreaMaterialTopBar {...props} />}
+    <TopTabNavigator
+      tabBar={BlockTopTabBar}
       screenOptions={{
         tabBarLabelStyle: { textTransform: 'none', color: 'black' },
         tabBarStyle: { backgroundColor: 'transparent' },
       }}
     >
-      <Tab.Screen name="Shopping Cart" component={Cart} />
-      <Tab.Screen
-        name="Order History"
-        component={History} // replace with OrderHistory
-      />
-    </Tab.Navigator>
+      <TopTabScreen name={HomeTab.CART} component={Cart} />
+      <TopTabScreen name={HomeTab.HISTORY} component={History} />
+    </TopTabNavigator>
   );
 };
 
