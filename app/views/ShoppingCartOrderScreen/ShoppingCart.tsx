@@ -60,8 +60,43 @@ const ShoppingCart = () => {
 
   }
 
-  const update = () => {
+  const GET_HISTORY = gql`
+    query Query($userId: Int!) {
+      history(userID: $userId) {
+        id
+        imageURI
+        name
+        orderedAt
+        productID
+        quantity
+        status
+        userID
+        videoID
+      }
+    }
+  `
 
+  const update = (cache, data) => {
+    console.log("data:", data)
+    cache.writeQuery({
+      query: GET_HISTORY,
+      data: {
+        history: {
+          id: data.id,
+          imageURI: data.imageURI,
+          name: data.name,
+          orderedAt: data.orderedAt,
+          productID: data.productID,
+          quantity: data.quantity,
+          status: data.status,
+          userID: data.userID,
+          videoID: data.videoID
+        }
+      },
+      variables: {
+        "userId": 1
+      }
+    })
   }
 
   const [addHistory, {}] = useMutation(ADD_HISTORY, { onCompleted, update });
