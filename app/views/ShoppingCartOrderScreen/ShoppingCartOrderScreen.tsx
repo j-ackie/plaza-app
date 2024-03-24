@@ -5,13 +5,13 @@ import {
 } from '@react-navigation/material-top-tabs';
 import ShoppingCart from './ShoppingCart';
 import OrderHistory from './OrderHistory';
+import { gql } from '@apollo/client';
 
 const Tab = createMaterialTopTabNavigator();
 
 const SafeAreaMaterialTopBar = ({ ...props }) => {
   return (
     <SafeAreaView style={{ width: '100%' }}>
-      {/* @ts-ignore */}
       <MaterialTopTabBar {...props} />
     </SafeAreaView>
   );

@@ -34,8 +34,7 @@ const AddContent: FC<AddContentProps> = ({ route, navigation }) => {
       <Stack.Screen
         name="listItem"
         component={ListItem}
-        options={{ title: 'List an item' }}
-        initialParams={{ assets: [] }}
+        options={{ headerShown: false }}
       />
       <Stack.Screen
         name="library"

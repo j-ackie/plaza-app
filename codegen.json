@@ -1,0 +1,12 @@
+{
+  "schema": "http://localhost:8000/graphql",
+  "documents": "./app/**/*.ts",
+  "generates": {
+    "./app/gql/generated.ts": {
+      "plugins": ["typescript"],
+      "config": {
+        "avoidOptionals": true
+      }
+    }
+  }
+}

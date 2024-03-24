@@ -4,12 +4,15 @@ import { createMaterialBottomTabNavigator } from '@react-navigation/material-bot
 import { PortalProvider } from '@gorhom/portal';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { StatusBar } from 'expo-status-bar';
-import Home from '~/views/Home/Home';
+import Home from '~/views/Home';
 import ShoppingCartOrderScreen from '~/views/ShoppingCartOrderScreen/ShoppingCartOrderScreen';
 import { Audio } from 'expo-av';
 import AddContent from './views/AddContent';
-import Profile from './views/Profile/Profile';
+import Profile from './views/Profile';
 import Inbox from './views/Inbox';
+import Search from './views/Search';
+import Authentication from './views/Authentication';
+import UserContextProvider, { UserContext } from './contexts/UserContext';
 import {
   ApolloClient,
   ApolloProvider,
@@ -20,10 +23,18 @@ import {
 import { GraphQLWsLink } from '@apollo/client/link/subscriptions';
 import { createClient } from 'graphql-ws';
 import { getMainDefinition } from '@apollo/client/utilities';
+import { setContext } from '@apollo/client/link/context';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { LogBox } from 'react-native';
+import Settings from './views/Settings';
+import Library from './components/Library';
+import Playground from './views/Playground';
 
 // https://reactnavigation.org/docs/material-bottom-tab-navigator
 const Tab = createMaterialBottomTabNavigator();
 const Stack = createStackNavigator();
+
+const DummyCreate = () => null;
 
 const TabNavigator = ({ navigation }) => {
   // const tabNames = ['home', 'cart', 'create', 'inbox', 'profile'];
@@ -39,42 +50,24 @@ const TabNavigator = ({ navigation }) => {
       // https://stackoverflow.com/questions/75013007/how-to-remove-this-white-ovale-behind-the-focused-in-the-material-bottom-tabs-na
       // edit theme later
 
-      screenOptions={
-        ({route}) => ({
-          tabBarIcon: (e) => {
-            let name = ""
-            switch(route.name){
-              case 'home':{
-                name = 'home'
-                break;
-              }
-              case 'cart':{
-                name = 'cart'
-                break;
-              }
-              case 'dummy-create':{
-                name = 'plus-circle-outline'
-                break;
-              }
-              case 'inbox':{
-                name = 'mailbox-open'
-                break;
-              }
-              case 'profile':{
-                name = 'account-circle'
-                break;
-              }
+      screenOptions={({ route }) => ({
+        tabBarIcon: () => {
+          let name = '';
+          switch (route.name) {
+            case 'home': {
+              name = 'home';
+              break;
             }
             case 'cart': {
               name = 'cart';
               break;
             }
-            case 'create': {
+            case 'dummy-create': {
               name = 'plus-circle-outline';
               break;
             }
             case 'inbox': {
-              name = 'mailbox-open';
+              name = 'package';
               break;
             }
             case 'profile': {
@@ -89,9 +82,10 @@ const TabNavigator = ({ navigation }) => {
     >
       <Tab.Screen name="home" component={Home} />
       <Tab.Screen name="cart" component={ShoppingCartOrderScreen} />
+      {/* <Tab.Screen name="cart" component={ShoppingCartOrderScreen} /> */}
       <Tab.Screen
         name="dummy-create"
-        component={() => null}
+        component={DummyCreate}
         listeners={{
           tabPress: (e) => {
             e.preventDefault();
@@ -105,15 +99,39 @@ const TabNavigator = ({ navigation }) => {
   );
 };
 
+const getToken = async () => {
+  const token = await AsyncStorage.getItem('ACCESS_TOKEN');
+
+  return token ? `Bearer ${token}` : '';
+};
+
 const httpLink = new HttpLink({
-  uri: 'http://localhost:8000/graphql',
+  uri: 'http://localhost:8000/graphql/',
+  // uri: 'http://ec2-3-80-101-13.compute-1.amazonaws.com:8000/graphql/',
 });
 
 const wsLink = new GraphQLWsLink(
   createClient({
     url: 'ws://localhost:8000/',
+    // url: 'ws://ec2-3-80-101-13.compute-1.amazonaws.com:8000/',
+    connectionParams: async () => {
+      return {
+        authorization: await getToken(),
+      };
+    },
   })
 );
+
+const authLink = setContext(async (_, headers) => {
+  console.log('authLink');
+
+  return {
+    headers: {
+      ...headers,
+      authorization: await getToken(),
+    },
+  };
+});
 
 const splitLink = split(
   ({ query }) => {
@@ -124,7 +142,7 @@ const splitLink = split(
     );
   },
   wsLink,
-  httpLink
+  authLink.concat(httpLink)
 );
 
 const client = new ApolloClient({
@@ -138,21 +156,44 @@ const App = () => {
       playsInSilentModeIOS: true,
     });
   }, []);
+  LogBox.ignoreAllLogs(); //Ignore all log notifications
 
   return (
     <ApolloProvider client={client}>
-      <PortalProvider>
-        <StatusBar style="light" />
-        <Stack.Navigator
-          screenOptions={{
-            headerShown: false,
-            // container
-          }}
-        >
-          <Stack.Screen name="tabs" component={TabNavigator} />
-          <Stack.Screen name="create" component={AddContent} />
-        </Stack.Navigator>
-      </PortalProvider>
+      <UserContextProvider>
+        <PortalProvider>
+          <StatusBar style="light" />
+          <Stack.Navigator
+            screenOptions={{
+              headerShown: false,
+              // container
+            }}
+          >
+            {/* <Stack.Screen name="Playground" component={Playground} /> */}
+            <Stack.Screen name="authentication" component={Authentication} />
+            <Stack.Screen name="tabs" component={TabNavigator} />
+            <Stack.Screen
+              name="search"
+              component={Search}
+              options={{
+                headerShown: true,
+                headerTitle: '',
+                headerBackTitle: 'Tabs',
+              }}
+            />
+            <Stack.Screen name="create" component={AddContent} />
+            <Stack.Screen name="settings" component={Settings} />
+            <Stack.Screen
+              name="Library"
+              component={Library}
+              options={{
+                headerShown: true,
+                headerTitle: 'Library',
+              }}
+            />
+          </Stack.Navigator>
+        </PortalProvider>
+      </UserContextProvider>
     </ApolloProvider>
   );
 };

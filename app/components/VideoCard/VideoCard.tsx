@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import { StyleSheet, Text, View, Pressable } from 'react-native';
+import { Pressable } from 'react-native';
 import { useIsFocused } from '@react-navigation/native';
 import { Video, VideoReadyForDisplayEvent } from 'expo-av';
+import LoadingSpinner from '../LoadingSpinner';
 
 const handleVideoRef = (
   component,
@@ -77,7 +78,9 @@ const VideoCard = ({ videoIndex, currViewableIndex, videoURI }) => {
         isMuted={false}
         // @ts-ignore
         resizeMode={resizeMode}
-      />
+      >
+        <LoadingSpinner />
+      </Video>
     </Pressable>
   );
 };

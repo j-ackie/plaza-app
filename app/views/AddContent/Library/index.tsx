@@ -11,7 +11,7 @@ const Library: FC = ({ route }) => {
       <Tab.Screen
         name="all"
         component={Assets}
-        initialParams={{ assetType: '', ...route.params }}
+        initialParams={{ assetType: null, ...route.params }}
       />
       <Tab.Screen
         name="videos"
