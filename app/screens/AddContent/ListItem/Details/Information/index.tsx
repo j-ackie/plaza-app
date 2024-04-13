@@ -2,9 +2,23 @@ import { View, Text, StyleSheet } from 'react-native';
 import InformationRow from './InformationRow';
 import Button from '~/components/Buttons/Button';
 import { useNavigation } from 'expo-router';
+import { useEffect, useState } from 'react';
+import * as Location from 'expo-location';
 
-const Information = () => {
+const Information = ({ location }) => {
+  const [address, setAddress] = useState('');
   const navigation = useNavigation();
+
+  useEffect(() => {
+    if (!location) return;
+
+    Location.reverseGeocodeAsync({
+      latitude: location.latitude,
+      longitude: location.longitude,
+    }).then((r) => setAddress(r[0].name));
+  }, [location]);
+
+  console.log(location);
 
   const price = 20;
   return (
@@ -12,6 +26,7 @@ const Information = () => {
       <Text style={styles.label}>Information</Text>
       <View style={styles.information}>
         <InformationRow label="Delivery Range">
+          {location && <Text>{address}</Text>}
           <Button
             title="Add"
             onPress={() => navigation.navigate('Delivery Range')}

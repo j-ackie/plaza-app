@@ -25,10 +25,10 @@ const Details = ({ navigation, route }) => {
   const [isUploading, setIsUploading] = useState(false);
   const [createProduct, { data, loading, error }] = useCreateProduct();
 
-  const { assets } = route.params;
+  const { assets, location } = route.params;
 
   console.log(assets);
-
+  console.log(location);
   const onCompleted = async (data) => {
     const assetInfo = await MediaLibrary.getAssetInfoAsync(assets[0]);
     const localURI = assetInfo.localUri;
@@ -109,7 +109,7 @@ const Details = ({ navigation, route }) => {
           multiline
         />
       </View>
-      <Information />
+      <Information location={location} />
       <View style={styles.buttonsContainer}>
         <Pressable style={styles.button}>
           <Text>Preview</Text>

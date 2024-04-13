@@ -4,15 +4,15 @@ import { createMaterialBottomTabNavigator } from '@react-navigation/material-bot
 import { PortalProvider } from '@gorhom/portal';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { StatusBar } from 'expo-status-bar';
-import Home from '~/views/Home';
-import ShoppingCartOrderScreen from '~/views/ShoppingCartOrderScreen/ShoppingCartOrderScreen';
+import Home from './screens/Home';
+import ShoppingCartOrderScreen from '~/screens/ShoppingCartOrderScreen/ShoppingCartOrderScreen';
 import { Audio } from 'expo-av';
-import AddContent from './views/AddContent';
-import Profile from './views/Profile';
-import Inbox from './views/Inbox';
-import Search from './views/Search';
-import Authentication from './views/Authentication';
-import UserContextProvider, { UserContext } from './contexts/UserContext';
+import AddContent from './screens/AddContent';
+import Profile from './screens/Profile';
+import Inbox from './screens/Inbox';
+import Search from './screens/Search';
+import Authentication from './screens/Authentication';
+import UserContextProvider from './contexts/UserContext';
 import {
   ApolloClient,
   ApolloProvider,
@@ -26,9 +26,9 @@ import { getMainDefinition } from '@apollo/client/utilities';
 import { setContext } from '@apollo/client/link/context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { LogBox } from 'react-native';
-import Settings from './views/Settings';
+import Settings from './screens/Settings';
 import Library from './components/Library';
-import Playground from './views/Playground';
+import Playground from './screens/Playground';
 
 // https://reactnavigation.org/docs/material-bottom-tab-navigator
 const Tab = createMaterialBottomTabNavigator();

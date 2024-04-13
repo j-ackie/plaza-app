@@ -76,7 +76,7 @@ const ProfileInfo = () => {
 
   if (loading) return <LoadingSpinner />;
 
-  if (error) return <Text>Something went wrong</Text>;
+  if (error) return <Text>Something went wrong {error.message}</Text>;
 
   const renderHeader = () => (
     <ProfileHeader user={data && data.user ? data.user : null} />

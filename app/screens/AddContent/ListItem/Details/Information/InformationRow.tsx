@@ -20,7 +20,16 @@ const InformationRow: FC<InformationRowProps> = ({
       <View style={styles.informationCategory}>
         <Text>{label}</Text>
       </View>
-      <View style={{ padding: 10 }}>{children}</View>
+      <View
+        style={{
+          padding: 10,
+          flexDirection: 'row',
+          alignItems: 'center',
+          gap: 10,
+        }}
+      >
+        {children}
+      </View>
     </View>
   );
 };

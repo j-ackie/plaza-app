@@ -108,6 +108,7 @@ const FinalTouches: FC = ({ navigation, route }) => {
     });
   };
 
+  console.log(error?.message);
   if (loading || isUploading) return <LoadingSpinner />;
 
   if (error) return <Text>Something went wrong</Text>;

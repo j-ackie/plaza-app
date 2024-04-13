@@ -8,7 +8,6 @@ import {
   Image,
   SafeAreaView,
 } from 'react-native';
-import { Item } from '../../interfaces/queries.interfaces';
 import styles from './ShoppingCartOrderScreen.styles';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Carousel from 'react-native-reanimated-carousel';
