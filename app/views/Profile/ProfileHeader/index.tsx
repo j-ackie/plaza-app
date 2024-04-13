@@ -1,7 +1,8 @@
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Pressable } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import useUpdateProfilePicture from '../../Settings/updateProfilePicture';
 import ProfilePicture from './ProfilePicture';
+import { useCreateFollowing, useDeleteFollowing, useFollowersById, useFollowingById, useGetIsFollowing } from './followingById';
 
 type ProfileHeaderProps = {
   user: object;
@@ -12,6 +13,14 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({ user }) => {
     useUpdateProfilePicture();
 
   if (!user) return null;
+
+  const isFollowing = useGetIsFollowing(parseInt(user.id));
+  const following = useFollowingById(parseInt(user.id))
+  const follower = useFollowersById(parseInt(user.id))
+  const [createFollow, {}] = useCreateFollowing()
+  const [deleteFollow, {}] = useDeleteFollowing()
+
+  if (!isFollowing.data || !following.data || !follower.data) return null;
 
   let rating = 4;
   return (
@@ -36,7 +45,7 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({ user }) => {
         }}
       >
         <View style={styles.infoContainer}>
-          <Text style={styles.infoContainerHighlight}>173</Text>
+          <Text style={styles.infoContainerHighlight}>{following.data.followers.length}</Text>
           <Text>Following</Text>
         </View>
 
@@ -66,7 +75,7 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({ user }) => {
         </View>
 
         <View style={styles.infoContainer}>
-          <Text style={styles.infoContainerHighlight}>265</Text>
+          <Text style={styles.infoContainerHighlight}>{follower.data.followers.length}</Text>
           <Text>Followers</Text>
         </View>
       </View>
@@ -76,6 +85,20 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({ user }) => {
           {user.description}
         </Text>
       </View>
+
+      <Pressable style={styles.buttonStyle} onPress={() => {
+        // console.log(isFollowing.data)
+        if(isFollowing.data.isFollowing)[
+          deleteFollow({variables : { follow: { followingID: parseInt(user.id) } }})
+        ]
+        else{
+          createFollow({variables : { follow: { followingID: parseInt(user.id) } }})
+        }
+      }}>
+        <Text>
+          {isFollowing.data.isFollowing ? "Unfollow" : "Follow"}
+        </Text>
+      </Pressable>
     </View>
   );
 };
@@ -91,4 +114,12 @@ const styles = StyleSheet.create({
   infoContainerHighlight: {
     fontWeight: '600',
   },
+
+  buttonStyle : {
+    marginBottom: 10,
+    paddingVertical: 4,
+    paddingHorizontal: 15,
+    borderWidth: 2,
+    borderRadius: 5
+  }
 });
