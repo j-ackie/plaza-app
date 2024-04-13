@@ -1,5 +1,4 @@
-import { View, Text } from 'react-native';
-import React, { createContext, useState } from 'react';
+import { FC, ReactNode, createContext, useState } from 'react';
 
 export const UserContext = createContext<IUserContext>({} as IUserContext);
 
@@ -15,7 +14,11 @@ export interface IUserContext {
   setRefresh: any;
 }
 
-const UserContextProvider = (props) => {
+interface UserContextProviderProps {
+  children: ReactNode;
+}
+
+const UserContextProvider: FC<UserContextProviderProps> = ({ children }) => {
   const [user, setUser] = useState({ userid: -1, username: '' });
   const [auth, setAuth] = useState(null);
   const [refresh, setRefresh] = useState(null);
@@ -24,7 +27,7 @@ const UserContextProvider = (props) => {
     <UserContext.Provider
       value={{ user, setUser, auth, setAuth, refresh, setRefresh }}
     >
-      {props.children}
+      {children}
     </UserContext.Provider>
   );
 };

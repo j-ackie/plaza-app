@@ -10,10 +10,16 @@ import Video from '../Video1';
 import ItemImage, { ItemImageSize } from '../Item/ItemImage';
 import Modal from '../Modal';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import useCreateLiked, { useDeleteLiked } from '~/views/Feed/FeedLiked';
+import useCreateLiked, { useDeleteLiked } from '~/screens/Feed/FeedLiked';
 import { gql } from '@apollo/client';
-import {useCreateComment, useGetComment} from '~/components/Comments/commentQueries';
-import BottomSheetModal, { BottomSheetFooter, BottomSheetTextInput } from '@gorhom/bottom-sheet';
+import {
+  useCreateComment,
+  useGetComment,
+} from '~/components/Comments/commentQueries';
+import BottomSheetModal, {
+  BottomSheetFooter,
+  BottomSheetTextInput,
+} from '@gorhom/bottom-sheet';
 import Backdrop from '../Backdrop/Backdrop';
 import ModalItems from '../Modal/ModalItems';
 import ModalComments from '../Comments/ModalComments';
@@ -27,9 +33,10 @@ const VideoCard: FC<VideoCardProps> = ({ videoInfo, shouldPlay = true }) => {
   const bottomSheetModalRef = useRef(null);
   const snapPoints = useMemo(() => ['75%', '93%'], []);
   const bottomSheetModalRefComment = useRef(null);
-  const bottomSheetCommentInput = useRef(null)
+  const bottomSheetCommentInput = useRef(null);
   const snapPointsComment = useMemo(() => ['75%', '95%'], []);
-  const handleExpandComment = () => bottomSheetModalRefComment.current.snapToIndex(0);
+  const handleExpandComment = () =>
+    bottomSheetModalRefComment.current.snapToIndex(0);
 
   const GET_VIDEO = gql`
     query ($videoID: ID!) {
@@ -44,8 +51,8 @@ const VideoCard: FC<VideoCardProps> = ({ videoInfo, shouldPlay = true }) => {
   const [createLiked, {}] = useCreateLiked();
   const [deleteLiked] = useDeleteLiked();
   const [liked, setLiked] = useState(videoInfo.isLiked);
-  const {data} = useGetComment(parseInt(videoInfo.id))
-  let commentText = ""
+  const { data } = useGetComment(parseInt(videoInfo.id));
+  let commentText = '';
 
   const update = (cache, data) => {
     const query = gql`
@@ -64,7 +71,7 @@ const VideoCard: FC<VideoCardProps> = ({ videoInfo, shouldPlay = true }) => {
     const cacheData = cache.readQuery({
       query: query,
       variables: {
-        videoId: parseInt(videoInfo.id)
+        videoId: parseInt(videoInfo.id),
       },
     });
     if (!cacheData) {
@@ -77,7 +84,7 @@ const VideoCard: FC<VideoCardProps> = ({ videoInfo, shouldPlay = true }) => {
       comment: data.data.createComment.comment,
       createdAt: data.data.createComment.createdAt,
       username: data.data.createComment.username,
-      profilePicture: data.data.createComment.profilePicture
+      profilePicture: data.data.createComment.profilePicture,
     };
     cache.writeQuery({
       query: query,
@@ -85,7 +92,7 @@ const VideoCard: FC<VideoCardProps> = ({ videoInfo, shouldPlay = true }) => {
         comments: [incoming, ...cacheData.comments],
       },
       variables: {
-        videoId: parseInt(videoInfo.id)
+        videoId: parseInt(videoInfo.id),
       },
     });
   };
@@ -97,39 +104,64 @@ const VideoCard: FC<VideoCardProps> = ({ videoInfo, shouldPlay = true }) => {
 
   const onSubmitEditing = async (event) => {
     //const text = event.nativeEvent.text
-    bottomSheetCommentInput.current.clear()
+    bottomSheetCommentInput.current.clear();
     createComment({
       variables: {
         comment: {
           comment: commentText,
-          videoID: parseInt(videoInfo.id)
-        }
-      }
-    })
-  }
+          videoID: parseInt(videoInfo.id),
+        },
+      },
+    });
+  };
 
   const renderFooter = useCallback(
-    props => (
+    (props) => (
       <BottomSheetFooter {...props}>
-        <View style={{height: 100, width: "100%", alignItems: "center", backgroundColor: "white"}}>
-          <View style={{width: "95%", height: "100%", borderTopColor: "#DADEDF", borderTopWidth: 2, flexDirection: "row", alignItems: "center"}}>
-            <BottomSheetTextInput 
+        <View
+          style={{
+            height: 100,
+            width: '100%',
+            alignItems: 'center',
+            backgroundColor: 'white',
+          }}
+        >
+          <View
+            style={{
+              width: '95%',
+              height: '100%',
+              borderTopColor: '#DADEDF',
+              borderTopWidth: 2,
+              flexDirection: 'row',
+              alignItems: 'center',
+            }}
+          >
+            <BottomSheetTextInput
               style={[styles.commentInput, styles.form]}
               ref={bottomSheetCommentInput}
               // value={commentText}
               // onChangeText={onChangeCommentText}
-              placeholder='Add comment...'
-              onChangeText={(text) => commentText = text}
+              placeholder="Add comment..."
+              onChangeText={(text) => (commentText = text)}
               onSubmitEditing={onSubmitEditing}
             />
-            <Pressable
-            onPress={onSubmitEditing}>
-              <View 
-              style={{height: 50, width: 50, marginLeft: 10, borderRadius: "50%", backgroundColor: "black", justifyContent: "center", alignItems: "center"}}>
-                <MaterialCommunityIcons 
+            <Pressable onPress={onSubmitEditing}>
+              <View
+                style={{
+                  height: 50,
+                  width: 50,
+                  marginLeft: 10,
+                  borderRadius: '50%',
+                  backgroundColor: 'black',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}
+              >
+                <MaterialCommunityIcons
                   name="send"
-                  color={"#FFFFFF"}
-                  size={25}/>
+                  color={'#FFFFFF'}
+                  size={25}
+                />
               </View>
             </Pressable>
           </View>
@@ -152,34 +184,8 @@ const VideoCard: FC<VideoCardProps> = ({ videoInfo, shouldPlay = true }) => {
           setLiked(true);
         },
         update: async (cache, data) => {
-          cache.writeQuery({
-            query: GET_VIDEO,
-            data: {
-              video: {
-                id: videoInfo.id,
-                isLiked: true
-              }
-            },
-            variables: {
-              videoID: videoInfo.id
-            }
-          })
-        }
-      });
-    } else {
-      // Delete liked somehow
-      deleteLiked({
-        variables: {
-          liked: {
-            videoID: parseInt(videoInfo.id),
-          },
-        },
-        onCompleted: async (data) => {
-          setLiked(false);
-        },
-        update: async (cache, data) => {
-          console.log("data", data)
-          const likedResults = data.data.createLiked
+          console.log('data', data);
+          const likedResults = data.data.createLiked;
           const queryRes = cache.readQuery({
             query: GET_VIDEO,
             // Provide any required variables in this object.
@@ -193,14 +199,50 @@ const VideoCard: FC<VideoCardProps> = ({ videoInfo, shouldPlay = true }) => {
             data: {
               video: {
                 id: videoInfo.id,
-                isLiked: false
-              }
+                isLiked: true,
+              },
             },
             variables: {
-              videoID: videoInfo.id
-            }
-          })
-        }
+              videoID: videoInfo.id,
+            },
+          });
+        },
+      });
+    } else {
+      // Delete liked somehow
+      deleteLiked({
+        variables: {
+          liked: {
+            videoID: parseInt(videoInfo.id),
+          },
+        },
+        onCompleted: async (data) => {
+          setLiked(false);
+        },
+        update: async (cache, data) => {
+          console.log('data', data);
+          const likedResults = data.data.createLiked;
+          const queryRes = cache.readQuery({
+            query: GET_VIDEO,
+            // Provide any required variables in this object.
+            // Variables of mismatched types will return `null`.
+            variables: {
+              videoID: videoInfo.id,
+            },
+          });
+          cache.writeQuery({
+            query: GET_VIDEO,
+            data: {
+              video: {
+                id: videoInfo.id,
+                isLiked: false,
+              },
+            },
+            variables: {
+              videoID: videoInfo.id,
+            },
+          });
+        },
       });
     }
   };
@@ -255,8 +297,10 @@ const VideoCard: FC<VideoCardProps> = ({ videoInfo, shouldPlay = true }) => {
               </Text>
             </Pressable>
 
-            <Pressable style={[styles.optionTouchable, { marginBottom: 10 }]}
-              onPress={handleExpandComment}>
+            <Pressable
+              style={[styles.optionTouchable, { marginBottom: 10 }]}
+              onPress={handleExpandComment}
+            >
               <Text>
                 <MaterialCommunityIcons
                   name="comment"
@@ -292,12 +336,12 @@ const VideoCard: FC<VideoCardProps> = ({ videoInfo, shouldPlay = true }) => {
         ref={bottomSheetModalRefComment}
         index={-1}
         snapPoints={snapPointsComment}
-        style={{flex: 1}}
+        style={{ flex: 1 }}
         enablePanDownToClose={true}
         backdropComponent={Backdrop}
         footerComponent={renderFooter}
       >
-        <ModalComments postComments = {data}/>
+        <ModalComments postComments={data} />
       </BottomSheetModal>
     </>
   );
@@ -343,6 +387,6 @@ const styles = StyleSheet.create({
   },
   commentInput: {
     borderRadius: 10,
-    flex: 1
+    flex: 1,
   },
 });

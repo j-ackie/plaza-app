@@ -31,7 +31,6 @@
     "expo-linking": "~4.0.1",
     "expo-location": "~15.1.1",
     "expo-media-library": "~15.2.3",
-    "expo-router": "^1.4.3",
     "expo-splash-screen": "~0.18.2",
     "expo-status-bar": "~1.4.4",
     "expo-video-player": "^2.2.0",
@@ -56,7 +55,8 @@
     "react-native-screens": "~3.20.0",
     "react-native-tab-view": "^3.5.1",
     "react-native-vector-icons": "^9.2.0",
-    "react-navigation": "^4.4.4"
+    "react-navigation": "^5.0.0",
+    "undefined": "react-navigation/native"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

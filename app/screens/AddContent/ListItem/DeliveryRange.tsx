@@ -13,14 +13,15 @@ const milesToMeters = (miles: number) => {
   return miles * 1609.344;
 };
 
-const DeliveryRange = () => {
-  const [location, setLocation] = useState(null);
+const DeliveryRange = ({ navigation, route }) => {
+  // const [location, setLocation] = useState(null);
   const [mapCenterLocation, setMapCenterLocation] = useState(null);
   const [markerLocation, setMarkerLocation] = useState(null);
   const [localRadius, setLocalRadius] = useState(1);
   const [radius, setRadius] = useState(1);
   const [address, setAddress] = useState(null);
   const mapRef = useRef<MapView>(null);
+  const { location, setLocation } = route.params;
 
   const radiusInMeters = milesToMeters(radius);
 
@@ -169,7 +170,12 @@ const DeliveryRange = () => {
         </View>
       </View>
       <View style={styles.buttonContainer}>
-        <Button title="Confirm Delivery Range" />
+        <Button
+          title="Confirm Delivery Range"
+          onPress={() => {
+            navigation.navigate('Details');
+          }}
+        />
       </View>
     </SafeAreaView>
   );

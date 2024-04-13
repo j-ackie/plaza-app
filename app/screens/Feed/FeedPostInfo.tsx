@@ -41,7 +41,7 @@ const FeedPostInfo = ({ postInfo, handleExpand, handleExpandComment }) => {
 
   let index = 0;
   console.log(postInfo.sellingItems);
-  for (const item of postInfo.sellingItems) {
+  for (const item of postInfo.products) {
     sellingItems.push(
       <TouchableOpacity onPress={handleExpand} style={styles.itemTouchable}>
         <ItemImage uri={item.imageURI} size={ItemImageSize.SMALL} />
@@ -81,8 +81,10 @@ const FeedPostInfo = ({ postInfo, handleExpand, handleExpandComment }) => {
           </Text>
         </Pressable>
 
-        <Pressable style={[styles.optionTouchable, { marginBottom: 10 }]}
-          onPress={handleExpandComment}>
+        <Pressable
+          style={[styles.optionTouchable, { marginBottom: 10 }]}
+          onPress={handleExpandComment}
+        >
           <Text>
             <MaterialCommunityIcons
               name="comment"

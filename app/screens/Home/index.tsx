@@ -1,4 +1,4 @@
-import Feed from '../Feed/Feed';
+import Feed from '../Feed';
 import SafeAreaTopTabBar from '~/components/SafeAreaTopTabBar/SafeAreaTopTabBar';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import Search from '../Search';

@@ -1,7 +1,9 @@
 import { useCallback, useState } from 'react';
-import { FlatList } from 'react-native';
+import { FlatList, Text } from 'react-native';
 import FeedPost from './FeedPost';
 import { Dimensions } from 'react-native';
+import useGetFeed from './useGetFeed';
+import LoadingSpinner from '~/components/LoadingSpinner';
 
 // https://gist.github.com/jsturgis/3b19447b304616f18657
 const mockData = [
@@ -60,12 +62,9 @@ const mockData = [
   },
 ];
 
-// type FeedProps = {
-//   items:
-// }
-
 const Feed = () => {
   const [currViewableIndex, setCurrViewableIndex] = useState(0);
+  const { data, loading, error } = useGetFeed();
 
   const handleViewableItemsChanged = useCallback(({ viewableItems }) => {
     if (viewableItems.length === 0) {
@@ -76,7 +75,7 @@ const Feed = () => {
 
   const renderItem = useCallback(
     ({ item, index }) => {
-      console.log(currViewableIndex, index);
+      // console.log(currViewableIndex, index);
       return (
         <FeedPost
           videoIndex={index}
@@ -88,9 +87,13 @@ const Feed = () => {
     [currViewableIndex]
   );
 
+  if (loading) return <LoadingSpinner />;
+
+  if (error) return <Text>Something went wrong</Text>;
+
   return (
     <FlatList
-      data={mockData}
+      data={data.feedVideos}
       renderItem={renderItem}
       pagingEnabled
       decelerationRate={'fast'}

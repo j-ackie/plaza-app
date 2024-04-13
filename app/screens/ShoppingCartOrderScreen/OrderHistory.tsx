@@ -7,7 +7,7 @@ import {
   SafeAreaView,
   Image,
 } from 'react-native';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styles from './ShoppingCartOrderScreen.styles';
 import Carousel from 'react-native-reanimated-carousel';
 import CartModalItemInfo from '~/components/Modal/CartModalItemInfo';
@@ -93,7 +93,7 @@ const OrderHistory = () => {
                 } else if (index == 1) {
                   return (
                     <CartModalItemInfo
-                      productID={historyItems[selected].productID}
+                      productID={historyItems[selected].id}
                     ></CartModalItemInfo>
                   );
                 } else {

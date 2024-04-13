@@ -3,15 +3,15 @@ import * as MediaLibrary from 'expo-media-library';
 import { Buffer } from 'buffer';
 import mime from 'mime';
 
-const upload = async (asset, uploadURI: string) => {
+const uploadToUrl = async (asset: MediaLibrary.AssetRef, uploadUrl: string) => {
   const assetInfo = await MediaLibrary.getAssetInfoAsync(asset);
-  const localURI = assetInfo.localUri;
-  const base64Payload = await Filesystem.readAsStringAsync(localURI, {
+  const localUri = assetInfo.localUri;
+  const base64Payload = await Filesystem.readAsStringAsync(localUri, {
     encoding: 'base64',
   });
 
   const payload = Buffer.from(base64Payload, 'base64');
-  const response = await fetch(uploadURI, {
+  const response = await fetch(uploadUrl, {
     method: 'PUT',
     body: payload,
     headers: {
@@ -22,4 +22,4 @@ const upload = async (asset, uploadURI: string) => {
   return response;
 };
 
-export default upload;
+export default uploadToUrl;
