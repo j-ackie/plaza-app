@@ -75,7 +75,6 @@ const VideoCard: FC<VideoCardProps> = ({ videoInfo, shouldPlay = true }) => {
       },
     });
     if (!cacheData) {
-      console.log("Cache hasn't been populated yet, no need to do anything");
       return;
     }
     const incoming = {

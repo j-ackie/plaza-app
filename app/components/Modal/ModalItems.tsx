@@ -5,6 +5,7 @@ import { FlatList } from 'react-native-gesture-handler';
 import InfoInput from '../InfoInput/InfoInput';
 import styles from './Modal.styles';
 import ItemImage, { ItemImageSize } from '../Item/ItemImage';
+import { gql, useMutation, useQuery } from '@apollo/client';
 
 const renderModalConfirmed = (item, setPage, close) => {
   return (
@@ -76,7 +77,8 @@ const renderModalPurchase = (item, setPage) => {
   );
 };
 
-const renderModalItems = (item, index, setPage, setSelectedItemIndex) => {
+const renderModalItems = (item, index, setPage, setSelectedItemIndex, addCartHandler, added, setAdded) => {
+
   console.log(item);
   const postInfo = item;
 
@@ -84,6 +86,22 @@ const renderModalItems = (item, index, setPage, setSelectedItemIndex) => {
     setPage(1);
     // make separate components for pages
   };
+
+  const handleSaveCart = () => {
+    console.log("saving", item)
+    addCartHandler({
+      variables: {
+        "order": {
+          "productID": 1,
+          "videoID": 64
+        }
+      }
+    })
+    setAdded(true)
+    setTimeout(() => {
+      setAdded(false)
+    }, 2000)
+  }
 
   return (
     <BottomSheetView style={styles.modalItemContainer}>
@@ -101,9 +119,12 @@ const renderModalItems = (item, index, setPage, setSelectedItemIndex) => {
       >
         <Text style={styles.modalItemLargeText}>Purchase</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.modalItemTouchable}>
+      <TouchableOpacity 
+        style={styles.modalItemTouchable}
+        onPress={handleSaveCart}>
         <Text style={styles.modalItemLargeText}>Save to Cart</Text>
       </TouchableOpacity>
+      { added ? <Text style={{color: "green", fontWeight: "bold", fontSize: 20, marginTop: 10}}>Added to cart!</Text> : "" }
     </BottomSheetView>
   );
 };
@@ -111,10 +132,66 @@ const renderModalItems = (item, index, setPage, setSelectedItemIndex) => {
 const ModalItems = ({ postInfo }) => {
   const [page, setPage] = useState(0);
   const [selectedItemIndex, setSelectedItemIndex] = useState(0);
+  const [added, setAdded] = useState(false)
 
   const flatListRef = useRef<FlatList>(null);
   const windowWidth = Dimensions.get('window').width;
   const { expand, close } = useBottomSheet();
+
+  const ADD_CART = gql`
+    mutation InsertCart($order: CartInsertInput) {
+      insertCart(order: $order) {
+        id
+        imageURI
+        name
+        price
+        productID
+        userID
+        videoID
+      }
+    }
+  `
+
+  // TODO: We should probably have a separate directory that contains all of the queries
+  const onCompleted = () => {
+
+  }
+
+  const GET_CART = gql`
+    query Query($userId: Int!) {
+      cart(userID: $userId) {
+        id
+        imageURI
+        name
+        price
+        productID
+        userID
+        videoID
+      }
+    }
+  `
+  const update = (cache, data) => {
+    console.log("card data:", data)
+    cache.writeQuery({
+      query: GET_CART,
+      data: {
+        cart: {
+          id: data.id,
+          imageURI: data.imageURI,
+          name: data.name,
+          orderedAt: data.price,
+          productID: data.productID,
+          userID: data.userID,
+          videoID: data.videoID
+        }
+      },
+      variables: {
+        "userId": 1
+      }
+    })
+  }
+
+  const [addCart, {}] = useMutation(ADD_CART, { onCompleted, update });
 
   if (page === 0) {
     return (
@@ -123,7 +200,7 @@ const ModalItems = ({ postInfo }) => {
           ref={flatListRef}
           data={postInfo.sellingItems}
           renderItem={({ item, index }) =>
-            renderModalItems(item, index, setPage, setSelectedItemIndex)
+            renderModalItems(item, index, setPage, setSelectedItemIndex, addCart, added, setAdded)
           }
           horizontal={true}
           pagingEnabled={true}

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import {
   FlatList,
   View,
@@ -15,7 +15,7 @@ import CartModalItemInfo from '~/components/Modal/CartModalItemInfo';
 import CartModalVideo from '~/components/Modal/CartModalVideo';
 import CheckBox from 'expo-checkbox';
 import { useNavigation } from '@react-navigation/native';
-import { gql, useQuery } from '@apollo/client';
+import { gql, useApolloClient, useMutation, useQuery } from '@apollo/client';
 import LoadingSpinner from '~/components/LoadingSpinner';
 
 const cartQuery = gql`
@@ -36,7 +36,87 @@ const ShoppingCart = () => {
   //const [cartItems, setCartItems] = useState<Item[]>([]);
   const [modalVis, setModalVis] = useState(false);
   const [selected, setSelected] = useState(-1);
+  const client = useApolloClient()
   const navigation = useNavigation();
+
+  const ADD_HISTORY = gql`
+    mutation Mutation($order: HistoryInsertInput) {
+      insertHistory(order: $order) {
+        id
+        imageURI
+        name
+        orderedAt
+        quantity
+        productID
+        status
+        userID
+        videoID
+      }
+    }
+  `
+
+  const DELETE_CART = gql`
+    mutation DeleteCart($productId: Int!) {
+      deleteCart(productID: $productId) {
+        id
+        imageURI
+        name
+        price
+        productID
+        userID
+        videoID
+      }
+    }
+  `
+
+  // TODO: We should probably have a separate directory that contains all of the queries
+  const onCompleted = () => {
+
+  }
+
+  const GET_HISTORY = gql`
+    query Query($userId: Int!) {
+      history(userID: $userId) {
+        id
+        imageURI
+        name
+        orderedAt
+        productID
+        quantity
+        status
+        userID
+        videoID
+      }
+    }
+  `
+
+  const update = (cache, data) => {
+    cache.writeQuery({
+      query: GET_HISTORY,
+      data: {
+        history: {
+          id: data.id,
+          imageURI: data.imageURI,
+          name: data.name,
+          orderedAt: data.orderedAt,
+          productID: data.productID,
+          quantity: data.quantity,
+          status: data.status,
+          userID: data.userID,
+          videoID: data.videoID
+        }
+      },
+      variables: {
+        "userId": 1
+      }
+    })
+  }
+
+  const [addHistory, {}] = useMutation(ADD_HISTORY, { onCompleted, update });
+  const [deleteCart, {}] = useMutation(DELETE_CART, {  })
+  
+
+  const [checked, setChecked] = useState(Array(0));
 
   const { loading, error, data } = useQuery(cartQuery, {
     variables: {
@@ -44,16 +124,32 @@ const ShoppingCart = () => {
     },
   });
 
-  const [checked, setChecked] = useState(Array(0));
-
   if (loading) return <LoadingSpinner />;
 
   if (error) return <Text>{error.message}</Text>;
 
-  console.log(data);
-
-  const handleConfirmPress = () => {
-    navigation.navigate('confirm');
+  const handleConfirmPress = async () => {
+    for(let i = 0; i < checked.length; i++){
+      if(checked[i]){
+        console.log("checked data:", data.cart[i])
+        addHistory({
+          variables: {
+            "order": {
+              "productID": data.cart[i].productID,
+              "videoID": data.cart[i].videoID
+            }
+          }
+        })
+        deleteCart({
+          variables: {
+            "productId": parseInt(data.cart[i].productID)
+          }
+        })
+      }
+    }
+    await client.refetchQueries({
+      include: [cartQuery]
+    })
   };
 
   const toggleCheckbox = (index) => {
@@ -88,7 +184,7 @@ const ShoppingCart = () => {
                 if (index == 0) {
                   return (
                     <CartModalItemInfo
-                      productID={data.cart[selected].id}
+                      productID={data.cart[selected].productID}
                     ></CartModalItemInfo>
                   );
                 } else {
@@ -121,7 +217,6 @@ const ShoppingCart = () => {
       <FlatList
         data={data.cart}
         renderItem={(item) => {
-          console.log(item);
           return (
             <Pressable
               style={styles.cartButton}
@@ -129,6 +224,7 @@ const ShoppingCart = () => {
                 setSelected(item.index);
                 setModalVis(true);
               }}
+              key={item.index}
             >
               <SafeAreaView style={styles.shoppingCartItemContainer}>
                 <Image
@@ -164,6 +260,7 @@ const ShoppingCart = () => {
             </Pressable>
           );
         }}
+        keyExtractor={item => item.index}
       />
       <View style={styles.shoppingCartButtonCentering}>
         <TouchableOpacity
