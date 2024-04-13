@@ -68,7 +68,6 @@ const VideoCard: FC<VideoCardProps> = ({ videoInfo, shouldPlay = true }) => {
       },
     });
     if (!cacheData) {
-      console.log("Cache hasn't been populated yet, no need to do anything");
       return;
     }
     const incoming = {
@@ -153,16 +152,6 @@ const VideoCard: FC<VideoCardProps> = ({ videoInfo, shouldPlay = true }) => {
           setLiked(true);
         },
         update: async (cache, data) => {
-          console.log("data", data)
-          const likedResults = data.data.createLiked
-          const queryRes = cache.readQuery({
-            query: GET_VIDEO,
-            // Provide any required variables in this object.
-            // Variables of mismatched types will return `null`.
-            variables: {
-              videoID: videoInfo.id,
-            },
-          });
           cache.writeQuery({
             query: GET_VIDEO,
             data: {

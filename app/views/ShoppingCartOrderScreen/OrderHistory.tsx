@@ -7,8 +7,7 @@ import {
   SafeAreaView,
   Image,
 } from 'react-native';
-import { useState, useEffect } from 'react';
-import { Item } from '../../interfaces/queries.interfaces';
+import { useState } from 'react';
 import styles from './ShoppingCartOrderScreen.styles';
 import Carousel from 'react-native-reanimated-carousel';
 import CartModalItemInfo from '~/components/Modal/CartModalItemInfo';

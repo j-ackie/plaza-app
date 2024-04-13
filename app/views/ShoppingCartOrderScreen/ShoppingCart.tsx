@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import {
   FlatList,
   View,
@@ -8,7 +8,6 @@ import {
   Image,
   SafeAreaView,
 } from 'react-native';
-import { Item } from '../../interfaces/queries.interfaces';
 import styles from './ShoppingCartOrderScreen.styles';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Carousel from 'react-native-reanimated-carousel';
@@ -16,7 +15,7 @@ import CartModalItemInfo from '~/components/Modal/CartModalItemInfo';
 import CartModalVideo from '~/components/Modal/CartModalVideo';
 import CheckBox from 'expo-checkbox';
 import { useNavigation } from '@react-navigation/native';
-import { gql, useMutation, useQuery } from '@apollo/client';
+import { gql, useApolloClient, useMutation, useQuery } from '@apollo/client';
 import LoadingSpinner from '~/components/LoadingSpinner';
 
 const cartQuery = gql`
@@ -37,6 +36,7 @@ const ShoppingCart = () => {
   //const [cartItems, setCartItems] = useState<Item[]>([]);
   const [modalVis, setModalVis] = useState(false);
   const [selected, setSelected] = useState(-1);
+  const client = useApolloClient()
   const navigation = useNavigation();
 
   const ADD_HISTORY = gql`
@@ -55,17 +55,65 @@ const ShoppingCart = () => {
     }
   `
 
+  const DELETE_CART = gql`
+    mutation DeleteCart($productId: Int!) {
+      deleteCart(productID: $productId) {
+        id
+        imageURI
+        name
+        price
+        productID
+        userID
+        videoID
+      }
+    }
+  `
+
   // TODO: We should probably have a separate directory that contains all of the queries
   const onCompleted = () => {
 
   }
 
-  const update = () => {
+  const GET_HISTORY = gql`
+    query Query($userId: Int!) {
+      history(userID: $userId) {
+        id
+        imageURI
+        name
+        orderedAt
+        productID
+        quantity
+        status
+        userID
+        videoID
+      }
+    }
+  `
 
+  const update = (cache, data) => {
+    cache.writeQuery({
+      query: GET_HISTORY,
+      data: {
+        history: {
+          id: data.id,
+          imageURI: data.imageURI,
+          name: data.name,
+          orderedAt: data.orderedAt,
+          productID: data.productID,
+          quantity: data.quantity,
+          status: data.status,
+          userID: data.userID,
+          videoID: data.videoID
+        }
+      },
+      variables: {
+        "userId": 1
+      }
+    })
   }
 
   const [addHistory, {}] = useMutation(ADD_HISTORY, { onCompleted, update });
-
+  const [deleteCart, {}] = useMutation(DELETE_CART, {  })
   
 
   const [checked, setChecked] = useState(Array(0));
@@ -80,11 +128,10 @@ const ShoppingCart = () => {
 
   if (error) return <Text>{error.message}</Text>;
 
-  const handleConfirmPress = () => {
+  const handleConfirmPress = async () => {
     for(let i = 0; i < checked.length; i++){
       if(checked[i]){
-        console.log("confirming index:", checked[i])
-        console.log("which is item", data.cart[i])
+        console.log("checked data:", data.cart[i])
         addHistory({
           variables: {
             "order": {
@@ -93,8 +140,16 @@ const ShoppingCart = () => {
             }
           }
         })
+        deleteCart({
+          variables: {
+            "productId": parseInt(data.cart[i].productID)
+          }
+        })
       }
     }
+    await client.refetchQueries({
+      include: [cartQuery]
+    })
   };
 
   const toggleCheckbox = (index) => {
@@ -162,7 +217,6 @@ const ShoppingCart = () => {
       <FlatList
         data={data.cart}
         renderItem={(item) => {
-          console.log(item);
           return (
             <Pressable
               style={styles.cartButton}
@@ -170,6 +224,7 @@ const ShoppingCart = () => {
                 setSelected(item.index);
                 setModalVis(true);
               }}
+              key={item.index}
             >
               <SafeAreaView style={styles.shoppingCartItemContainer}>
                 <Image
@@ -205,6 +260,7 @@ const ShoppingCart = () => {
             </Pressable>
           );
         }}
+        keyExtractor={item => item.index}
       />
       <View style={styles.shoppingCartButtonCentering}>
         <TouchableOpacity

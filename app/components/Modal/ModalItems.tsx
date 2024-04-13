@@ -77,7 +77,7 @@ const renderModalPurchase = (item, setPage) => {
   );
 };
 
-const renderModalItems = (item, index, setPage, setSelectedItemIndex, addCartHandler) => {
+const renderModalItems = (item, index, setPage, setSelectedItemIndex, addCartHandler, added, setAdded) => {
 
   console.log(item);
   const postInfo = item;
@@ -97,6 +97,10 @@ const renderModalItems = (item, index, setPage, setSelectedItemIndex, addCartHan
         }
       }
     })
+    setAdded(true)
+    setTimeout(() => {
+      setAdded(false)
+    }, 2000)
   }
 
   return (
@@ -120,6 +124,7 @@ const renderModalItems = (item, index, setPage, setSelectedItemIndex, addCartHan
         onPress={handleSaveCart}>
         <Text style={styles.modalItemLargeText}>Save to Cart</Text>
       </TouchableOpacity>
+      { added ? <Text style={{color: "green", fontWeight: "bold", fontSize: 20, marginTop: 10}}>Added to cart!</Text> : "" }
     </BottomSheetView>
   );
 };
@@ -127,6 +132,7 @@ const renderModalItems = (item, index, setPage, setSelectedItemIndex, addCartHan
 const ModalItems = ({ postInfo }) => {
   const [page, setPage] = useState(0);
   const [selectedItemIndex, setSelectedItemIndex] = useState(0);
+  const [added, setAdded] = useState(false)
 
   const flatListRef = useRef<FlatList>(null);
   const windowWidth = Dimensions.get('window').width;
@@ -151,8 +157,38 @@ const ModalItems = ({ postInfo }) => {
 
   }
 
-  const update = () => {
-
+  const GET_CART = gql`
+    query Query($userId: Int!) {
+      cart(userID: $userId) {
+        id
+        imageURI
+        name
+        price
+        productID
+        userID
+        videoID
+      }
+    }
+  `
+  const update = (cache, data) => {
+    console.log("card data:", data)
+    cache.writeQuery({
+      query: GET_CART,
+      data: {
+        cart: {
+          id: data.id,
+          imageURI: data.imageURI,
+          name: data.name,
+          orderedAt: data.price,
+          productID: data.productID,
+          userID: data.userID,
+          videoID: data.videoID
+        }
+      },
+      variables: {
+        "userId": 1
+      }
+    })
   }
 
   const [addCart, {}] = useMutation(ADD_CART, { onCompleted, update });
@@ -164,7 +200,7 @@ const ModalItems = ({ postInfo }) => {
           ref={flatListRef}
           data={postInfo.sellingItems}
           renderItem={({ item, index }) =>
-            renderModalItems(item, index, setPage, setSelectedItemIndex, addCart)
+            renderModalItems(item, index, setPage, setSelectedItemIndex, addCart, added, setAdded)
           }
           horizontal={true}
           pagingEnabled={true}
