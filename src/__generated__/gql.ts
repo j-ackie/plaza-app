@@ -21,6 +21,7 @@ const documents = {
     "\n  mutation addHistory($order: HistoryInsertInput) {\n    insertHistory(order: $order) {\n      id\n      imageURI\n      name\n      orderedAt\n      quantity\n      productID\n      status\n      userID\n      videoID\n    }\n  }\n": types.AddHistoryDocument,
     "\n  query videosByUserId($filters: VideoFilters!) {\n    videos(filters: $filters) {\n      id\n      userID\n      thumbnailURL\n    }\n  }\n": types.VideosByUserIdDocument,
     "\n  query userById($filters: UserFilters!) {\n    user(filters: $filters) {\n      id\n      description\n      displayName\n      profilePictureURI\n      username\n    }\n  }\n": types.UserByIdDocument,
+    "\n  query profileVideoById($videoId: ID!) {\n    video(videoID: $videoId) {\n      id\n      description\n      userID\n      videoURL\n      products {\n        id\n        imageURIs\n        price\n        quantity\n        description\n        name\n      }\n      isLiked\n    }\n  }\n": types.ProfileVideoByIdDocument,
 };
 
 /**
@@ -69,6 +70,10 @@ export function gql(source: "\n  query videosByUserId($filters: VideoFilters!) {
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(source: "\n  query userById($filters: UserFilters!) {\n    user(filters: $filters) {\n      id\n      description\n      displayName\n      profilePictureURI\n      username\n    }\n  }\n"): (typeof documents)["\n  query userById($filters: UserFilters!) {\n    user(filters: $filters) {\n      id\n      description\n      displayName\n      profilePictureURI\n      username\n    }\n  }\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n  query profileVideoById($videoId: ID!) {\n    video(videoID: $videoId) {\n      id\n      description\n      userID\n      videoURL\n      products {\n        id\n        imageURIs\n        price\n        quantity\n        description\n        name\n      }\n      isLiked\n    }\n  }\n"): (typeof documents)["\n  query profileVideoById($videoId: ID!) {\n    video(videoID: $videoId) {\n      id\n      description\n      userID\n      videoURL\n      products {\n        id\n        imageURIs\n        price\n        quantity\n        description\n        name\n      }\n      isLiked\n    }\n  }\n"];
 
 export function gql(source: string) {
   return (documents as any)[source] ?? {};

@@ -15,8 +15,8 @@ const GET_PRODUCT_BY_ID = gql(`
   }
 `);
 
-const useGetCartById = (id: number) => {
+const useGetProductById = (id: number) => {
   return useQuery(GET_PRODUCT_BY_ID, { variables: { productId: id } });
 };
 
-export default useGetCartById;
+export default useGetProductById;

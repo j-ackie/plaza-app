@@ -14,11 +14,11 @@ const VideoButtons = () => {
         onPress={() => console.log('HELLO')}
       />
       <VideoButton
-        icon={AvailableIcon.HEART}
+        icon={AvailableIcon.COMMENT}
         onPress={() => console.log('HELLO')}
       />
       <VideoButton
-        icon={AvailableIcon.HEART}
+        icon={AvailableIcon.ARROW}
         onPress={() => console.log('HELLO')}
       />
     </View>

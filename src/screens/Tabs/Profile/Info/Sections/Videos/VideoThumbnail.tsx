@@ -1,4 +1,5 @@
 import { Video } from '@/__generated__/graphql';
+import { useNavigation } from '@react-navigation/native';
 import { FC } from 'react';
 import { Image, Pressable, StyleSheet } from 'react-native';
 
@@ -7,8 +8,14 @@ interface VideoThumbnailProps {
 }
 
 const VideoThumbnail: FC<VideoThumbnailProps> = ({ video }) => {
+  const navigation = useNavigation();
+
   return (
-    <Pressable key={video.id} style={{ flex: 1, backgroundColor: 'green' }}>
+    <Pressable
+      key={video.id}
+      style={styles.container}
+      onPress={() => navigation.navigate('Post', { videoId: video.id })}
+    >
       <Image
         source={{
           uri:
@@ -24,8 +31,12 @@ const VideoThumbnail: FC<VideoThumbnailProps> = ({ video }) => {
 export default VideoThumbnail;
 
 const styles = StyleSheet.create({
+  container: {
+    width: '33.333333%',
+    height: 200,
+    borderWidth: 1,
+  },
   thumbnail: {
-    width: 40,
-    height: 40,
+    flex: 1,
   },
 });
