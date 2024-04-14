@@ -71,6 +71,17 @@ export type File = {
   mimetype: Scalars['String']['output'];
 };
 
+export type Follow = {
+  __typename?: 'Follow';
+  followerID: Scalars['Int']['output'];
+  followingID: Scalars['Int']['output'];
+  id: Scalars['ID']['output'];
+};
+
+export type FollowInput = {
+  followingID: Scalars['Int']['input'];
+};
+
 export type History = {
   __typename?: 'History';
   id: Scalars['ID']['output'];
@@ -118,6 +129,8 @@ export type Mutation = {
   __typename?: 'Mutation';
   createChat: Chat;
   createComment: Comment;
+  /** Creates a follow */
+  createFollow: Follow;
   /** Creates a like */
   createLiked: Liked;
   createMessage: Message;
@@ -126,6 +139,9 @@ export type Mutation = {
   /** Creates a product */
   createReview: Review;
   createVideo: Video;
+  deleteCart: Cart;
+  /** Deletes a follow */
+  deleteFollow: Follow;
   /** Deletes a like */
   deleteLiked: Liked;
   /** Deletes a product */
@@ -146,6 +162,11 @@ export type MutationCreateChatArgs = {
 
 export type MutationCreateCommentArgs = {
   comment?: InputMaybe<CommentCreateInput>;
+};
+
+
+export type MutationCreateFollowArgs = {
+  follow: FollowInput;
 };
 
 
@@ -171,6 +192,16 @@ export type MutationCreateReviewArgs = {
 
 export type MutationCreateVideoArgs = {
   video: VideoCreateInput;
+};
+
+
+export type MutationDeleteCartArgs = {
+  productID: Scalars['Int']['input'];
+};
+
+
+export type MutationDeleteFollowArgs = {
+  follow: FollowInput;
 };
 
 
@@ -232,7 +263,10 @@ export type Query = {
   chats: Array<Chat>;
   comments: Array<Comment>;
   feedVideos: Array<Video>;
+  followers: Array<Follow>;
+  following: Array<Follow>;
   history: Array<History>;
+  isFollowing: Scalars['Boolean']['output'];
   likedVideos: Array<Liked>;
   message: Message;
   messages: Array<Message>;
@@ -255,8 +289,23 @@ export type QueryCommentsArgs = {
 };
 
 
+export type QueryFollowersArgs = {
+  userID: Scalars['Int']['input'];
+};
+
+
+export type QueryFollowingArgs = {
+  userID: Scalars['Int']['input'];
+};
+
+
 export type QueryHistoryArgs = {
   userID: Scalars['Int']['input'];
+};
+
+
+export type QueryIsFollowingArgs = {
+  followID: Scalars['Int']['input'];
 };
 
 
@@ -400,6 +449,13 @@ export type GetCartByIdQueryVariables = Exact<{
 
 export type GetCartByIdQuery = { __typename?: 'Query', cart: Array<{ __typename?: 'Cart', id: string, productID: string, userID: string, name: string, imageURI: string, price: number, videoID: string }> };
 
+export type DeleteCartByIdMutationVariables = Exact<{
+  productId: Scalars['Int']['input'];
+}>;
+
+
+export type DeleteCartByIdMutation = { __typename?: 'Mutation', deleteCart: { __typename?: 'Cart', id: string, imageURI: string, name: string, price: number, productID: string, userID: string, videoID: string } };
+
 export type GetProductByIdQueryVariables = Exact<{
   productId: Scalars['ID']['input'];
 }>;
@@ -452,6 +508,7 @@ export type ProfileVideoByIdQuery = { __typename?: 'Query', video: { __typename?
 
 export const FeedVideosDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"feedVideos"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"feedVideos"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"userID"}},{"kind":"Field","name":{"kind":"Name","value":"videoURL"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"products"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]}}]} as unknown as DocumentNode<FeedVideosQuery, FeedVideosQueryVariables>;
 export const GetCartByIdDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getCartById"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"userId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"cart"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"userID"},"value":{"kind":"Variable","name":{"kind":"Name","value":"userId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"productID"}},{"kind":"Field","name":{"kind":"Name","value":"userID"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"imageURI"}},{"kind":"Field","name":{"kind":"Name","value":"price"}},{"kind":"Field","name":{"kind":"Name","value":"videoID"}}]}}]}}]} as unknown as DocumentNode<GetCartByIdQuery, GetCartByIdQueryVariables>;
+export const DeleteCartByIdDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"deleteCartByID"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"productId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"deleteCart"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"productID"},"value":{"kind":"Variable","name":{"kind":"Name","value":"productId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"imageURI"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"price"}},{"kind":"Field","name":{"kind":"Name","value":"productID"}},{"kind":"Field","name":{"kind":"Name","value":"userID"}},{"kind":"Field","name":{"kind":"Name","value":"videoID"}}]}}]}}]} as unknown as DocumentNode<DeleteCartByIdMutation, DeleteCartByIdMutationVariables>;
 export const GetProductByIdDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getProductById"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"productId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"product"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"productId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"imageURIs"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"price"}},{"kind":"Field","name":{"kind":"Name","value":"quantity"}},{"kind":"Field","name":{"kind":"Name","value":"sellerID"}}]}}]}}]} as unknown as DocumentNode<GetProductByIdQuery, GetProductByIdQueryVariables>;
 export const GetVideoByIdDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getVideoById"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"videoId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"video"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"videoID"},"value":{"kind":"Variable","name":{"kind":"Name","value":"videoId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"videoURL"}},{"kind":"Field","name":{"kind":"Name","value":"isLiked"}},{"kind":"Field","name":{"kind":"Name","value":"products"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"imageURIs"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"price"}},{"kind":"Field","name":{"kind":"Name","value":"quantity"}},{"kind":"Field","name":{"kind":"Name","value":"sellerID"}}]}},{"kind":"Field","name":{"kind":"Name","value":"thumbnailURL"}},{"kind":"Field","name":{"kind":"Name","value":"userID"}}]}}]}}]} as unknown as DocumentNode<GetVideoByIdQuery, GetVideoByIdQueryVariables>;
 export const GetHistoryByIdDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getHistoryById"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"userId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"history"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"userID"},"value":{"kind":"Variable","name":{"kind":"Name","value":"userId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"imageURI"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"orderedAt"}},{"kind":"Field","name":{"kind":"Name","value":"productID"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"userID"}},{"kind":"Field","name":{"kind":"Name","value":"videoID"}},{"kind":"Field","name":{"kind":"Name","value":"quantity"}}]}}]}}]} as unknown as DocumentNode<GetHistoryByIdQuery, GetHistoryByIdQueryVariables>;

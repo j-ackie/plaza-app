@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import React, { useState } from 'react';
 import { useAddHistory } from '../useHistoryQueries';
-import useGetCartById from '../useCartQueries';
+import {useGetCartById, useDeleteCartById} from '../useCartQueries';
 import Loading from '@/components/Loading';
 import ModalProduct from '../Components/ModalProduct';
 import CartProduct from '../Components/CartProduct';
@@ -19,6 +19,7 @@ const Cart = () => {
   const [checked, setChecked] = useState(Array(0));
   const { loading, error, data } = useGetCartById(1);
   const [visible, setVisible] = useState(false);
+  const [deleteCart, {}] = useDeleteCartById()
 
   if (loading) return <Loading />;
 
@@ -34,6 +35,12 @@ const Cart = () => {
               videoID: data.cart[i].videoID,
             },
           },
+        });
+
+        deleteCart({
+          variables: {
+            "productId": parseInt(data.cart[i].productID)
+          }
         });
       }
     }

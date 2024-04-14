@@ -5,7 +5,8 @@ import ProductVideo from './ProductVideo';
 import ProductInfo from './ProductInfo';
 import ProductDelivery from './ProductDelivery';
 
-const CartCarousel = (item) => {
+const CartCarousel = ({item}) => {
+  console.log(item)
   return (
     <Carousel
       vertical={false}
@@ -24,7 +25,7 @@ const CartCarousel = (item) => {
               <ProductVideo
                 videoIndex={0}
                 currViewableIndex={0}
-                postInfo={item.videoID}
+                postInfo={parseInt(item.videoID)}
               />
             );
         }

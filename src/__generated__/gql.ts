@@ -15,6 +15,7 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
 const documents = {
     "\n  query feedVideos {\n    feedVideos {\n      id\n      userID\n      videoURL\n      description\n      products {\n        id\n      }\n    }\n  }\n": types.FeedVideosDocument,
     "\n  query getCartById($userId: Int!) {\n    cart(userID: $userId) {\n      id\n      productID\n      userID\n      name\n      imageURI\n      price\n      videoID\n    }\n  }\n": types.GetCartByIdDocument,
+    "\n    mutation deleteCartByID($productId: Int!) {\n      deleteCart(productID: $productId) {\n        id\n        imageURI\n        name\n        price\n        productID\n        userID\n        videoID\n      }\n    }\n  ": types.DeleteCartByIdDocument,
     "\n  query getProductById($productId: ID!) {\n    product(id: $productId) {\n      description\n      id\n      imageURIs\n      name\n      price\n      quantity\n      sellerID\n    }\n  }\n": types.GetProductByIdDocument,
     "\n  query getVideoById($videoId: ID!) {\n    video(videoID: $videoId) {\n      description\n      id\n      videoURL\n      isLiked\n      products {\n        description\n        id\n        imageURIs\n        name\n        price\n        quantity\n        sellerID\n      }\n      thumbnailURL\n      userID\n    }\n  }\n": types.GetVideoByIdDocument,
     "\n  query getHistoryById($userId: Int!) {\n    history(userID: $userId) {\n      id\n      imageURI\n      name\n      orderedAt\n      productID\n      status\n      userID\n      videoID\n      quantity\n    }\n  }\n": types.GetHistoryByIdDocument,
@@ -46,6 +47,10 @@ export function gql(source: "\n  query feedVideos {\n    feedVideos {\n      id\
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(source: "\n  query getCartById($userId: Int!) {\n    cart(userID: $userId) {\n      id\n      productID\n      userID\n      name\n      imageURI\n      price\n      videoID\n    }\n  }\n"): (typeof documents)["\n  query getCartById($userId: Int!) {\n    cart(userID: $userId) {\n      id\n      productID\n      userID\n      name\n      imageURI\n      price\n      videoID\n    }\n  }\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n    mutation deleteCartByID($productId: Int!) {\n      deleteCart(productID: $productId) {\n        id\n        imageURI\n        name\n        price\n        productID\n        userID\n        videoID\n      }\n    }\n  "): (typeof documents)["\n    mutation deleteCartByID($productId: Int!) {\n      deleteCart(productID: $productId) {\n        id\n        imageURI\n        name\n        price\n        productID\n        userID\n        videoID\n      }\n    }\n  "];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

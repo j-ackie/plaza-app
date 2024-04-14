@@ -24,7 +24,7 @@ const GET_VIDEO_BY_ID = gql(`
 `);
 
 const useGetVideoById = (id: number) => {
-  return useQuery(GET_VIDEO_BY_ID, { variables: { videoId: id } });
+  return useQuery(GET_VIDEO_BY_ID, { variables: { videoId: id.toString() } });
 };
 
 export default useGetVideoById;

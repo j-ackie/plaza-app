@@ -11,8 +11,8 @@ interface VideoProductsProps {
 const VideoProducts: FC<VideoProductsProps> = ({ products, onPress }) => {
   return (
     <View style={styles.container}>
-      {products.map((product) => (
-        <VideoProduct product={product} onPress={onPress} />
+      {products.map((product, i) => (
+        <VideoProduct product={product} onPress={onPress} key={i}/>
       ))}
     </View>
   );

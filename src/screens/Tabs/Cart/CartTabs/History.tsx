@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import React, { useState } from 'react';
 import { useAddHistory } from '../useHistoryQueries';
-import useGetCartById from '../useCartQueries';
+import {useGetCartById} from '../useCartQueries';
 import Loading from '@/components/Loading';
 import ModalProduct from '../Components/ModalProduct';
 import HistoryProduct from '../Components/HistoryProduct';

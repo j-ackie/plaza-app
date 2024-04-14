@@ -16,7 +16,7 @@ const GET_PRODUCT_BY_ID = gql(`
 `);
 
 const useGetProductById = (id: number) => {
-  return useQuery(GET_PRODUCT_BY_ID, { variables: { productId: id } });
+  return useQuery(GET_PRODUCT_BY_ID, { variables: { productId: id.toString() } });
 };
 
 export default useGetProductById;
