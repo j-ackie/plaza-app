@@ -2,6 +2,8 @@ import { Image, Text, View } from 'react-native';
 import React from 'react';
 import * as Progress from 'react-native-progress';
 import styles from './ModalProductStyles';
+import { ProgressBar } from 'react-native-paper';
+import Color from '@/constants/color';
 
 const ProductDelivery = (props) => {
   const progressWidth = 160;
@@ -28,15 +30,12 @@ const ProductDelivery = (props) => {
           marginTop: 20,
         }}
       >
-        <Progress.Bar
-          progress={0.35 * selected.status}
-          width={progressWidth}
-          height={4}
-          color="rgba(0, 0, 0, 1)"
-          unfilledColor="rgba(240, 240, 240, 1)"
-          borderWidth={0}
+        <ProgressBar 
+          animatedValue={0.35 * selected.status}
+          color={Color.BLACK}
           style={{
             transform: [{ rotate: '90deg' }, { translateY: progressWidth / 2 }],
+            width: progressWidth
           }}
         />
         <View

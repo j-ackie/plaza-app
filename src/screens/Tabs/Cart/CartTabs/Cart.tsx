@@ -1,10 +1,8 @@
 import {
   SafeAreaView,
-  Image,
   Text,
   TouchableOpacity,
   View,
-  Pressable,
   FlatList,
   StyleSheet,
 } from 'react-native';
@@ -48,13 +46,14 @@ const Cart = () => {
   };
 
   return (
-    <View>
+    <SafeAreaView style={{flex: 1}}>
       <ModalProduct
         item={data.cart[selected]}
         browsing={true}
         visible={visible}
         setVisible={setVisible}
       />
+
       <FlatList
         data={data.cart}
         renderItem={(item) => {
@@ -69,6 +68,7 @@ const Cart = () => {
           );
         }}
       />
+
       <View style={styles.shoppingCartButtonCentering}>
         <TouchableOpacity
           style={styles.shoppingCartCheckoutButton}
@@ -79,7 +79,7 @@ const Cart = () => {
           </Text>
         </TouchableOpacity>
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 
@@ -90,6 +90,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     marginBottom: 20,
+    padding: 20
   },
   shoppingCartCheckoutButton: {
     padding: 20,

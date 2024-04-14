@@ -5,6 +5,7 @@ import Home from './Home';
 import Profile from './Profile';
 import { useContext } from 'react';
 import UserContext from '@/contexts/UserContext';
+import CartOrder from './Cart';
 
 const BottomTabs = () => {
   const { user } = useContext(UserContext);
@@ -14,7 +15,7 @@ const BottomTabs = () => {
   return (
     <BottomTabNavigator labeled={false} barStyle={{ height: 80 }}>
       <BottomTabScreen name={BottomTab.HOME} component={Home} />
-      <BottomTabScreen name={BottomTab.CART} component={Feed} />
+      <BottomTabScreen name={BottomTab.CART} component={CartOrder} />
       <BottomTabScreen
         name={BottomTab.INBOX}
         component={Profile}

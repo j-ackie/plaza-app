@@ -1,16 +1,17 @@
 import {
   View,
   Text,
-  SafeAreaView,
   Pressable,
   Image,
   StyleSheet,
 } from 'react-native';
 import React from 'react';
-import * as Progress from 'react-native-progress';
+import { ProgressBar } from 'react-native-paper';
+import Color from '@/constants/color';
 
 const HistoryProduct = ({ item, setSelected, setVisible }) => {
   const product = item.item;
+  const progValue = 0.35 * item.item.status
   return (
     <Pressable
       style={styles.cartButton}
@@ -19,7 +20,7 @@ const HistoryProduct = ({ item, setSelected, setVisible }) => {
         setVisible(true);
       }}
     >
-      <SafeAreaView style={styles.shoppingCartItemContainer}>
+      <View style={styles.shoppingCartItemContainer}>
         <Image
           source={{
             uri: product.imageURI,
@@ -31,13 +32,9 @@ const HistoryProduct = ({ item, setSelected, setVisible }) => {
           <Text style={{ fontWeight: 'bold' }}>{product.name}</Text>
           <View style={{ position: 'relative', height: 20, width: 200 }}>
             <View style={{ height: '100%', justifyContent: 'center' }}>
-              <Progress.Bar
-                progress={0.35 * product.status}
-                width={200}
-                height={4}
-                color="rgba(0, 0, 0, 1)"
-                unfilledColor="rgba(220, 220, 220, 1)"
-                borderWidth={0}
+              <ProgressBar 
+                animatedValue={progValue}
+                color={Color.BLACK}
               />
             </View>
             <View
@@ -58,7 +55,7 @@ const HistoryProduct = ({ item, setSelected, setVisible }) => {
           </View>
           <Text>Order confirmed</Text>
         </View>
-      </SafeAreaView>
+      </View>
     </Pressable>
   );
 };

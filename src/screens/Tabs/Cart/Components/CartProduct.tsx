@@ -1,6 +1,5 @@
 import {
   Pressable,
-  SafeAreaView,
   StyleSheet,
   Text,
   View,
@@ -24,7 +23,7 @@ const CartProduct = ({
         setVisible(true);
       }}
     >
-      <SafeAreaView style={styles.shoppingCartItemContainer}>
+      <View style={styles.shoppingCartItemContainer}>
         <Image
           source={{
             uri: item.item.imageURI,
@@ -54,7 +53,7 @@ const CartProduct = ({
             style={{ width: 30, height: 30 }}
           />
         </View>
-      </SafeAreaView>
+      </View>
     </Pressable>
   );
 };

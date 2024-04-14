@@ -7,6 +7,7 @@ import VideoCard from '@/components/VideoCard';
 const ProductVideo = ({ videoIndex, currViewableIndex, postInfo }) => {
   const { data, loading, error } = useGetVideoById(postInfo);
 
+  console.log(data)
   const video = data.video;
   if (loading || error) {
     console.log('loading...');

@@ -48,7 +48,7 @@ const History = () => {
   };
 
   return (
-    <View>
+    <SafeAreaView style={{flex: 1}}>
       <ModalProduct
         item={data.cart[selected]}
         browsing={false}
@@ -67,33 +67,8 @@ const History = () => {
           );
         }}
       />
-      <View style={styles.shoppingCartButtonCentering}>
-        <TouchableOpacity
-          style={styles.shoppingCartCheckoutButton}
-          onPress={handleConfirmPress}
-        >
-          <Text style={{ fontWeight: 'bold', fontSize: 20 }}>
-            Confirm Items
-          </Text>
-        </TouchableOpacity>
-      </View>
-    </View>
+    </SafeAreaView>
   );
 };
 
 export default History;
-
-const styles = StyleSheet.create({
-  shoppingCartButtonCentering: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    marginBottom: 20,
-  },
-  shoppingCartCheckoutButton: {
-    padding: 20,
-    borderWidth: 2,
-    width: '100%',
-    flexDirection: 'row',
-    justifyContent: 'center',
-  },
-});
