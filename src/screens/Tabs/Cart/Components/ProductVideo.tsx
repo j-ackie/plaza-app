@@ -3,13 +3,14 @@ import React from 'react';
 import styles from './ModalProductStyles';
 import useGetVideoById from '../useGetVideoById';
 import VideoCard from '@/components/VideoCard';
+import PlazaText from '@/components/PlazaText';
 
 const ProductVideo = ({ videoIndex, currViewableIndex, postInfo }) => {
   const { data, loading, error } = useGetVideoById(postInfo);
 
   if (loading || error) {
     console.log('loading...');
-    return <Text></Text>;
+    return <PlazaText></PlazaText>;
   }
   
   console.log(data)

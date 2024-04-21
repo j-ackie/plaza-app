@@ -2,12 +2,13 @@ import { View, Text, Image } from 'react-native';
 import React from 'react';
 import styles from './ModalProductStyles';
 import useGetProductById from '../useGetProductById';
+import PlazaText from '@/components/PlazaText';
 
 const ProductInfo = (props) => {
   const { data, loading, error } = useGetProductById(parseInt(props.productID));
 
   if (loading || error) {
-    return <Text>Loading...</Text>;
+    return <PlazaText>Loading...</PlazaText>;
   }
 
   const product = data.product;
@@ -20,11 +21,11 @@ const ProductInfo = (props) => {
         style={styles.shoppingCartModalImage}
         resizeMode="cover"
       />
-      <Text style={styles.modalTitle}>
+      <PlazaText style={styles.modalTitle}>
         {product.name + ' - ' + product.quantity}
-      </Text>
-      <Text style={styles.modalSub}>{'$' + product.price}</Text>
-      <Text style={styles.modalText}>{product.description}</Text>
+      </PlazaText>
+      <PlazaText style={styles.modalSub}>{'$' + product.price}</PlazaText>
+      <PlazaText style={styles.modalText}>{product.description}</PlazaText>
     </View>
   );
 };

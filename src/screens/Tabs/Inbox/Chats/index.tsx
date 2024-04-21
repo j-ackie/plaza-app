@@ -1,5 +1,4 @@
 import { FC } from 'react';
-import { gql, useQuery } from '@apollo/client';
 import { createStackNavigator } from '@react-navigation/stack';
 import ChatsList from './ChatsList';
 import ChatScreen from './ChatScreen';

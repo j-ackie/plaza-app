@@ -8,6 +8,7 @@ import {
 import React from 'react';
 import { ProgressBar } from 'react-native-paper';
 import Color from '@/constants/color';
+import PlazaText from '@/components/PlazaText';
 
 const HistoryProduct = ({ item, setSelected, setVisible }) => {
   const product = item.item;
@@ -29,7 +30,7 @@ const HistoryProduct = ({ item, setSelected, setVisible }) => {
           resizeMode="cover"
         />
         <View style={styles.shoppingCartItemTextContainer}>
-          <Text style={{ fontWeight: 'bold' }}>{product.name}</Text>
+          <PlazaText style={{ fontWeight: 'bold' }}>{product.name}</PlazaText>
           <View style={{ position: 'relative', height: 20, width: 200 }}>
             <View style={{ height: '100%', justifyContent: 'center' }}>
               <ProgressBar 
@@ -53,7 +54,7 @@ const HistoryProduct = ({ item, setSelected, setVisible }) => {
               <View style={styles.orderHistoryDot} />
             </View>
           </View>
-          <Text>Order confirmed</Text>
+          <PlazaText>Order confirmed</PlazaText>
         </View>
       </View>
     </Pressable>

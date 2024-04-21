@@ -7,6 +7,7 @@ import {
 } from 'react-native';
 import CheckBox from 'expo-checkbox';
 import React from 'react';
+import PlazaText from '@/components/PlazaText';
 
 const CartProduct = ({
   item,
@@ -32,8 +33,8 @@ const CartProduct = ({
           resizeMode="cover"
         />
         <View style={styles.shoppingCartItemTextContainer}>
-          <Text style={{ fontWeight: 'bold' }}>{item.item.name}</Text>
-          <Text>${item.item.price}</Text>
+          <PlazaText style={{ fontWeight: 'bold' }}>{item.item.name}</PlazaText>
+          <PlazaText>${item.item.price}</PlazaText>
         </View>
 
         <View

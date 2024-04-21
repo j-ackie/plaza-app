@@ -4,6 +4,7 @@ import * as Progress from 'react-native-progress';
 import styles from './ModalProductStyles';
 import { ProgressBar } from 'react-native-paper';
 import Color from '@/constants/color';
+import PlazaText from '@/components/PlazaText';
 
 const ProductDelivery = (props) => {
   const progressWidth = 160;
@@ -17,9 +18,9 @@ const ProductDelivery = (props) => {
         style={styles.shoppingCartModalImage}
         resizeMode="cover"
       />
-      <Text style={styles.modalTitle}>
+      <PlazaText style={styles.modalTitle}>
         {selected.name + ' - ' + selected.quantity}
-      </Text>
+      </PlazaText>
 
       <View
         style={{
@@ -69,16 +70,16 @@ const ProductDelivery = (props) => {
               return (
                 <View style={{ flexDirection: 'row' }}>
                   <View style={styles.orderHistoryModalDot}></View>
-                  <Text style={styles.orderHistoryModalText}>{message}</Text>
+                  <PlazaText style={styles.orderHistoryModalText}>{message}</PlazaText>
                 </View>
               );
             }
             return (
               <View style={{ flexDirection: 'row' }}>
                 <View style={styles.orderHistoryModalDotUnselected}></View>
-                <Text style={styles.orderHistoryModalTextUnselected}>
+                <PlazaText style={styles.orderHistoryModalTextUnselected}>
                   {message}
-                </Text>
+                </PlazaText>
               </View>
             );
           })}

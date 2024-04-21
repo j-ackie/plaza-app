@@ -14,6 +14,7 @@ import {useGetCartById} from '../useCartQueries';
 import Loading from '@/components/Loading';
 import ModalProduct from '../Components/ModalProduct';
 import HistoryProduct from '../Components/HistoryProduct';
+import PlazaText from '@/components/PlazaText';
 
 const History = () => {
   const [selected, setSelected] = useState(-1);
@@ -24,7 +25,7 @@ const History = () => {
 
   if (loading) return <Loading />;
 
-  if (error) return <Text>{error.message}</Text>;
+  if (error) return <PlazaText>{error.message}</PlazaText>;
 
   const handleConfirmPress = () => {
     for (let i = 0; i < checked.length; i++) {

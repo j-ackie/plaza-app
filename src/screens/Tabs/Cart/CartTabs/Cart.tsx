@@ -12,6 +12,7 @@ import {useGetCartById, useDeleteCartById} from '../useCartQueries';
 import Loading from '@/components/Loading';
 import ModalProduct from '../Components/ModalProduct';
 import CartProduct from '../Components/CartProduct';
+import PlazaText from '@/components/PlazaText';
 
 const Cart = () => {
   const [selected, setSelected] = useState(-1);
@@ -23,7 +24,7 @@ const Cart = () => {
 
   if (loading) return <Loading />;
 
-  if (error) return <Text>{error.message}</Text>;
+  if (error) return <PlazaText>{error.message}</PlazaText>;
 
   const handleConfirmPress = () => {
     for (let i = 0; i < checked.length; i++) {
@@ -81,9 +82,9 @@ const Cart = () => {
           style={styles.shoppingCartCheckoutButton}
           onPress={handleConfirmPress}
         >
-          <Text style={{ fontWeight: 'bold', fontSize: 20 }}>
+          <PlazaText style={{ fontWeight: 'bold', fontSize: 20 }}>
             Confirm Items
-          </Text>
+          </PlazaText>
         </TouchableOpacity>
       </View>
     </SafeAreaView>

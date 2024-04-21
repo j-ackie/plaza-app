@@ -1,8 +1,9 @@
 import { FC } from 'react';
 import { Pressable, Text } from 'react-native';
 import { StyleSheet, View } from 'react-native';
-import Bold from '~/components/Bold';
-import ProfilePicture from '~/components/ProfilePicture';
+import Bold from '@/components/Bold';
+import ProfilePicture from '@/components/ProfilePicture';
+import PlazaText from '@/components/PlazaText';
 
 type ChatProps = {
   user: unknown;
@@ -16,9 +17,9 @@ const Chat: FC<ChatProps> = ({ navigation, user }) => {
         <View style={styles.message}>
           <View style={styles.messageMetadata}>
             <Bold>{user.username}</Bold>
-            <Text>6:36 PM</Text>
+            <PlazaText>6:36 PM</PlazaText>
           </View>
-          <Text>This is a message</Text>
+          <PlazaText>This is a message</PlazaText>
         </View>
       </View>
     </Pressable>

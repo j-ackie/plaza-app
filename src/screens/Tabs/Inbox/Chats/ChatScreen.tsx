@@ -4,63 +4,15 @@ import { Pressable, ScrollView, TextInput, View } from 'react-native';
 import ChatBubble from './ChatBubble';
 import { StyleSheet } from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
-
-const GET = gql`
-  query getMessages($chatID: ID!) {
-    messages(chatID: $chatID) {
-      id
-      chatID
-      createdAt
-      sender {
-        id
-        displayName
-        username
-        description
-        profilePictureURI
-      }
-      text
-    }
-  }
-`;
-
-const SEND = gql`
-  mutation sendMessage($message: MessageCreateInput!) {
-    createMessage(message: $message) {
-      id
-      text
-    }
-  }
-`;
-
-const MESSAGES_SUBSCRIPTION = gql`
-  subscription OnMessageAdded($chatID: ID!) {
-    messageAdded(chatID: $chatID) {
-      id
-      text
-      sender {
-        id
-        displayName
-        description
-        username
-        profilePictureURI
-      }
-      chatID
-      createdAt
-    }
-  }
-`;
+import { MESSAGES_SUBSCRIPTION, useGetMessages, useSendMessage } from '../messageQueries';
 
 const ChatScreen: FC = () => {
   const [messageInput, setMessageInput] = useState('');
   const chatBubblesRef = useRef<ScrollView>(null);
 
-  const { loading, data, subscribeToMore } = useQuery(GET, {
-    variables: {
-      chatID: 1,
-    },
-  });
+  const { loading, data, subscribeToMore } = useGetMessages(1);
 
-  const [createMessage] = useMutation(SEND);
+  const [createMessage] = useSendMessage();
 
   useEffect(() => {
     subscribeToMore({

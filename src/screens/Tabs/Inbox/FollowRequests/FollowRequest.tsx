@@ -1,8 +1,9 @@
 import { FC } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
-import Bold from '~/components/Bold';
-import ProfilePicture from '~/components/ProfilePicture';
+import Bold from '@/components/Bold';
+import ProfilePicture from '@/components/ProfilePicture';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import PlazaText from '@/components/PlazaText';
 
 type FollowRequestProps = {
   request: unknown;
@@ -14,11 +15,11 @@ const FollowRequest: FC<FollowRequestProps> = ({ request }) => {
       <ProfilePicture size={50} uri={request.profilePictureURI} />
       <View style={styles.user}>
         <Bold>{request.username}</Bold>
-        <Text>Dog</Text>
+        <PlazaText>Dog</PlazaText>
       </View>
       <View style={styles.buttons}>
         <Pressable style={styles.button}>
-          <Text>Confirm</Text>
+          <PlazaText>Confirm</PlazaText>
         </Pressable>
         <Pressable style={styles.button}>
           <MaterialCommunityIcons name="trash-can-outline" size={20} />

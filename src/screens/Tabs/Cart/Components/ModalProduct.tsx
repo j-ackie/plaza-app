@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import styles from './ModalProductStyles';
 import CartCarousel from './CartCarousel';
 import HistoryCarousel from './HistoryCarousel';
+import PlazaText from '@/components/PlazaText';
 
 const ModalProduct = ({ item, browsing = true, visible, setVisible }) => {
   return (
@@ -26,7 +27,7 @@ const ModalProduct = ({ item, browsing = true, visible, setVisible }) => {
             style={[styles.cartButton, styles.buttonClose]}
             onPress={() => setVisible(!visible)}
           >
-            <Text style={styles.textStyle}>Hide Modal</Text>
+            <PlazaText style={styles.textStyle}>Hide Modal</PlazaText>
           </Pressable>
         </View>
       </View>

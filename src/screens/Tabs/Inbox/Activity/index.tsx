@@ -2,7 +2,8 @@ import { FC } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import UserActivity from './UserActivity';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import AlertCircle from '~/components/AlertCircle';
+import AlertCircle from '@/components/AlertCircle';
+import PlazaText from '@/components/PlazaText';
 
 const mockUser = {
   username: 'Username',
@@ -19,21 +20,21 @@ const Activity: FC = ({ navigation }) => {
         style={styles.followRequests}
         onPress={() => navigation.navigate('Follow Requests')}
       >
-        <Text>Follow Requests</Text>
+        <PlazaText>Follow Requests</PlazaText>
         <View style={styles.followRequestsNum}>
           <AlertCircle size={10} />
-          <Text>2</Text>
+          <PlazaText>2</PlazaText>
           <Ionicons name="chevron-forward" size={30} />
         </View>
       </Pressable>
       <View style={styles.activityList}>
-        <Text style={styles.label}>Today</Text>
+        <PlazaText style={styles.label}>Today</PlazaText>
         {mockData.map((activity, index) => (
           <UserActivity key={index} user={mockUser} />
         ))}
       </View>
       <View style={styles.activityList}>
-        <Text style={styles.label}>This Week</Text>
+        <PlazaText style={styles.label}>This Week</PlazaText>
         {mockData.map((activity, index) => (
           <UserActivity key={index} user={mockUser} />
         ))}

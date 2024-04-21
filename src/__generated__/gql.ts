@@ -20,6 +20,9 @@ const documents = {
     "\n  query getVideoById($videoId: ID!) {\n    video(videoID: $videoId) {\n      description\n      id\n      videoURL\n      isLiked\n      products {\n        description\n        id\n        imageURIs\n        name\n        price\n        quantity\n        sellerID\n      }\n      thumbnailURL\n      userID\n    }\n  }\n": types.GetVideoByIdDocument,
     "\n  query getHistoryById($userId: Int!) {\n    history(userID: $userId) {\n      id\n      imageURI\n      name\n      orderedAt\n      productID\n      status\n      userID\n      videoID\n      quantity\n    }\n  }\n": types.GetHistoryByIdDocument,
     "\n  mutation addHistory($order: HistoryInsertInput) {\n    insertHistory(order: $order) {\n      id\n      imageURI\n      name\n      orderedAt\n      quantity\n      productID\n      status\n      userID\n      videoID\n    }\n  }\n": types.AddHistoryDocument,
+    "\n  query getMessages($chatID: ID!) {\n    messages(chatID: $chatID) {\n      id\n      chatID\n      createdAt\n      sender {\n        id\n        displayName\n        username\n        description\n        profilePictureURI\n      }\n      text\n    }\n  }\n": types.GetMessagesDocument,
+    "\n  mutation sendMessage($message: MessageCreateInput!) {\n    createMessage(message: $message) {\n      id\n      text\n    }\n  }\n": types.SendMessageDocument,
+    "\n  subscription OnMessageAdded($chatID: ID!) {\n    messageAdded(chatID: $chatID) {\n      id\n      text\n      sender {\n        id\n        displayName\n        description\n        username\n        profilePictureURI\n      }\n      chatID\n      createdAt\n    }\n  }\n": types.OnMessageAddedDocument,
     "\n  query videosByUserId($filters: VideoFilters!) {\n    videos(filters: $filters) {\n      id\n      userID\n      thumbnailURL\n    }\n  }\n": types.VideosByUserIdDocument,
     "\n  query userById($filters: UserFilters!) {\n    user(filters: $filters) {\n      id\n      description\n      displayName\n      profilePictureURI\n      username\n    }\n  }\n": types.UserByIdDocument,
     "\n  query profileVideoById($videoId: ID!) {\n    video(videoID: $videoId) {\n      id\n      description\n      userID\n      videoURL\n      products {\n        id\n        imageURIs\n        price\n        quantity\n        description\n        name\n      }\n      isLiked\n    }\n  }\n": types.ProfileVideoByIdDocument,
@@ -67,6 +70,18 @@ export function gql(source: "\n  query getHistoryById($userId: Int!) {\n    hist
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(source: "\n  mutation addHistory($order: HistoryInsertInput) {\n    insertHistory(order: $order) {\n      id\n      imageURI\n      name\n      orderedAt\n      quantity\n      productID\n      status\n      userID\n      videoID\n    }\n  }\n"): (typeof documents)["\n  mutation addHistory($order: HistoryInsertInput) {\n    insertHistory(order: $order) {\n      id\n      imageURI\n      name\n      orderedAt\n      quantity\n      productID\n      status\n      userID\n      videoID\n    }\n  }\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n  query getMessages($chatID: ID!) {\n    messages(chatID: $chatID) {\n      id\n      chatID\n      createdAt\n      sender {\n        id\n        displayName\n        username\n        description\n        profilePictureURI\n      }\n      text\n    }\n  }\n"): (typeof documents)["\n  query getMessages($chatID: ID!) {\n    messages(chatID: $chatID) {\n      id\n      chatID\n      createdAt\n      sender {\n        id\n        displayName\n        username\n        description\n        profilePictureURI\n      }\n      text\n    }\n  }\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n  mutation sendMessage($message: MessageCreateInput!) {\n    createMessage(message: $message) {\n      id\n      text\n    }\n  }\n"): (typeof documents)["\n  mutation sendMessage($message: MessageCreateInput!) {\n    createMessage(message: $message) {\n      id\n      text\n    }\n  }\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n  subscription OnMessageAdded($chatID: ID!) {\n    messageAdded(chatID: $chatID) {\n      id\n      text\n      sender {\n        id\n        displayName\n        description\n        username\n        profilePictureURI\n      }\n      chatID\n      createdAt\n    }\n  }\n"): (typeof documents)["\n  subscription OnMessageAdded($chatID: ID!) {\n    messageAdded(chatID: $chatID) {\n      id\n      text\n      sender {\n        id\n        displayName\n        description\n        username\n        profilePictureURI\n      }\n      chatID\n      createdAt\n    }\n  }\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

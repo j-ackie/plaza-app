@@ -1,3 +1,4 @@
+import PlazaText from '@/components/PlazaText';
 import { FC } from 'react';
 import { Image, StyleSheet, Text, View } from 'react-native';
 
@@ -29,7 +30,7 @@ const ChatBubble: FC<ChatBubbleProps> = ({ message }) => {
           styles.chatBubble,
         ]}
       >
-        <Text>{message.text}</Text>
+        <PlazaText>{message.text}</PlazaText>
       </View>
     </View>
   );
