@@ -6,6 +6,7 @@ import Profile from './Profile';
 import { useContext } from 'react';
 import UserContext from '@/contexts/UserContext';
 import CartOrder from './Cart';
+import Inbox from './Inbox';
 
 const BottomTabs = () => {
   const { user } = useContext(UserContext);
@@ -16,8 +17,9 @@ const BottomTabs = () => {
     <BottomTabNavigator labeled={false} barStyle={{ height: 80 }}>
       <BottomTabScreen name={BottomTab.HOME} component={Home} />
       <BottomTabScreen name={BottomTab.CART} component={CartOrder} />
+      <BottomTabScreen name={BottomTab.INBOX} component={Inbox} />
       <BottomTabScreen
-        name={BottomTab.INBOX}
+        name={BottomTab.PROFILE}
         component={Profile}
         initialParams={{ userId: user.userId }}
       />
